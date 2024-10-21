@@ -1,4 +1,4 @@
-function p_t = interpola_ruffini_horner(x, y, t)
+function p_t = interpolaRuffiniHornerEs1(x, y, t)
     % Input:
     % x: vettore dei punti x0, x1, ..., xn (devono essere distinti)
     % y: vettore dei valori corrispondenti y0, y1, ..., yn

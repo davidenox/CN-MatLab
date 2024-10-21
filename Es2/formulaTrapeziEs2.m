@@ -1,4 +1,4 @@
-    function In = formula_trapezi(f, a, b, n)
+function In = formulaTrapeziEs2(f, a, b, n)
         % Input:
         % f: funzione da integrare (definita su [a,b])
         % a: estremo sinistro dell'intervallo
@@ -20,5 +20,5 @@
         
         % Formula dei trapezi
         %In = (h/2) * (f(a) + 2 * somma + f(b));
-        In = h*((f(a)+f(b))/2+somma)
+        In = h*((f(a)+f(b))/2+somma);
     end
