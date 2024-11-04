@@ -1,7 +1,8 @@
 addpath('/home/davidenox/projects/CN-MatLab/Es1/');
 
+
 % Definisci i nodi di interpolazione e i valori corrispondenti di sqrt(x)
-x_nodes = [0, 1/64, 4/64, 9/64, 16/64, 25/64, 36/64, 49/64, 1];
+x_nodes = [0, 1/64, 4/64, 16/9/64, 64, 25/64, 36/64, 49/64, 1];
 y_nodes = sqrt(x_nodes);
 
 % Definisci i punti zeta_i dove valutare il polinomio interpolante
