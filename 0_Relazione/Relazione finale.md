@@ -409,7 +409,7 @@ end
 
 ## Problema 1
 
-![[problema 1.png|center|700]]
+![[Pasted image 20241111124227.png|center|700]]
 
 ### Soluzione
 
@@ -446,7 +446,7 @@ Osservando i valori numerici, si può notare che:
 Il grafico delle funzioni $\sqrt{x}$ e $p(x)$ è il seguente
 
 ![[grafico_es1.jpg|center|500]]
-### Codice MATLAB
+### Codice
 
 ```matlab title:Problema2.1
 % Definisci i nodi di interpolazione e i valori corrispondenti di sqrt(x)
@@ -486,7 +486,7 @@ hold off;
 ```
 ## Problema 2
 
-![[problema 2.png|center|700]]
+![[Pasted image 20241111124424.png|center|700]]
 
 ### Soluzione
 
