@@ -144,9 +144,19 @@
               "icon": "lucide-list",
               "title": "Struttura di Relazione finale"
             }
+          },
+          {
+            "id": "741ecefbabe874b0",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -159,10 +169,11 @@
       "canvas:Crea nuova lavagna": false,
       "daily-notes:Apri nota del giorno": false,
       "templates:Inserisci modello": false,
-      "command-palette:Apri riquadro comandi": false
+      "command-palette:Apri riquadro comandi": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "ea1902529c1a07d0",
+  "active": "51324a5bdc2c80e4",
   "lastOpenFiles": [
     "0_Relazione/img",
     "0_Relazione",
