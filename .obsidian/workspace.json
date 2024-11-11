@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Relazione finale.md",
+                "file": "0_Relazione/Relazione finale.md",
                 "mode": "source",
                 "source": false
               },
@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "22c2dda557db91d4",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Relazione finale.md",
+                "file": "0_Relazione/Relazione finale.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,7 +112,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Relazione finale.md",
+                "file": "0_Relazione/Relazione finale.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -140,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Relazione finale.md"
+                "file": "0_Relazione/Relazione finale.md"
               },
               "icon": "lucide-list",
               "title": "Struttura di Relazione finale"
@@ -151,8 +150,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -166,7 +164,9 @@
   },
   "active": "ea1902529c1a07d0",
   "lastOpenFiles": [
-    "Pasted image 20241111102714.png",
-    "Relazione finale.md"
+    "0_Relazione/img",
+    "0_Relazione",
+    "0_Relazione/img/Pasted image 20241111102714.png",
+    "0_Relazione/Relazione finale.md"
   ]
 }

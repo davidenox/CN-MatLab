@@ -10,11 +10,10 @@ debugInConsole: false # Print debug info in Obsidian console
 
 ## Esercizio 1
 
-Il primo esercizio chiede di scrivere in MATLAB una function che calcoli l'algoritmo di **Ruffini-Horner** per la valutazione del polinomio d'interpolazione in un punto
+Il primo esercizio chiede di scrivere in MATLAB una function che calcoli l'algoritmo di **Ruffini-Horner** per la valutazione del polinomio d'interpolazione in un punto:
 
-Esercizio d’implementazione dell’algoritmo di valutazione del polinomio d’interpolazione in più punti
+***Esercizio d’implementazione dell’algoritmo di valutazione del polinomio d’interpolazione in più punti.***
 ### Codice 
-
 
 ```matlab
 function p_t = interpola_ruffini_horner(x, y, t)
@@ -69,7 +68,6 @@ end
 
 ### Spiegazione
 
-
 1) **Funzione principale (`interpola_ruffini_horner`)**:
     - Prende in input i vettori `x` (ascisse), `y` (ordinate) e `t` (punti in cui valutare il polinomio).
     - Prima usa la funzione `differenze_divise` per calcolare i coefficienti del polinomio interpolante nella forma di Newton.
@@ -83,9 +81,9 @@ end
 
 ## Esercizio 2
 
-Il secondo esercizio chiede di scrivere una function MATLAB per implementare la **formula dei trapezi** di una data funzione presa in input.
+Il secondo esercizio chiede di scrivere una function MATLAB per implementare la **formula dei trapezi** di una data funzione presa in input:
 
-Esercizio d’implementazione della formula dei trapezi
+***Esercizio d’implementazione della formula dei trapezi***
 ### Codice 
 
 ```matlab
@@ -123,12 +121,10 @@ Funzione **`formula_trapezi`**:
 - Restituisce l'approssimazione $I_n$​ della funzione $f(x)$ passata in input usando la formula dei trapezi.
 ## Esercizio 3
 
-Il terzo esercizio chiede di scrivere una function MATLAB per implementare il **metodo di estrapolazione** di una data funzione presa in input.
-Chiede anche di usare le function MATLAB usate per risolvere gli esercizi 1 e 2
+Il terzo esercizio chiede di scrivere una function MATLAB per implementare il **metodo di estrapolazione** di una data funzione presa in input. Chiede inoltre di usare le function MATLAB usate per risolvere gli esercizi 1 e 2
 
-Esercizio d’implementazione del metodo di estrapolazione
+***Esercizio d’implementazione del metodo di estrapolazione***
 ### Codice 
-
 
 ```matlab
 function p0 = estrapol(f, a, b, n_vect)
@@ -187,13 +183,12 @@ end
 - `vpa(p0, cifre)` viene usato per approssimare correttamente il risultato con il numero di cifre passate in input. Questa è una funzione del Toolbox **Symbolic Math Toolbox** 
 ## Esercizio 4
 
-L'esercizio cheide di creare una function MATLAB per implementare il **metodo di Jacobi**.
+L'esercizio chiede di creare una function MATLAB per implementare il **metodo di Jacobi**.
 
-Esercizio d’implementazione del metodo di Jacobi
+***Esercizio d’implementazione del metodo di Jacobi***
 ### Codice 
 
-
-```matlab
+```
 function [x, K, r_norm] = jacobi_method(A, b, x0, epsilon, N_max)
     % Input:
     % A: matrice del sistema lineare Ax = b
@@ -248,6 +243,7 @@ function [x, K, r_norm] = jacobi_method(A, b, x0, epsilon, N_max)
     % x^(N_max), il relativo indice N_max e la norma del residuo ||r^(N_max)||_2
 end
 ```
+
 ### Spiegazione 
 
 1. **Input:**
@@ -345,8 +341,23 @@ end
 L'esercizio 6 chiede di creare una function MATLAB che implementi il **metodo della  bisezione**, ovvero il metodo che permette di trovare il punto $\xi$ di una funzione $f(x)$ definita su intervallo $[a,b]$ tale che $f(\xi)=0$
 
 Sia $f:[a,b]\rightarrow\mathbb{R}$ una funzione continua su $[a,b]$ tale che $f(a)$ e $f(b)$ hanno segno opposto $:f(a)f(b)\lt 0$. Un teorema dell'analisi matematica ( teorema degli zeri ) garantisce che la funzione $f(x)$ ha almeno uno zero nell'intervallo $(a,b)$, cioè esiste un punto $\zeta\in(a,b)$ tale che $f(\zeta)=0$; 
-Figura 1.1![[Pasted image 20241111102714.png|center|500]]
+Figura 1.1
+![[Pasted image 20241111102714.png|center|400]]
 	Una funzione continua $f:[a,b]\rightarrow\mathbb R$ tale che $f(a)f(b)<0$ possiede almeno uno zero $\zeta\in(a,b)$.
+Supponiamo che $f(x)$ abbia un unico zero $\zeta$ in $(a,b)$. Un metodo per determinare un'approssimazione $\xi$ di $\zeta$ è il metodo di bisezione: fissata una soglia di precisione $\varepsilon>0$, il metodo costruisce la successione di intervalli $$[\alpha_k,\beta_k],\space\space\space\space\space\space\space\space k=0,1,2,\dots$$ in cui $[\alpha_0,\beta_0]=[a,b]$ e, per $k\le1$,$$[\alpha_k,\beta_k]=\begin{cases}
+[\alpha_{k-1},\frac{\alpha_{k-1}+\beta_{k-1}}{2}],se\ \zeta\in[\alpha_{k-1},.\frac{\alpha_{k-1}+\beta_{k-1}}{2}]\ cioè\ f(\alpha_{k-1})f(\frac{\alpha_{k-1}+\beta_{k-1}}{2})\le 0, \\
+[\frac{\alpha_{k-1}+\beta_{k-1}}{2},\beta_{k-1}],\ altrimenti.
+\end{cases}$$
+La successione di intervalli così costruita gode delle seguenti proprietà:
+- $\zeta\in[\alpha_k ,\beta_k ]$ per tutti i $k \ge 0$;
+- ogni intervallo è metà del precedente e dunque la lunghezza di $[\alpha_k , \beta_k ]$ è $\beta_k − \alpha_k =\frac{b−a}{2^k}$ per ogni $k \ge 0$.
+Il metodo si arresta al primo indice $K$ tale che $\beta_K − \alpha_K \le\varepsilon$ e restituisce come risultato il punto medio $\xi$ dell’intervallo $[\alpha_K , \beta_K ]$ dato da $\xi=\frac{\alpha_K+\beta_k}{2}$. In questo modo, siccome $\zeta\in[\alpha_K , \beta_K ]$, si ha $|\xi − \zeta| ≤ \frac{\varepsilon}{2}$.
+Osserviamo che l’indice di arresto K è il più piccolo intero ≥ 0 tale che $$\beta_k-\alpha_k\le\varepsilon\iff\frac{b-a}{2^K}\le\varepsilon\iff 2^K\ge\frac{b-a}{\varepsilon}\iff K\ge\log_2(\frac{b-a}{\varepsilon}),$$
+cioè $K=\lceil\log_2(\frac{b-a}{\varepsilon})\rceil$.
+
+Scrivere un programma Matlab che implementa il metodo di bisezione. Il programma deve:
+- prendere in input gli estremi $a, b$ di un intervallo, una funzione continua $f:[a, b]\rightarrow\mathbb R$, con $f(a)f(b) < 0$ e con un unico zero $\zeta\in(a, b)$, e un $\varepsilon > 0$;
+- restituire in output l’approssimazione $\xi$ di $\zeta$ ottenuta con il metodo di bisezione sopra descritto, l’indice di arresto $K$ del metodo, e il valore $f(\xi)$ (che sarà all’incirca pari a $0 = f (\zeta)$).
 
 ### Codice
 
