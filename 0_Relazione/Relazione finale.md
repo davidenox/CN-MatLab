@@ -409,7 +409,10 @@ end
 
 ## Problema 1
 
-![[Pasted image 20241111124227.png|center|700]]
+Si consideri la funzione $\sqrt x$.
+**(a)** Sia $p(x)$ il polinomio di interpolazione di $\sqrt x$ sui nodi $$x_0=0,\ x_1=\frac{1}{64},\  x_2=\frac{4}{64},\ x_3=\frac{9}{64},\ x_4=\frac{16}{64},\ x_5=\frac{25}{64},\ x_6=\frac{36}{64},\ x_7=\frac{49}{64},\ x_8=1.$$	Calcolare il vettore ( colonna ) $$[p(\zeta_1)-\sqrt{\zeta_1}\space\space\space\space\space\space\space\space\space p(\zeta_2)-\sqrt{\zeta_2}\space\space\space\space\space\space\space\space\space \dots \space\space\space\space\space\space\space\space\space p(\zeta_{21})-\sqrt{\zeta_{21}}]^T$$
+dove $\zeta_i=\frac{i-1}{20}$ per $i=1,...,21$, e osservare in che modo varia la differenza $p(\zeta_i)-\sqrt{\zeta_i}$ al variare di $i$ da $1$ a $21$.
+**(b)** Tracciare il grafico di $\sqrt x$ e di $p(x)$ sull'intervallo $[0,1]$, ponendo i due grafici su un'unica figura e inserendo una legenda che ci dica qual è la funzione $\sqrt x$ e qual è il polinomio $p(x)$.
 
 ### Soluzione
 
@@ -470,7 +473,8 @@ diff_vector = p_zeta - sqrt_zeta;
 disp('Vettore delle differenze p(zeta_i) - sqrt(zeta_i}:');
 disp(diff_vector.');
 
-% Traccia il grafico di sqrt(x) e p(x) sull'intervallo [0, 1]
+% Traccia il grafico di sqrt(x) e
+p(x) sull'intervallo [0, 1]
 x_plot = linspace(0, 1, 100);  % Punti per il grafico
 p_x_plot = interpola_ruffini_horner(x_nodes, y_nodes, x_plot);
 sqrt_x_plot = sqrt(x_plot);
@@ -486,7 +490,15 @@ hold off;
 ```
 ## Problema 2
 
-![[Pasted image 20241111124424.png|center|700]]
+Si consideri la funzione $$f(x)=e^x.$$Per ogni intero $n\ge1$ indichiamo con $I_n$ la formula dei trapezi di ordine $n$ per approssimare $$I=\int_0^1 f(x)dx = 1.7182818284590...$$
+**(a)** Per ogni fissato $\varepsilon>0$ determinare un $n=n(\varepsilon)$ tale che $|I-I_n|\le\varepsilon$.
+**(b)** Costruire una tabella che riporti vicino ad ogni $\varepsilon\in\{10^{-1},10^{-2},\dots,10^{-10}\}$:
+- il numero $n(\varepsilon)$;
+- il valore $I_n$ per $n=n(\varepsilon)$;
+- il valore esatto $I$ ( per confrontarlo con $I_n$ );
+- l'errore $|I-I_n|$ ( che deve essere $\le\varepsilon$ ).
+**(c)** Calcolare le approssimazioni di $I$ ottenute con le formule dei trapezi $I_2,I_4,I_8,I_{16}$ e confrontarle con il valore esatto $I$.
+**(d)** Sia $p(x)$ il polinomio di interpolazione dei valori $I_2,I_4,I_8,I_{16}$ sui nodi $h_2^2,h_4^2,h_8^2,h_{16}^2$, dove $h_2=\frac{1}{2},h_4=\frac{1}{4},h_8=\frac{1}{8},h_{16}=\frac{1}{16}$ sono i passi di discretizzazione relativi alle formule dei trapezi $I_2,I_4,I_8,I_{16}$  rispettivamente. Calcolare$p(0)$ e confrontare $I_2,I_4,I_8,I_{16},p(0)$ con il valore esatto $I$. Che cosa si nota?
 
 ### Soluzione
 
@@ -622,7 +634,21 @@ format("default");
 ```
 
 ## Problema 3
+
+Consideriamo la funzione $f(x)=x^2e^{−x}$ e indichiamo con $I_n$ la formula dei trapezi di ordine $n$ per approssimare $I =\int_0^1 f(x)dx$.
+**(a)** Calcolare I prima manualmente e poi con la funzione simbolica `int` di Matlab.
+**(b)** Calcolare $I_5$ , $I_{10}$ , $I_{20}$ , $I_{40}$ .
+**(c)** Calcolare $p(0)$, dove $p(x)$ è il polinomio d’interpolazione dei dati $(h^2_0 , I_5 ), (h^2_1 , I_{10} ), (h^2_2 , I_{20} ), (h^2_3 , I_{40} )$ e $h_0 , h_1 , h_2 , h_3$ sono i passi di discretizzazione delle formule dei trapezi  $I_5$ , $I_{10}$ , $I_{20}$ , $I_{40}$ .
+**(d)** Riportare in una tabella:
+- i valori  $I_5$ , $I_{10}$ , $I_{20}$ , $I_{40}, p(0)$ ;
+- gli errori $|I_5 − I|$, $|I_{10} − I|$, $|I_{20} − I|$, $|I_{40} − I|$, $|p(0) − I|$.
+**(e)** Posto $\varepsilon = |p(0) − I|$, determinare un $n$ in modo tale che la formula dei trapezi $I_n$ fornisca un’approssimazione di $I$ con errore $|I_n − I| ≤ \varepsilon$. Calcolare successivamente $I_n$ e verificare che effettivamente $|I_n − I|\le\varepsilon$.
+
+### Soluzione
+### Codice
 ## Problema 4
+
+Si consideri il sistema lineare $Ax=b$, dove:
 ## Problema 5
 ## Problema 6
 
