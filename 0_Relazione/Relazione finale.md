@@ -648,8 +648,23 @@ Consideriamo la funzione $f(x)=x^2e^{−x}$ e indichiamo con $I_n$ la formula de
 ### Codice
 ## Problema 4
 
-Si consideri il sistema lineare $Ax=b$, dove:
-## Problema 5
+Si consideri il sistema lineare $Ax=b$, dove:$$A=\begin{bmatrix}
+5&1&2\\-1&7&1\\0&1&-3\end{bmatrix}, b=\begin{bmatrix}13\\16\\-7\end{bmatrix}.$$**(a)** Si calcoli la soluzione $x$ del sistema dato con `MATLAB`.
+**(b)** La matrice $A$ è a diagonale dominante in senso stretto per cui il metodo di Jacobi è convergente ossia partendo da un qualsiasi vettore d’innesco $x(0)$ la successione prodotta dal metodo di Jacobi converge (componente per componente) alla soluzione $x$ del sistema dato. Calcolare le prime $10$ iterazioni $x^{(1)} , . . . , x^{(10)}$ del metodo di Jacobi partendo dal vettore nullo $x^{(0)} = [0, 0, 0]^T$ e confrontarle con la soluzione esatta $x$ ponendo iterazioni e soluzione esatta in un’unica matrice S di dimensioni $3\times 12$ le cui colonne sono nell’ordine $x^{(0)}, x^{(1)} , . . . , x^{(10)} , x$.
+**(c)** Consideriamo il metodo di Jacobi per risolvere il sistema dato. Conveniamo d’innescare il metodo
+di Jacobi con il vettore nullo $x^{(0)} = [0, 0, 0]^T$. Costruire una tabella che riporti vicino ad ogni $\varepsilon\in\{10^{−1} , 10^{−2} , . . . , 10^{−10}\}$:
+- il numero d’iterazioni $K_\varepsilon$ necessarie al metodo di Jacobi per convergere entro la precisione $\varepsilon$;
+- la soluzione approssimata $x_\varepsilon$ calcolata dal metodo di Jacobi;
+- la soluzione esatta $x$ (in modo da confrontarla con la soluzione approssimata $x_\varepsilon$ );
+- la norma $\infty$ dell’errore $||x − x_\varepsilon||_\infty$ .
+
+### Soluzione
+
+### Codice 
+## Problema 5  
+
+Si consideri il sistema lineare $A_nx=b_n$, dove $b_n=[1,1,...,1]^T$ e $A_n$ è la matrice $n\times n$ definita nel modo seguente:
+
 ## Problema 6
 
 # Appendice dei programmi
