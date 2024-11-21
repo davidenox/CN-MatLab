@@ -705,18 +705,6 @@ fprintf('I_10  = %.10f, Errore = %.10f\n', I_10, error_10);
 fprintf('I_20  = %.10f, Errore = %.10f\n', I_20, error_20);
 fprintf('I_40  = %.10f, Errore = %.10f\n', I_40, error_40);
 
-% Interpolazione e calcolo di p(0)
-x = [0.04, 0.01, 0.0025, 0.000625]; % h^2 valori
-y = [I_5, I_10, I_20, I_40];        % Approssimazioni
-p_0 = interpolaRuffiniHornerEs1(x, y, 0);
-
-% Calcolo errore di interpolazione
-error_p0 = abs(p_0 - I_exact);
-
-% Stampa dei risultati di interpolazione
-fprintf('Interpolazione:\n');
-fprintf('p(0)  = %.10f, Errore = %.10f\n', p_0, error_p0);
-
 ```
 $$\begin{align}\\& \text{Risultati}:\\&\\&
 I_5   = 0.1618165768, \text{Errore} = 0.0012137827\\&
