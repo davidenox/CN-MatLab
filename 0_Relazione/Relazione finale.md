@@ -878,10 +878,131 @@ di Jacobi con il vettore nullo $x^{(0)} = [0, 0, 0]^T$. Costruire una tabella ch
 
 ### Soluzione
 
-### Codice 
-## Problema 5  
+**Punto (a)**
 
-Si consideri il sistema lineare $A_nx=b_n$, dove $b_n=[1,1,...,1]^T$ e $A_n$ è la matrice $n\times n$ definita nel modo seguente:
+La soluzione al sistema lineare $Ax=b$, trovata con MATLAB è la seguente : 
+$$x=\begin{bmatrix}1\\2\\3\end{bmatrix}$$
+Il codice MATLAB per fare ciò è il seguente : 
+
+```matlab
+A = [5, 1, 2; -1, 7, 1; 0, 1, -3];
+b = [13; 16; -7];
+
+x_exact = A \ b; % Soluzione esatta
+```
+
+**Punto (b)**
+
+La matrice $S$ di dimensione $3\times12$ contenente le prime 10 iterazioni del metodo di Jacobi è la seguente : 
+$$\begin{bmatrix}0 & 2.6000 & 1.2095 & 0.8971 & 0.9536 & 1.0038 & 1.0055 & 1.0006 & 0.9995 & 0.9999 & 1.0000 & 1.0000 \\
+0 & 2.2857 & 2.3238 & 2.0163 & 1.9699 & 1.9926 & 2.0020 & 2.0011 & 2.0000 & 1.9999 & 2.0000 & 2.0000 \\
+0 & 2.3333 & 3.0952 & 3.1079 & 3.0054 & 2.9900 & 2.9975 & 3.0007 & 3.0004 & 3.0000 & 3.0000 & 3.0000\end{bmatrix}$$
+**Punto (c)**
+
+Tabella riportante le soluzioni fornite dal metodo di Jacobi, per ogni $\varepsilon$ richiesto
+
+| $\varepsilon$ | $K_{\varepsilon}$ | Soluzione approssimata $x_{\varepsilon}$                                    | Soluzione esatta x                      | Norma dell'errore $\|\|x − x_\varepsilon\|\|_\infty$ |
+| ------------- | ----------------- | --------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------- |
+| $10^{-1}$     | 3                 | $x_{\varepsilon}=\begin{bmatrix} 0.8971 \\ 2.0163 \\ 3.1079 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.1079                                               |
+| $10^{-2}$     | 5                 | $x_{\varepsilon}=\begin{bmatrix} 1.0038 \\ 1.9926 \\ 2.9900 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0100                                               |
+| $10^{-3}$     | 7                 | $x_{\varepsilon}=\begin{bmatrix} 1.0006 \\ 2.0011 \\ 3.0007 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0011                                               |
+| $10^{-4}$     | 9                 | $x_{\varepsilon}=\begin{bmatrix} 0.9999 \\ 1.9999 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0001                                               |
+| $10^{-5}$     | 11                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.00002                                              |
+| $10^{-6}$     | 13                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.000002                                             |
+| $10^{-7}$     | 15                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0000002                                            |
+| $10^{-8}$     | 17                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.00000001                                           |
+| $10^{-9}$     | 19                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.000000002                                          |
+| $10^{-10}$    | 21                | $x_{\varepsilon}=\begin{bmatrix} 1.0.000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$ | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0000000003                                         |
+### Codice
+
+```matlab title="Problema 2.4"
+% Dati del problema
+A = [5, 1, 2; -1, 7, 1; 0, 1, -3];
+b = [13; 16; -7];
+
+% Punto (a): Soluzione esatta del sistema
+x_exact = A \ b; % Soluzione esatta
+disp('Soluzione esatta:');
+disp(x_exact);
+
+% Punto (b): Metodo di Jacobi per le prime 10 iterazioni
+x0 = [0; 0; 0]; % Vettore iniziale
+N_iter = 10; % Numero di iterazioni
+n = length(b);
+X_iterations = zeros(n, N_iter+2); % Matrice per conservare le iterazioni
+X_iterations(:, 1) = x0; % Inizializzazione con x^(0)
+
+for k = 1:N_iter
+    x_new = zeros(n, 1);
+    for i = 1:n
+        sum1 = A(i, 1:i-1) * X_iterations(1:i-1, k);
+        sum2 = A(i, i+1:n) * X_iterations(i+1:n, k);
+        x_new(i) = (b(i) - sum1 - sum2) / A(i, i);
+    end
+    X_iterations(:, k+1) = x_new;
+end
+X_iterations(:, end) = x_exact; % Aggiunge la soluzione esatta come ultima colonna
+
+disp('Iterazioni del metodo di Jacobi (prime 10):');
+disp(X_iterations);
+
+% Punto (c): Metodo di Jacobi con variazione della precisione
+epsilons = 10.^(-1:-1:-10); % Precisioni {10^-1, ..., 10^-10}
+N_max = 1000; % Numero massimo di iterazioni
+results = []; % Per conservare i risultati
+
+for epsilon = epsilons
+    [x_approx, K, r_norm] = jacobi_method(A, b, x0, epsilon, N_max);
+    error_norm = norm(x_exact - x_approx, inf); % Norma dell'errore infinito
+    results = [results; struct('epsilon', epsilon, 'K', K, 'x_approx', x_approx', ...
+                               'error_norm', error_norm)];
+end
+
+% Stampa dei risultati in formato tabella
+disp('Tabella dei risultati per le varie precisioni:');
+disp('Epsilon | Iterazioni K | x_epsilon                       | Norma errore ||x - x_approx||_inf');
+for i = 1:length(results)
+    r = results(i);
+    fprintf('%.1e|%3d|[%7.4f, %7.4f, %7.4f]|%e\n', ...
+            r.epsilon, r.K, r.x_approx(1), r.x_approx(2), r.x_approx(3), r.error_norm);
+end
+```
+
+## Problema 5
+****
+scrivere il testo
+****
+
+### Soluzione
+
+**Punto (a)**
+
+La matrice $A_n$ è definita come:
+$$
+(A_n)_{ij}=\begin{cases}3,&i=j\\-(\frac{1}{2})^{max(i,j)-1},&i\neq j\end{cases}​
+$$
+Per $n=5$ la matrice $A_5$ è: 
+$$A_5=\begin{bmatrix} 3 & -\frac{1}{2} & -\frac{1}{4} & -\frac{1}{8} & -\frac{1}{16} \\ -\frac{1}{2} & 3 & -\frac{1}{2} & -\frac{1}{4} & -\frac{1}{8} \\ -\frac{1}{4} & -\frac{1}{2} & 3 & -\frac{1}{2} & -\frac{1}{4} \\ -\frac{1}{8} & -\frac{1}{4} & -\frac{1}{2} & 3 & -\frac{1}{2} \\ -\frac{1}{16} & -\frac{1}{8} & -\frac{1}{4} & -\frac{1}{2} & 3 \end{bmatrix}$$
+
+**Punto (b)**
+
+Una matrice $A\in\mathbb C^{n\times n}$ è definita: 
+- A diagonale dominante in senso stretto (per righe) se $a_{ii}>\sum\limits_{j\ne i}|a_{ij}|$ per ogni $i=1,\dots,n$
+- A diagonale dominante in senso stretto (per colonne) se $|a_{jj}|>\sum\limits_{i\ne j}|a_{ij}|$ per ogni $i=1,\dots,n$
+Data la matrice $A_5$, si nota che essa è a diagonale dominante in senso stretto sia per righe che per colonne.
+Infatti preso $\left|a_{ii}\right|=\left|a_{jj}\right|=\left|3\right|,\forall {i,j}$, abbiamo che 
+$$\begin{align}&\left|a_{ii}\right|\gt\sum\limits_{j\neq i}\left|a_{ij}\right|,\text{ con}\left|a_{ij}\right|=\left(\frac{1}{2}\right)^{max(i,j)-1}\\&\left|a_{jj}\right|\gt\sum\limits_{i\neq j}\left|a_{ij}\right|,\text{ con}\left|a_{ij}\right|=\left(\frac{1}{2}\right)^{max(i,j)-1}\end{align}$$
+Il che dimostra che $A_5$ è a diagonale dominante in senso stretto sia per colonne che per righe.
+
+Usando i **teoremi di convergenza**, sappiamo che i metodi di Jacobi e Gauss-Seidel convergono se la matrice $A\in\mathbb C^{n\times n}$ soddisfa una delle seguenti condizioni : 
+- $A$ è a diagonale dominante e irriducibile
+- $A$ è a diagonale dominante in senso stretto per righe
+- $A$ è a diagonale dominante per colonne e irriducibile
+- $A$ è a diagonale dominante in senso stretto per colonne
+
+Abbiamo dimostrato che $A_5$ rispetta sia la seconda che quarta condizione, quindi i metodi di Jacobi e Gauss-Seidel applicati alla matrice $A_5$ convergono.
+
+### Codice 
 
 ## Problema 6
 
