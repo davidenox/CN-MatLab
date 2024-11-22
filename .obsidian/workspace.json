@@ -92,7 +92,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "22c2dda557db91d4",
@@ -188,7 +189,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "741ecefbabe874b0",
+  "active": "ded4553b3a9971fe",
   "lastOpenFiles": [
     "0_Relazione/Delucidazione.pdf",
     "0_Relazione/Relazione finale.md",

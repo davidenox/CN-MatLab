@@ -165,18 +165,7 @@ $$|R_T| \leq \frac{1^3}{12n^2} \cdot 2 = \frac{2}{12n^2} = \frac{1}{6n^2}.$$
 
 Poniamo $\varepsilon = |p(0) - I|$, e dato che $p(0)=I$, allora: $\varepsilon = 0$.
 Richiediamo:$$\frac{1}{6n^2} \leq \varepsilon.$$
-Ma poiché $\varepsilon = 0$, il teorema ci garantisce che, indipendentemente da $n$, l'errore è già rispettato. Tuttavia, il valore minimo di $n$ che annulla praticamente l'errore può essere fissato osservando che $R_T \approx 0$ per $n > 40$, quindi: $n=50$.
-
-**Step 5: Verifica con $n=50$**
-
-Calcoliamo $I_{50}$:
-
-```matlab
-I_{50} = formulaTrapeziEs2(f, 0, 1, 50)
-```
-
-$|I_{50} - I| = 0$.
-
+Ma poiché $\varepsilon = 0$, il teorema ci garantisce che, indipendentemente da $n$, l'errore è già rispettato. Tuttavia, il valore minimo di $n$ che annulla praticamente l'errore può essere fissato osservando che $R_T \approx 0$ per $n > 40$
 **Codice MATLAB Finale**
 
 Ecco il codice MATLAB per calcolare n e verificare i risultati:
@@ -194,7 +183,7 @@ max_f2 = 2; % Massimo di |f''(x)| stimato sopra
 epsilon = 0; % Dato che p(0) = I, l'errore teorico è già nullo
 n = ceil(sqrt(1 / (6 * epsilon))); % Calcolo di n teorico (formalità)
 
-% Calcolo numerico con n = 50
+% esempio di dalcolo numerico con n = 50
 n = 50;
 I_n = formulaTrapeziEs2(f, a, b, n);
 fprintf('Punto (e):\n');
