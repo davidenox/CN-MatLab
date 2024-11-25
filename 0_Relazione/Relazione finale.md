@@ -1100,5 +1100,253 @@ Per ciascuno di questi due casi, risolvere i seguenti punti.
 
 ### Soluzione
 
+#### Caso 1 
+	$f(x) = x^3 + 3x - 1 - e^{-x^2}, [a,b]=[0,1][a, b] = [0, 1]$
+
+**Punto (a): Verifica che f(a)f(b)<0f(a) f(b) < 0**
+
+1. Calcoliamo $f(a)$ e $f(b)$:
+    - $f(0) = 0^3 + 3(0) - 1 - e^{-0^2} = -1 - 1 = -2$,
+    - $f(1) = 1^3 + 3(1) - 1 - e^{-1^2} = 1 + 3 - 1 - e^{-1} = 3 - e^{-1} \approx 2.63$.
+2. Poiché $f(0) \cdot f(1) < 0$, possiamo procedere.
+
+**Punto (b): Grafico di f(x)f(x) e verifica di uno zero unico**
+
+Tracciamo il grafico di $f(x)$ su $[0,1]$ con MATLAB per osservare che $f(x)$ ha un unico zero nell'intervallo (0,1). **Il codice MATLAB** è il seguente:
+
+```matlab
+f = @(x) x.^3 + 3.*x - 1 - exp(-x.^2);
+x = linspace(0, 1, 1000); % 1000 punti nell'intervallo [0, 1]
+plot(x, f(x), 'b-', 'LineWidth', 2);
+grid on;
+xlabel('x');
+ylabel('f(x)');
+title('Grafico di f(x) = x^3 + 3x - 1 - e^{-x^2}');
+```
+
+**Analisi:** Osservando il grafico, si nota che $f(x)$ è continuo e cambia segno una sola volta tra $0$ e $1$.
+
+**Punto (c): Dimostrazione analitica che f(x) ha un unico zero**
+
+Usiamo il teorema di Bolzano e la monotonicità derivata dall'analisi di $f'(x)$:$$f'(x) = 3x^2 + 3 + 2x e^{-x^2}.$$
+1. $f'(x) > 0$ per ogni $x \in [0, 1]$ (la funzione è strettamente crescente su $[0,1]$).
+2. Poiché $f(x)$ è crescente e cambia segno in $[0,1]$, per il teorema di Bolzano esiste un unico zero $\zeta \in (0, 1)$.
+
+**Punto (d): Tabella per $\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$**
+
+Usiamo il **metodo di bisezione** per calcolare:
+
+- L'approssimazione $\xi_\varepsilon$,
+- Il numero di iterazioni $K_\varepsilon$,
+- Il valore $f(\xi_\varepsilon)$.
+
+**Codice MATLAB:**
+
+```matlab
+a = 0; b = 1;
+f = @(x) x.^3 + 3.*x - 1 - exp(-x.^2);
+epsilon_values = 10.^(-1:-1:-10); % Tolleranze
+results = zeros(length(epsilon_values), 3); % Preallocazione: [xi_eps, K_eps, f(xi_eps)]
+
+for i = 1:length(epsilon_values)
+    epsilon = epsilon_values(i);
+    [xi, K, fx] = bisezione(a, b, f, epsilon);
+    results(i, :) = [xi, K, fx];
+end
+
+% Mostra la tabella
+disp('Tabella dei risultati:');
+disp('epsilon        xi_eps         K_eps        f(xi_eps)');
+disp(results);
+```
+
+---
+
+### Caso 2 
+	$f(x) = \cos x - x, [a,b]=[0,π][a, b] = [0, \pi]$
+
+**Punto (a): Verifica che $f(a) f(b) < 0$**
+
+1. Calcoliamo $f(a)$ e $f(b)$:
+    - $f(0) = \cos(0) - 0 = 1$,
+    - $f(\pi) = \cos(\pi) - \pi = -1 - \pi < 0$.
+2. Poiché $f(0) \cdot f(\pi) < 0$, possiamo procedere.
+
+**Punto (b): Grafico di $f(x)$ e verifica di uno zero unico**
+
+**Codice MATLAB:**
+
+```matlab
+f = @(x) cos(x) - x;
+x = linspace(0, pi, 1000); % 1000 punti nell'intervallo [0, pi]
+plot(x, f(x), 'r-', 'LineWidth', 2);
+grid on;
+xlabel('x');
+ylabel('f(x)');
+title('Grafico di f(x) = cos(x) - x');
+```
+
+**Analisi:** Il grafico mostra che $f(x)$ è continuo e cambia segno una sola volta tra $0$ e $\pi$.
+
+**Punto (c): Dimostrazione analitica che f(x)f(x) ha un unico zero**
+
+Usiamo $f'(x) = -\sin(x) - 1$:
+
+1. $f'(x) < 0$ per ogni $x \in [0, \pi]$ (la funzione è strettamente decrescente su $[0, \pi]$).
+2. Poiché $f(x)$ è decrescente e cambia segno in $[0, \pi]$, per il teorema di Bolzano esiste un unico zero $\zeta \in (0, \pi)$.
+
+**Punto (d): Tabella per $$\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$$**
+
+Usiamo il **metodo di bisezione** per calcolare:
+
+- L'approssimazione $\xi_\varepsilon$,
+- Il numero di iterazioni $K_\varepsilon$,
+- Il valore $f(\xi_\varepsilon)$.
+
+**Codice MATLAB:**
+
+```matlab
+a = 0; b = pi;
+f = @(x) cos(x) - x;
+epsilon_values = 10.^(-1:-1:-10); % Tolleranze
+results = zeros(length(epsilon_values), 3); % Preallocazione: [xi_eps, K_eps, f(xi_eps)]
+
+for i = 1:length(epsilon_values)
+    epsilon = epsilon_values(i);
+    [xi, K, fx] = bisezione(a, b, f, epsilon);
+    results(i, :) = [xi, K, fx];
+end
+
+% Mostra la tabella
+disp('Tabella dei risultati:');
+disp('epsilon        xi_eps         K_eps        f(xi_eps)');
+disp(results);
+```
+
 ### Codice
-# Appendice dei programmi
+
+```matlab
+clc;
+clear;
+close all;
+
+% Caso 1: f(x) = x^3 + 3x - 1 - exp(-x^2), [a, b] = [0, 1]
+disp('Caso 1: f(x) = x^3 + 3x - 1 - exp(-x^2), [a, b] = [0, 1]');
+a1 = 0; b1 = 1;
+f1 = @(x) x.^3 + 3.*x - 1 - exp(-x.^2);
+
+% Punto (a): Verifica f(a)f(b) < 0
+fa1 = f1(a1);
+fb1 = f1(b1);
+if fa1 * fb1 < 0
+    disp('Verifica (a): f(a)f(b) < 0 soddisfatta per il Caso 1.');
+else
+    error('Verifica (a) fallita per il Caso 1.');
+end
+
+% Punto (b): Grafico
+figure;
+x1 = linspace(a1, b1, 1000);
+plot(x1, f1(x1), 'b-', 'LineWidth', 2);
+grid on;
+xlabel('x');
+ylabel('f(x)');
+title('Grafico di f(x) = x^3 + 3x - 1 - exp(-x^2)');
+line([a1 b1], [0 0], 'Color', 'k', 'LineStyle', '--'); % Asse x
+disp('Grafico tracciato per il Caso 1.');
+
+% Punto (c): Dimostrazione analitica (commentata)
+% f'(x) = 3x^2 + 3 + 2x * exp(-x^2) > 0 per ogni x in [0, 1]
+% f(x) è crescente e cambia segno -> unico zero nell'intervallo.
+
+% Punto (d): Metodo di bisezione e tabella dei risultati
+disp('Costruzione tabella per il Caso 1...');
+epsilon_values = 10.^(-1:-1:-10);
+results1 = zeros(length(epsilon_values), 3);
+
+for i = 1:length(epsilon_values)
+    epsilon = epsilon_values(i);
+    [xi, K, fx] = bisezione(a1, b1, f1, epsilon);
+    results1(i, :) = [xi, K, fx];
+end
+
+% Mostra la tabella dei risultati
+disp('Tabella dei risultati - Caso 1:');
+disp('epsilon        xi_eps         K_eps        f(xi_eps)');
+disp(results1);
+
+% Caso 2: f(x) = cos(x) - x, [a, b] = [0, pi]
+disp('Caso 2: f(x) = cos(x) - x, [a, b] = [0, pi]');
+a2 = 0; b2 = pi;
+f2 = @(x) cos(x) - x;
+
+% Punto (a): Verifica f(a)f(b) < 0
+fa2 = f2(a2);
+fb2 = f2(b2);
+if fa2 * fb2 < 0
+    disp('Verifica (a): f(a)f(b) < 0 soddisfatta per il Caso 2.');
+else
+    error('Verifica (a) fallita per il Caso 2.');
+end
+
+% Punto (b): Grafico
+figure;
+x2 = linspace(a2, b2, 1000);
+plot(x2, f2(x2), 'r-', 'LineWidth', 2);
+grid on;
+xlabel('x');
+ylabel('f(x)');
+title('Grafico di f(x) = cos(x) - x');
+line([a2 b2], [0 0], 'Color', 'k', 'LineStyle', '--'); % Asse x
+disp('Grafico tracciato per il Caso 2.');
+
+% Punto (c): Dimostrazione analitica (commentata)
+% f'(x) = -sin(x) - 1 < 0 per ogni x in [0, pi]
+% f(x) è decrescente e cambia segno -> unico zero nell'intervallo.
+
+% Punto (d): Metodo di bisezione e tabella dei risultati
+disp('Costruzione tabella per il Caso 2...');
+results2 = zeros(length(epsilon_values), 3);
+
+for i = 1:length(epsilon_values)
+    epsilon = epsilon_values(i);
+    [xi, K, fx] = bisezione(a2, b2, f2, epsilon);
+    results2(i, :) = [xi, K, fx];
+end
+
+% Mostra la tabella dei risultati
+disp('Tabella dei risultati - Caso 2:');
+disp('epsilon        xi_eps         K_eps        f(xi_eps)');
+disp(results2);
+
+% Funzione Metodo di Bisezione
+function [xi, K, fx] = bisezione(a, b, f, epsilon)
+    K = 0; % Iterazioni
+    while (b - a) / 2 > epsilon
+        xi = (a + b) / 2;
+        if f(xi) == 0
+            break; % Trovato zero esatto
+        elseif f(a) * f(xi) < 0
+            b = xi;
+        else
+            a = xi;
+        end
+        K = K + 1;
+    end
+    xi = (a + b) / 2; % Approssimazione finale
+    fx = f(xi); % Valore della funzione in xi
+end
+```
+
+#### Descrizione del Codice
+
+1. **Caso 1 e Caso 2**:
+    - Si calcolano $f(a)$ e $f(b)$ per verificare che il prodotto è negativo.
+    - Si tracciano i grafici per osservare il comportamento di $f(x)$.
+    - Si riportano i risultati delle tabelle usando il metodo di bisezione.
+2. **Funzione `bisezione`**:
+    - Implementa il metodo di bisezione per trovare l'approssimazione di uno zero di una funzione continua su un intervallo $[a,b]$.
+    - Restituisce l'approssimazione $\xi_\varepsilon$, il numero di iterazioni $K_\varepsilon$, e il valore $f(\xi_\varepsilon)$.
+3. **Tabelle dei Risultati**:
+    - Si stampano le tabelle per ogni caso, con i valori di $\epsilon$, $\xi_\varepsilon$,$K_\varepsilon$, e $f(\xi_\varepsilon)$.
+
