@@ -1049,9 +1049,19 @@ end
 ```
 
 ## Problema 5
-****
-scrivere il testo
-****
+
+
+Si consideri il sistema lineare $A_n x = b_n$, dove $b_n = [1, 1, \ldots, 1]^T$ e $A_n$ è la matrice $n \times n$ definita nel modo seguente:$$(A_n)_{ij} = \begin{cases} 3, & \text{se } i = j, \\ -\left(\frac{1}{2}\right)^{\max(i,j) - 1}, & \text{se } i \neq j. \end{cases}$$
+
+**(a)** Scrivere esplicitamente $A_n$ per $n = 5$.
+**(b)** Dimostrare che, qualunque sia n, $A_n$ è una matrice a diagonale dominante in senso stretto per righe e per colonne. Dedurre che i metodi di Jacobi e Gauss-Seidel per risolvere un sistema lineare di matrice $A_n$ sono convergenti.
+**(c)** Risolvere con il comando `\` il sistema lineare $A_n x = b_n$ per $n=5,10,20$.
+**(d)** Risolvere il sistema lineare $A_n x = b_n$ per $n=5,10,20$ con i metodi di Jacobi e Gauss-Seidel entro una soglia di precisione $\varepsilon = 10^{-7}$, partendo dal vettore d’innesco $x^{(0)} = 0$.
+**(e)** Costruire una tabella che, vicino ad ogni $n = 5, 10, 20$, riporti:
+- la soluzione esatta $x$ del sistema $A_n x = b_n$ ottenuta al punto (c);
+- le soluzioni approssimate $x_J$ e $x_G$ ottenute con i metodi di Jacobi e Gauss-Seidel al punto (d);
+- gli errori $\|x_J - x\|_\infty$ e $\|x_G - x\|_\infty$;
+- i numeri $K_J$ e $K_G$, che contano le iterazioni effettuate da Jacobi e Gauss-Seidel per calcolare $x_J$ e $x_G$, rispettivamente.
 
 ### Soluzione
 
