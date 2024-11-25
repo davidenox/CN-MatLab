@@ -1103,14 +1103,14 @@ Per ciascuno di questi due casi, risolvere i seguenti punti.
 #### Caso 1 
 	$f(x) = x^3 + 3x - 1 - e^{-x^2}, [a,b]=[0,1][a, b] = [0, 1]$
 
-**Punto (a): Verifica che f(a)f(b)<0f(a) f(b) < 0**
+**Punto (a): Verifica che $f(a)f(b)<0$ **
 
 1. Calcoliamo $f(a)$ e $f(b)$:
     - $f(0) = 0^3 + 3(0) - 1 - e^{-0^2} = -1 - 1 = -2$,
     - $f(1) = 1^3 + 3(1) - 1 - e^{-1^2} = 1 + 3 - 1 - e^{-1} = 3 - e^{-1} \approx 2.63$.
 2. Poiché $f(0) \cdot f(1) < 0$, possiamo procedere.
 
-**Punto (b): Grafico di f(x)f(x) e verifica di uno zero unico**
+**Punto (b): Grafico di $f(x)$ e verifica di uno zero unico**
 
 Tracciamo il grafico di $f(x)$ su $[0,1]$ con MATLAB per osservare che $f(x)$ ha un unico zero nell'intervallo (0,1). **Il codice MATLAB** è il seguente:
 
