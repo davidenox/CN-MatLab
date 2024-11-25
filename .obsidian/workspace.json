@@ -35,8 +35,7 @@
               "title": "Delucidazione"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -155,10 +154,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Delucidazione.md"
+                "file": "0_Relazione/Relazione finale.md"
               },
               "icon": "lucide-list",
-              "title": "Struttura di Delucidazione"
+              "title": "Struttura di Relazione finale"
             }
           },
           {
@@ -189,11 +188,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "ded4553b3a9971fe",
+  "active": "741ecefbabe874b0",
   "lastOpenFiles": [
+    "Delucidazione.md",
     "0_Relazione/Delucidazione.pdf",
     "0_Relazione/Relazione finale.md",
-    "Delucidazione.md",
     "Problema6/ciao.m",
     "Problema6/untitled.m",
     "Problema6",
@@ -207,7 +206,6 @@
     "0_Relazione/img/Pasted image 20241111124227.png",
     "0_Relazione/img/Pasted image 20241111124223.png",
     "0_Relazione/img",
-    "0_Relazione",
     "0_Relazione/img/Pasted image 20241111102714.png"
   ]
 }

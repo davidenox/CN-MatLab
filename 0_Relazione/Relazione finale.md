@@ -1087,17 +1087,18 @@ Abbiamo dimostrato che $A_5$ rispetta sia la seconda che quarta condizione, quin
 ## Problema 6
 
 Consideriamo i seguenti due casi:
-2
-• f (x) = x3 + 3x − 1 − e−x e [a, b] = [0, 1];
-• f (x) = cos x − x e [a, b] = [0, π].
-3Per ciascuno di questi due casi, risolvere i seguenti punti.
-(a) Verificare che f (a)f (b) < 0.
-(b) Tracciare il grafico di f (x) su [a, b] e verficare che f (x) ha un unico zero ζ nell’intervallo (a, b).
-(c) Dimostrare analiticamente che f (x) ha un’unico zero ζ nell’intervallo (a, b).
-(d) Costruire una tabella che riporti vicino ad ogni ε ∈ {10−1 , 10−2 , . . . , 10−10 }:
-• un’approssimazione ξε di ζ, calcolata con il metodo di bisezione, che soddisfa |ξε − ζ| ≤ ε;
-• il numero d’iterazioni Kε effettuate dal metodo di bisezione per calcolare l’approssimazione ξε ;
-• il valore f (ξε ).
+- $f(x) = x^3 + 3x − 1 − e^{−x^2} , [a, b] = [0, 1]$;
+- $f(x) = \cos x − x , [a, b] = [0, \pi]$.
+Per ciascuno di questi due casi, risolvere i seguenti punti.
+**(a)** Verificare che $f (a)f (b) < 0$.
+**(b)** Tracciare il grafico di $f (x)$ su $[a, b]$ e verficare che $f (x)$ ha un unico zero $\zeta$ nell’intervallo $(a, b)$.
+**(c)** Dimostrare analiticamente che $f (x)$ ha un’unico zero $\zeta$ nell’intervallo $(a, b)$.
+**(d)** Costruire una tabella che riporti vicino ad ogni $\varepsilon\in\{10^{−1} , 10^{−2} ,\dots , 10^{−10}\}$:
+- un’approssimazione $\xi_\varepsilon$ di $\zeta$, calcolata con il metodo di bisezione, che soddisfa $|\xi_\varepsilon − \zeta|\le\varepsilon$;
+- il numero d’iterazioni $K_\varepsilon$ effettuate dal metodo di bisezione per calcolare l’approssimazione $\xi_\varepsilon$ ;
+- il valore $f(\xi_\varepsilon)$.
 
+### Soluzione
 
+### Codice
 # Appendice dei programmi
