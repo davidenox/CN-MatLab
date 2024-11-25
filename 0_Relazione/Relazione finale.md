@@ -1101,7 +1101,7 @@ Per ciascuno di questi due casi, risolvere i seguenti punti.
 ### Soluzione
 
 #### Caso 1 
-	$f(x) = x^3 + 3x - 1 - e^{-x^2}, [a,b]=[0,1][a, b] = [0, 1]$
+	$f(x) = x^3 + 3x - 1 - e^{-x^2}, [a,b]=[0,1]$
 
 **Punto (a): Verifica che $f(a)f(b)<0$ **
 
