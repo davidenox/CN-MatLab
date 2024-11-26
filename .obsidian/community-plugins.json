@@ -1,5 +1,7 @@
 [
   "better-export-pdf",
   "code-styler",
-  "obsidian-git"
+  "obsidian-git",
+  "table-editor-obsidian",
+  "automatic-table-of-contents"
 ]
