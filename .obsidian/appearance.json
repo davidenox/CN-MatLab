@@ -1,3 +1,6 @@
 {
-  "cssTheme": "Catppuccin"
+  "cssTheme": "Catppuccin",
+  "enabledCssSnippets": [
+    "center"
+  ]
 }
