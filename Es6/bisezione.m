@@ -10,7 +10,7 @@ function [xi, K, fx] = bisezione(a, b, f, epsilon)
     K = 0;
 
     % Ripeti finché la lunghezza dell'intervallo è maggiore della precisione richiesta
-    while (beta_k - alpha_k) / 2 > epsilon
+    while (beta_k - alpha_k) > epsilon
         % Calcola il punto medio dell'intervallo
         xi = (alpha_k + beta_k) / 2;
         

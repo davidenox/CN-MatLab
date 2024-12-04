@@ -22,6 +22,18 @@
             }
           },
           {
+            "id": "1f20ef569b325d4b",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "Problema6/caso2.png"
+              },
+              "icon": "lucide-image",
+              "title": "caso2"
+            }
+          },
+          {
             "id": "ded4553b3a9971fe",
             "type": "leaf",
             "state": {
@@ -188,16 +200,18 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "741ecefbabe874b0",
+  "active": "5bd8dce3225cdfb8",
   "lastOpenFiles": [
+    "Problema6/caso2.png",
+    "0_Relazione/Report Crediti D Salvucci-Noce.md",
+    "Problema6/caso1.png",
+    "Es4/jacobi2.m",
+    "Es4/untitled.m",
     "0_Relazione/Report Crediti D Salvucci-Noce.pdf",
     "0_Relazione/img/Pasted image 20241111102714.png",
-    "0_Relazione/Report Crediti D Salvucci-Noce.md",
     "0_Relazione/img/grafico_es1.jpg",
     "Delucidazione.md",
     "0_Relazione/Bozza relazione.md",
-    "Problema6/caso1.png",
-    "Problema6/caso2.png",
     "0_Relazione/Delucidazione.pdf",
     "Problema6/ciao.m",
     "Problema6/untitled.m",
@@ -205,11 +219,8 @@
     "New Folder",
     "Problema3/untitled2.m",
     "Problema3/trapezi_discretizzazione.m",
-    "Problema3/untitled.m",
-    "Problema3",
     "0_Relazione/img/Pasted image 20241111124424.png",
     "0_Relazione/img/Pasted image 20241111124227.png",
-    "0_Relazione/img/Pasted image 20241111124223.png",
-    "0_Relazione/img"
+    "0_Relazione/img/Pasted image 20241111124223.png"
   ]
 }

@@ -8,7 +8,8 @@ function [x, K, r_norm] = jacobiMethod(A, b, x0, epsilon, N_max)
     
     % Output:
     % x: vettore approssimato x^(K) dopo K iterazioni o x^(N_max)
-    % K: numero di iterazioni effettivamente eseguite
+    % K: numero di iterazioni effettivamente eseguite per soddisfare la
+    % condizione di arresto del residuo
     % r_norm: norma ||r^(K)||_2 del residuo alla fine del processo
     
     % Numero di variabili (dimensione del sistema)
@@ -30,7 +31,8 @@ function [x, K, r_norm] = jacobiMethod(A, b, x0, epsilon, N_max)
             sum2 = A(i, i+1:n) * x(i+1:n);
             % Formula del metodo di Jacobi
             x_new(i) = (b(i) - sum1 - sum2) / A(i, i);
-        end
+        end 
+
         
         % Calcola il residuo r^(K) = b - A * x^(K)
         r = b - A * x_new;

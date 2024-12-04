@@ -501,18 +501,14 @@ Si consideri la funzione $$f(x)=e^x.$$Per ogni intero $n\ge1$ indichiamo con $I_
 
 **Punto (a)**
 
-Per il teorema sull'errore o resto della formula dei trapezi, abbiamo che $$\left|\int_0^1e^xdx-I_n\right|=\left|-\frac{f^{''}(\eta)(b-a)}{12}\cdot h^2\right|$$
-Per determinare un $n=nvarepsilon)$ tale che $\left|I-I_n\right|\leq\varepsilon$ procediamo in questo modo
-
-Abbiamo che 
-
-$$\left|\int_0^1e^xdx-I_n\right|=\left|-\frac{f^{''}(\eta)\cdot 1}{12n^2}\right|=\frac{f^{''}(\eta)}{12n^2},\eta\in[0,1]$$
-Calcoliamo $f^{''}(x)$ : 
-$$f^{'}(x)=f^{''}=f(x)=e^x$$
+Per il teorema sull'errore o resto della formula dei trapezi, abbiamo che $$\left|\int_0^1e^xdx-I_n\right|=\left|-\frac{f^{''}(\eta)\cdot 1}{12}\cdot h^2\right|=\frac{|f''(\eta)|}{12n^2},\quad\eta\in[0,1]$$
+Per determinare un $n=n(\varepsilon)$ tale che $\left|I-I_n\right|\leq\varepsilon$, calcoliamo $f^{''}(x)$ : 
+$$f^{'}(x)=f^{''}(x)=f(x)=e^x$$
 per ogni $x\in[0,1]$ si ha che:
-$$\left|f^{''}(x)\right|=\left|e^x\right|=e^x\leq e=2.71828$$
-Quindi, possiamo scrivere $$\left|\int_0^1e^xdx-I_n\right|\leq\frac{2.71828}{12n^2}$$
-E infine $$\frac{2.71828}{12n^2}\leq\varepsilon\iff n\geq\sqrt{\frac{2.71828}{12\varepsilon}}=n_\varepsilon$$
+$$\left|f^{''}(x)\right|=\left|e^x\right|=e^x\leq e$$
+Quindi, possiamo scrivere $$\left|\int_0^1e^xdx-I_n\right|\leq\frac{e}{12n^2}$$
+E infine $$\frac{e}{12n^2}\leq\varepsilon\iff n\geq\sqrt{\frac{e}{12\varepsilon}}$$
+Dunque prenderemo $$n=n(\varepsilon)=\left\lceil\sqrt{\frac{e}{12\varepsilon}}\right\rceil$$
 **Punto (b)**
 
 Tabella
@@ -666,7 +662,7 @@ Riassumendo:$$I = -\frac{1}{e} + \left(-\frac{2}{e} + (-\frac{2}{e} + 2)\right) 
 ```matlab
 syms x
 f = x^2 * exp(-x);
-I_exact = double(int(f, 0, 1));
+I_exact = int(f, 0, 1);
 ```
 
 **Output:**
@@ -757,10 +753,7 @@ Tabella dei risultati:
 
 Preso $\varepsilon=\left|p(0)-I\right|$, per trovare un $n=n_\varepsilon$ tale che $\left|I-I_n\right|\leq\varepsilon$ bisogna fare così
 
-Per il teorema sull'errore o resto della formula dei trapezi, abbiamo che $$\left|\int_0^1x^2e^{-x}dx-I_n\right|=\left|-\frac{f^{''}(\eta)(b-a)}{12}\cdot h^2\right|$$
-Abbiamo che 
-
-$$\left|\int_0^1x^2e^{-x}dx-I_n\right|=\left|-\frac{f^{''}(\eta)\cdot 1}{12n^2}\right|=\frac{f^{''}(\eta)}{12n^2},\eta\in[0,1]$$
+Per il teorema sull'errore o resto della formula dei trapezi, abbiamo che $$\left|\int_0^1x^2e^{-x}dx-I_n\right|=\left|-\frac{f^{''}(\eta)\cdot 1}{12n^2}\right|=\frac{|f^{''}(\eta)|}{12n^2},\quad\eta\in[0,1]$$
 Calcoliamo $f^{''}(x)$ : 
 $$\begin{align}&f^{'}(x)=2xe^{-x}-x^2e^{-x}\\&f^{''}(x)=e^{-x}(x^2-4x+2)\end{align}$$
 per ogni $x\in[0,1]$ si ha che:
@@ -1386,3 +1379,4 @@ end
     - Restituisce l'approssimazione $\xi_\varepsilon$, il numero di iterazioni $K_\varepsilon$, e il valore $f(\xi_\varepsilon)$.
 3. **Tabelle dei Risultati**:
     - Si stampano le tabelle per ogni caso, con i valori di $\epsilon$, $\xi_\varepsilon$,$K_\varepsilon$, e $f(\xi_\varepsilon)$.
+- 

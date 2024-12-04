@@ -6,7 +6,8 @@ function In = formulaTrapeziEs2(f, a, b, n)
         % n: numero di sottointervalli (n >= 1)
         
         % Output:
-        % In: approssimazione dell'integrale di f(x) su [a, b] usando la formula dei trapezi
+        % In: approssimazione dell'integrale di f(x) su [a, b] usando la
+        % formula dei trapezi di ordine n
     
         % Larghezza di ciascun sottointervallo
         h = (b - a) / n;
