@@ -15,6 +15,8 @@ Il primo esercizio chiede di scrivere in MATLAB una function che calcoli l'algor
 _**Esercizio d’implementazione dell’algoritmo di valutazione del polinomio d’interpolazione in più punti.**_
 ### Codice Esercizio 1
 
+Questo codice genera un vettore di coefficienti per le differenze divise:
+
 
 ```matlab title:"Esercizio 1.1"
 function p_t = interpola_ruffini_horner(x, y, t)
@@ -67,6 +69,64 @@ function p_t = horner_eval(coeff, x, t)
 end
 ```
 
+Questo codice genera la **matrice** delle differenze divise:
+```matlab
+function p_t = interpola_ruffini_horner(x, y, t)
+    % Input:
+    % x: vettore dei punti x0, x1, ..., xn (devono essere distinti)
+    % y: vettore dei valori corrispondenti y0, y1, ..., yn
+    % t: vettore dei punti t1, t2, ..., tm dove si vuole valutare il polinomio interpolante
+    
+    % Output:
+    % p_t: vettore contenente le valutazioni del polinomio interpolante nei punti t
+    
+    % Calcola la matrice delle differenze divise
+    diff_matrix = differenze_divise(x, y);
+    
+    % Estrai i coefficienti dalla diagonale principale della matrice
+    coeff = diag(diff_matrix);
+    
+    % Valuta il polinomio nei punti t usando lo schema di Horner
+    p_t = horner_eval(coeff, x, t);
+end
+
+function diff_matrix = differenze_divise(x, y)
+    % Calcola la matrice delle differenze divise
+    n = length(x);
+    diff_matrix = zeros(n, n);  % Inizializza la matrice delle differenze divise
+    
+    % Copia il vettore y nella prima colonna
+    diff_matrix(:, 1) = y(:);
+    
+    % Costruisce la tabella delle differenze divise
+    for j = 2:n
+        for i = j:n
+            diff_matrix(i, j) = (diff_matrix(i, j-1) - diff_matrix(i-1, j-1)) / (x(i) - x(i-j+1));
+        end
+    end
+end
+
+function p_t = horner_eval(coeff, x, t)
+    % Valuta il polinomio usando lo schema di Horner
+    n = length(coeff);
+    m = length(t);
+    p_t = zeros(1, m);
+    
+    for k = 1:m
+        % Inizializza il polinomio con il termine di grado più alto
+        p = coeff(n);
+        
+        % Applica lo schema di Horner
+        for i = n-1:-1:1
+            p = p * (t(k) - x(i)) + coeff(i);
+        end
+        
+        % Salva il risultato della valutazione nel punto t(k)
+        p_t(k) = p;
+    end
+end
+
+```
 ### Spiegazione
 
 1) **Funzione principale (`interpola_ruffini_horner`)**:
@@ -511,20 +571,26 @@ E infine $$\frac{e}{12n^2}\leq\varepsilon\iff n\geq\sqrt{\frac{e}{12\varepsilon}
 Dunque prenderemo $$n=n(\varepsilon)=\left\lceil\sqrt{\frac{e}{12\varepsilon}}\right\rceil$$
 **Punto (b)**
 
-Tabella
+$$
+\begin{array}{|c|c|c|c|}
+\hline
+\epsilon & n & I_n & \text{Error} \\
+\hline
+1.0 \times 10^{-1} & 2 & 1.753931092464825 & 3.564926400578017 \times 10^{-2} \\
+1.0 \times 10^{-2} & 5 & 1.724005619782788 & 5.723791323742899 \times 10^{-3} \\
+1.0 \times 10^{-3} & 16 & 1.718841128579994 & 5.593001209494020 \times 10^{-4} \\
+1.0 \times 10^{-4} & 48 & 1.718343976513114 & 6.214805406878909 \times 10^{-5} \\
+1.0 \times 10^{-5} & 151 & 1.718288108448857 & 6.279989812174591 \times 10^{-6} \\
+1.0 \times 10^{-6} & 476 & 1.718282460433048 & 6.319740029070431 \times 10^{-7} \\
+1.0 \times 10^{-7} & 1506 & 1.718281891593031 & 6.313398559498751 \times 10^{-8} \\
+1.0 \times 10^{-8} & 4760 & 1.718281834778786 & 6.319740952775987 \times 10^{-9} \\
+1.0 \times 10^{-9} & 15051 & 1.718281829091138 & 6.320926004832472 \times 10^{-10} \\
+1.0 \times 10^{-10} & 47595 & 1.718281828522237 & 6.319145207100973 \times 10^{-11} \\
+\hline
+\end{array}
+$$
 
-| $\varepsilon$ | $n$   | $I_n$            | $I$              | Errore               |
-| ------------- | ----- | ---------------- | ---------------- | -------------------- |
-| 1.0e-1        | 2     | 1.75393109246483 | 1.71828182845905 | 3.56492640057802e-2  |
-| 1.0e-2        | 4     | 1.72722190455752 | 1.71828182845905 | 8.94007609847147e-3  |
-| 1.0e-3        | 12    | 1.71927608944639 | 1.71828182845905 | 9.94260987340567e-4  |
-| 1.0e-4        | 38    | 1.71838098946991 | 1.71828182845905 | 9.91610108698193e-5  |
-| 1.0e-5        | 120   | 1.71829177220812 | 1.71828182845905 | 9.94374907281603e-6  |
-| 1.0e-6        | 379   | 1.71828282532022 | 1.71828182845905 | 9.96861172719576e-7  |
-| 1.0e-7        | 1197  | 1.71828192839571 | 1.71828182845905 | 9.99366627230103e-8  |
-| 1.0e-8        | 3785  | 1.71828183845402 | 1.71828182845905 | 9.99497018483453e-9  |
-| 1.0e-9        | 11967 | 1.71828182945891 | 1.71828182845905 | 9.99865967798996e-10 |
-| 1.0e-10       | 37839 | 1.71828182855904 | 1.71828182845905 | 9.99984539618026e-11 |
+
 **Punto (c)**
 
 Le approssimazioni di $I$ ottenute con la formula dei trapezi sono le seguenti :
@@ -544,6 +610,8 @@ Confronto con il valore esatto di $I$ = $1.718281828459045$
 Si nota che il valore $p(0)$ si avvicina di molto al valore esatto di $I$, infatti l'errore $\left|p(0)-I\right|=1.343813949006289e-12$ (ovvero $1.3438\times10^{-12}$).
 
 ### Codice
+
+Questo è il codice che non utilizza il metodo dell'estrapolazione, ma utilizza al suo posto Ruffini-Horner e formula dei trapezi separatamente.Usando `tic;toc` di MatLab, vediamo che il codice impiega tempo $18.120515 \sec$.
 
 ```matlab title:"Problema 2.2"
 % Definizione della funzione
@@ -629,6 +697,75 @@ disp(abs(p0-I_exact));
 format("default");
 ```
 
+### Codice v2
+
+Questo codice risolve il punto **(b)**. Usando `tic;toc` di MatLab notiamo una differenza significativa nel tempo di esecuzione del codice, che in questo caso è di soli $0.012795\sec$.
+```matlab
+% Definizione degli epsilon
+epsilon_values = 10.^(-1:-1:-10); % {10^-1, 10^-2, ..., 10^-10}
+
+% Funzione da integrare
+f = @(x) exp(x); 
+
+% Intervallo di integrazione
+a = 0; 
+b = 1;
+
+% Valore esatto dell'integrale
+I_exact = exp(1) - 1;
+
+% Preallocazione per risultati
+n_values = zeros(size(epsilon_values));
+I_n_values = zeros(size(epsilon_values));
+errors = zeros(size(epsilon_values));
+
+% Calcolo di n e I_n
+for i = 1:length(epsilon_values)
+    epsilon = epsilon_values(i);
+    
+    % Calcolo di n (formula di stima dell'errore)
+    n = ceil(sqrt(exp(1) / (12 * epsilon)));
+    n_values(i) = n;
+    
+    % Calcolo di I_n usando la formula dei trapezi
+    I_n = formulaTrapeziEs2(f, a, b, n);
+    error = abs(I_exact - I_n);
+    I_n_values(i) = I_n;
+    errors(i) = error;
+end
+
+% Visualizzazione dei risultati
+disp('Epsilon      n         I_n            Error');
+disp([epsilon_values(:), n_values(:), I_n_values(:), errors(:)]);
+
+```
+
+Questo codice risolve il punto **(d)**
+```matlab
+% Vettore di n
+n_vect = [2, 4, 8, 16];
+
+% Estrapolazione polinomiale
+p0 = estrapolazioneEs3(f, a, b, n_vect);
+
+% Calcolo degli I_n e confronto con p(0)
+I_n_values = zeros(size(n_vect));
+errors = zeros(size(n_vect));
+
+for i = 1:length(n_vect)
+    n = n_vect(i);
+    I_n_values(i) = formulaTrapeziEs2(f, a, b, n);
+    errors(i) = abs(I_exact - I_n_values(i));
+end
+
+% Confronto finale
+disp('n        I_n            Error');
+disp([n_vect(:), I_n_values(:), errors(:)]);
+
+disp(['Valore estrapolato p(0): ', num2str(p0)]);
+disp(['Errore tra p(0) e I esatto: ', num2str(abs(I_exact - p0))]);
+
+```
 ## Problema 3
 
 Consideriamo la funzione $f(x)=x^2e^{−x}$ e indichiamo con $I_n$ la formula dei trapezi di ordine $n$ per approssimare $I =\int_0^1 f(x)dx$.
@@ -943,18 +1080,57 @@ $$
 (A_n)_{ij}=\begin{cases}3,&i=j\\-(\frac{1}{2})^{max(i,j)-1},&i\neq j\end{cases}​
 $$
 Per $n=5$ la matrice $A_5$ è: 
-$$A_5=\begin{bmatrix} 3 & -\frac{1}{2} & -\frac{1}{4} & -\frac{1}{8} & -\frac{1}{16} \\ -\frac{1}{2} & 3 & -\frac{1}{2} & -\frac{1}{4} & -\frac{1}{8} \\ -\frac{1}{4} & -\frac{1}{2} & 3 & -\frac{1}{2} & -\frac{1}{4} \\ -\frac{1}{8} & -\frac{1}{4} & -\frac{1}{2} & 3 & -\frac{1}{2} \\ -\frac{1}{16} & -\frac{1}{8} & -\frac{1}{4} & -\frac{1}{2} & 3 \end{bmatrix}$$
+$$A_5 = \begin{bmatrix} 3 & -\frac{1}{2} & -\frac{1}{4} & -\frac{1}{8} & -\frac{1}{16} \\ -\frac{1}{2} & 3 & -\frac{1}{4} & -\frac{1}{8} & -\frac{1}{16} \\ -\frac{1}{4} & -\frac{1}{4} & 3 & -\frac{1}{8} & -\frac{1}{16} \\ -\frac{1}{8} & -\frac{1}{8} & -\frac{1}{8} & 3 & -\frac{1}{16} \\ -\frac{1}{16} & -\frac{1}{16} & -\frac{1}{16} & -\frac{1}{16} & 3 \end{bmatrix}.$$
 
 **Punto (b)**
 
 Una matrice $A\in\mathbb C^{n\times n}$ è definita: 
-- A diagonale dominante in senso stretto (per righe) se $a_{ii}>\sum\limits_{j\ne i}|a_{ij}|$ per ogni $i=1,\dots,n$
+- A diagonale dominante in senso stretto (per righe) se $|a_{ii}|>\sum\limits_{j\ne i}|a_{ij}|$ per ogni $i=1,\dots,n$
 - A diagonale dominante in senso stretto (per colonne) se $|a_{jj}|>\sum\limits_{i\ne j}|a_{ij}|$ per ogni $i=1,\dots,n$
 
 Data la matrice $A_5$, si nota che essa è a diagonale dominante in senso stretto sia per righe che per colonne.
 Infatti preso $\left|a_{ii}\right|=\left|a_{jj}\right|=\left|3\right|,\forall {i,j}$, abbiamo che 
 $$\begin{align}&\left|a_{ii}\right|\gt\sum\limits_{j\neq i}\left|a_{ij}\right|,\text{ con}\left|a_{ij}\right|=\left(\frac{1}{2}\right)^{max(i,j)-1}\\&\left|a_{jj}\right|\gt\sum\limits_{i\neq j}\left|a_{ij}\right|,\text{ con}\left|a_{ij}\right|=\left(\frac{1}{2}\right)^{max(i,j)-1}\end{align}$$
-Il che dimostra che $A_5$ è a diagonale dominante in senso stretto sia per colonne che per righe.
+Dimostriamo che la matrice $A_5$ è a diagonale dominante:
+
+La condizione di dominanza diagonale per righe richiede che:$$|A_{ii}| > \sum_{j \neq i} |A_{ij}|.$$
+Nel nostro caso:
+
+- $|A_{ii}| = 3$.
+- La somma $\sum_{j \neq i} |A_{ij}|$ si divide in due parti:
+    - **Prima della diagonale** ($j < i$): tutti i termini sono uguali a $\left(\frac{1}{2}\right)^{i-1}$.
+    - **Dopo la diagonale** ($j > i$): i termini sono della forma $\left(\frac{1}{2}\right)^i, \left(\frac{1}{2}\right)^{i+1}, \dots$.
+
+Pertanto, possiamo scrivere:$$\sum_{j \neq i} |A_{ij}| = \underbrace{(i-1) \cdot \left(\frac{1}{2}\right)^{i-1}}_{\text{prima della diagonale}} + \underbrace{\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k}}_{\text{dopo la diagonale}}.$$
+
+**Analisi prima parte**:
+
+La somma degli elementi prima della diagonale è:$$(i-1) \cdot \left(\frac{1}{2}\right)^{i-1}.$$
+
+**Analisi seconda parte**:
+
+Gli elementi dopo la diagonale formano una serie geometrica:$$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k}.$$
+
+Usando la formula per la somma di una serie geometrica:$$\sum_{k=0}^m r^k = \frac{1 - r^{m+1}}{1 - r},$$
+
+qui $r = \frac{1}{2}$, $m = n-i-1$, e il primo termine della serie è $\left(\frac{1}{2}\right)^i$. 
+Quindi otteniamo che:
+$$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k} = \left(\frac{1}{2}\right)^i \cdot \frac{1 - \left(\frac{1}{2}\right)^{n-i}}{1 - \frac{1}{2}} = 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
+
+
+Combinando le due parti, otteniamo:$$\sum_{j \neq i} |A_{ij}| = (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
+Di conseguenza, la condizione di dominanza diagonale per righe $|A_{ii}| > \sum_{j \neq i} |A_{ij}|$ diventa:$$3 > (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
+> Verifica
+
+Per $i = 1$:$$3 > 0 + 2 \cdot \left(\frac{1}{2}\right)^1 \cdot \left(1 - \left(\frac{1}{2}\right)^{n-1}\right).
+$$
+La disuguaglianza è soddisfatta poiché il lato destro è minore di $1$.
+
+Per $i = n$:$$3 > (n-1) \cdot \left(\frac{1}{2}\right)^{n-1}.$$
+
+Anche qui la disuguaglianza è verificata perché $\left(\frac{1}{2}\right)^{n-1}$ decresce rapidamente.
+
+In generale, la disuguaglianza è verificata per ogni $i$, dimostrando che $A_n$ è diagonale dominante per righe.
 
 Usando i **teoremi di convergenza**, sappiamo che i metodi di Jacobi e Gauss-Seidel convergono se la matrice $A\in\mathbb C^{n\times n}$ soddisfa almeno una delle seguenti condizioni : 
 - $A$ è a diagonale dominante e irriducibile
@@ -1166,11 +1342,27 @@ Usiamo il teorema di Bolzano e la monotonicità derivata dall'analisi di $f'(x)$
 
 **Punto (d): Tabella per $\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$**
 
-Usiamo il **metodo di bisezione** per calcolare:
+Abbiamo usato il **metodo di bisezione** per calcolare:
 
 - L'approssimazione $\xi_\varepsilon$,
 - Il numero di iterazioni $K_\varepsilon$,
 - Il valore $f(\xi_\varepsilon)$.
+
+La tabella dei risultati è la seguente:
+
+| $\epsilon$           | $x_i$               | $K$  | $f(x_i)$                            |
+| -------------------- | ------------------- | ---- | ----------------------------------- |
+| $1.0 \cdot 10^{-1}$  | $0.531250000000000$ | $4$  | $-1.041995243049776 \cdot 10^{-2}$  |
+| $1.0 \cdot 10^{-2}$  | $0.535156250000000$ | $7$  | $7.765312582933004 \cdot 10^{-3}$   |
+| $1.0 \cdot 10^{-3}$  | $0.533691406250000$ | $10$ | $9.389559548024229 \cdot 10^{-4}$   |
+| $1.0 \cdot 10^{-4}$  | $0.533477783203125$ | $14$ | $-5.586409047664276 \cdot 10^{-5}$  |
+| $1.0 \cdot 10^{-5}$  | $0.533489227294922$ | $17$ | $-2.574612559369527 \cdot 10^{-6}$  |
+| $1.0 \cdot 10^{-6}$  | $0.533489704132080$ | $20$ | $-3.542067064099541 \cdot 10^{-7}$  |
+| $1.0 \cdot 10^{-7}$  | $0.533489793539047$ | $24$ | $6.211948844203619 \cdot 10^{-8}$   |
+| $1.0 \cdot 10^{-8}$  | $0.533489782363176$ | $27$ | $1.007871253122516 \cdot 10^{-8}$   |
+| $1.0 \cdot 10^{-9}$  | $0.533489780034870$ | $30$ | $-7.631157927789900 \cdot 10^{-10}$ |
+| $1.0 \cdot 10^{-10}$ | $0.533489780180389$ | $34$ | $-8.550160579545718 \cdot 10^{-11}$ |
+
 
 **Codice MATLAB:**
 
@@ -1231,11 +1423,26 @@ Usiamo $f'(x) = -\sin(x) - 1$:
 
 **Punto (d): Tabella per $$\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$$**
 
-Usiamo il **metodo di bisezione** per calcolare:
+Abbiamo usato il **metodo di bisezione** per calcolare:
 
 - L'approssimazione $\xi_\varepsilon$,
 - Il numero di iterazioni $K_\varepsilon$,
 - Il valore $f(\xi_\varepsilon)$.
+
+La tabella dei risultati è la seguente:
+
+| $\epsilon$           | $x_i$               | $K$  | $f(x_i)$                            |
+| -------------------- | ------------------- | ---- | ----------------------------------- |
+| $1.0 \cdot 10^{-1}$  | $0.736310778185108$ | $5$  | $4.640347169851511 \cdot 10^{-3}$   |
+| $1.0 \cdot 10^{-2}$  | $0.739378739760879$ | $9$  | $-4.914153002637534 \cdot 10^{-4}$  |
+| $1.0 \cdot 10^{-3}$  | $0.738995244563908$ | $12$ | $1.504357420498703 \cdot 10^{-4}$   |
+| $1.0 \cdot 10^{-4}$  | $0.739043181463529$ | $15$ | $7.021030579146270 \cdot 10^{-5}$   |
+| $1.0 \cdot 10^{-5}$  | $0.739088122306924$ | $19$ | $-5.002583233437718 \cdot 10^{-6}$  |
+| $1.0 \cdot 10^{-6}$  | $0.739085500757726$ | $22$ | $-6.151237084139893 \cdot 10^{-7}$  |
+| $1.0 \cdot 10^{-7}$  | $0.739085173064076$ | $25$ | $-6.669162500028136 \cdot 10^{-8}$  |
+| $1.0 \cdot 10^{-8}$  | $0.739085135028206$ | $29$ | $-3.034334783436066 \cdot 10^{-9}$  |
+| $1.0 \cdot 10^{-9}$  | $0.739085133199558$ | $32$ | $2.611200144997383 \cdot 10^{-11}$  |
+| $1.0 \cdot 10^{-10}$ | $0.739085133245275$ | $35$ | $-5.039924033667376 \cdot 10^{-11}$ |
 
 **Codice MATLAB:**
 
@@ -1379,4 +1586,3 @@ end
     - Restituisce l'approssimazione $\xi_\varepsilon$, il numero di iterazioni $K_\varepsilon$, e il valore $f(\xi_\varepsilon)$.
 3. **Tabelle dei Risultati**:
     - Si stampano le tabelle per ogni caso, con i valori di $\epsilon$, $\xi_\varepsilon$,$K_\varepsilon$, e $f(\xi_\varepsilon)$.
-- 
