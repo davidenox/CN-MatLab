@@ -1,6 +1,6 @@
 ```table-of-contents
 title: 
-style: nestedList # TOC style (nestedList|nestedOrderedList|inlineFirstLevel)
+style: nestedOrderedList # TOC style (nestedList|nestedOrderedList|inlineFirstLevel)
 minLevel: 0 # Include headings from the specified level
 maxLevel: 0 # Include headings up to the specified level
 includeLinks: true # Make headings clickable
@@ -16,7 +16,6 @@ _**Esercizio d’implementazione dell’algoritmo di valutazione del polinomio d
 ### Codice Esercizio 1
 
 Questo codice genera un vettore di coefficienti per le differenze divise:
-
 
 ```matlab title:"Esercizio 1.1"
 function p_t = interpola_ruffini_horner(x, y, t)
@@ -70,6 +69,7 @@ end
 ```
 
 Questo codice genera la **matrice** delle differenze divise:
+
 ```matlab
 function p_t = interpola_ruffini_horner(x, y, t)
     % Input:
@@ -136,6 +136,9 @@ end
 2) **Calcolo delle differenze divise (`differenze_divise`)**:
     - Costruisce la tabella delle differenze divise e restituisce i coefficienti del polinomio interpolante.
     - L'algoritmo funziona partendo dai valori `y` e iterando per costruire le differenze successive.
+	    - Nel secondo codice:
+	- Si crea una matrice$n \times n$ di zeri e si copia il vettore $y$ nella prima colonna (differenze divise di ordine $0$).
+	- Per ogni ordine successivo ($j = 2, \dots, n$) si calcolano le differenze divise di ordine $j-1$ usando: $$f[x_i, \dots, x_{i+j-1}] = \frac{f[x_{i+1}, \dots, x_{i+j-1}] - f[x_i, \dots, x_{i+j-2}]}{x_{i+j-1} - x_i}.$$
 3) **Valutazione con lo schema di Horner (`horner_eval`)**:
     - Prende i coefficienti del polinomio e valuta il polinomio in ciascun punto di `t` usando lo schema di Horner.
     - Questo schema permette di valutare il polinomio in modo molto efficiente, riducendo il numero di operazioni necessarie.
@@ -390,6 +393,8 @@ L'esercizio chiede di creare una function MATLAB per implementare il **metodo di
 ***Esercizio d’implementazione del metodo di Gauss-Seidel***
 ### Codice Esercizio 5
 
+Questo è il codice di Gauss-Seidel componente per componente
+
 ```matlab title:"Esercizio 1.5"
 function [x, K, r_norm] = metodo_gauss_seidel(A, b, x0, epsilon, N_max)
     % Input:
@@ -442,6 +447,61 @@ function [x, K, r_norm] = metodo_gauss_seidel(A, b, x0, epsilon, N_max)
 end
 ```
 
+Questo è il metodo di Gauss-Seidel iterativo
+
+```matlab
+function [x, K, r_norm] = gauss_seidelIterativo(A, b, x0, epsilon, N_max)
+    % Metodo di Gauss-Seidel - versione Iterativa
+    % Input:
+    % A: matrice del sistema lineare Ax = b
+    % b: vettore dei termini noti
+    % x0: vettore di innesco (stima iniziale di x)
+    % epsilon: soglia di precisione
+    % N_max: numero massimo di iterazioni consentite
+    
+    % Output:
+    % x: vettore approssimato x^(K) dopo K iterazioni o x^(N_max)
+    % K: numero di iterazioni effettivamente eseguite
+    % r_norm: norma ||r^(K)||_2 del residuo alla fine del processo
+    
+    % Separazione della matrice A in E (triangolare inferiore) e U (triangolare superiore)
+    E = tril(A);               % Parte triangolare inferiore (inclusa diagonale)
+    U = triu(A, 1);            % Parte triangolare superiore (esclusa diagonale)
+    
+    % Pre-calcolo della matrice iterativa G = E^(-1) * U
+    G = -E \ U;                % G = -inv(E) * U (calcolo efficace tramite backslash operator)
+    
+    % Pre-calcolo del termine costante c = E^(-1) * b
+    c = E \ b;                 % c = inv(E) * b
+    
+    % Inizializza la soluzione corrente con il vettore di innesco x0
+    x = x0;
+    
+    % Itera il metodo di Gauss-Seidel
+    for K = 1:N_max
+        % Aggiornamento vettoriale: x^(k+1) = G * x^(k) + c
+        x_new = G * x + c;
+        
+        % Calcola il residuo r^(K) = b - A * x^(K)
+        r = b - A * x_new;
+        
+        % Calcola la norma del residuo ||r^(K)||_2
+        r_norm = norm(r, 2);
+        
+        % Condizione di arresto: ||r^(K)||_2 <= epsilon * ||b||_2
+        if r_norm <= epsilon * norm(b, 2)
+            x = x_new;
+            return;  % Arresta l'algoritmo e restituisce il risultato
+        end
+        
+        % Aggiorna la soluzione corrente x^(K)
+        x = x_new;
+    end
+    
+    % Se si raggiunge N_max iterazioni senza soddisfare il criterio, si restituisce
+    % x^(N_max), il relativo indice N_max e la norma del residuo ||r^(N_max)||_2
+end
+```
 ### Spiegazione Codice
 
 1. **Input:**
@@ -657,10 +717,10 @@ $$
 
 Le approssimazioni di $I$ ottenute con la formula dei trapezi sono le seguenti :
 
-$I_2 = 1.75393109246482525876$ (Errore = $3.5649264006e-02$)
-$I_4 = 1.72722190455751656302$ (Errore = $8.9400760985e-03$)
-$I_8 = 1.72051859216430180766$ (Errore = $2.2367637053e-03$)
-$I_{16} = 1.71884112857999449275$ (Errore = $5.5930012095e-04$)
+$I_2 = 1.75393109246482525876$ (Errore = $3.5649264006\cdot10^{-2}$)
+$I_4 = 1.72722190455751656302$ (Errore = $8.9400760985\cdot10^{-3}$)
+$I_8 = 1.72051859216430180766$ (Errore = $2.2367637053\cdot10^{-3}$)
+$I_{16} = 1.71884112857999449275$ (Errore = $5.5930012095\cdot10^{-4}$)
 
 Valore esatto di $I$ è : $1.718281828459045$
 
@@ -669,11 +729,11 @@ Valore esatto di $I$ è : $1.718281828459045$
 Il valore di $p(0) = 1.718281828460389$
 Confronto con il valore esatto di $I$ = $1.718281828459045$
 
-Si nota che il valore $p(0)$ si avvicina di molto al valore esatto di $I$, infatti l'errore $\left|p(0)-I\right|=1.343813949006289e-12$ (ovvero $1.3438\times10^{-12}$).
+Si nota che il valore $p(0)$ si avvicina di molto al valore esatto di $I$, infatti l'errore $\left|p(0)-I\right|=1.343813949006289\cdot10^{-12}$ (ovvero $1.3438\cdot10^{-12}$).
 
 ### Codice
 
-Questo è il codice che non utilizza il metodo dell'estrapolazione, ma utilizza al suo posto Ruffini-Horner e formula dei trapezi separatamente.Usando `tic;toc` di MatLab, vediamo che il codice impiega tempo $18.120515 \sec$.
+Questo è il codice che non utilizza il metodo dell'estrapolazione, ma utilizza al suo posto Ruffini-Horner e formula dei trapezi separatamente. Usando `tic;toc` di MatLab, vediamo che il codice impiega tempo $18.120515 \sec$.
 
 ```matlab title:"Problema 2.2"
 % Definizione della funzione
@@ -957,9 +1017,14 @@ Calcoliamo $f^{''}(x)$ :
 $$\begin{align}&f^{'}(x)=2xe^{-x}-x^2e^{-x}\\&f^{''}(x)=e^{-x}(x^2-4x+2)\end{align}$$
 per ogni $x\in[0,1]$ si ha che:
 $$\left|f^{''}(x)\right|=\left|e^{-x}(x^2-4x+2)\right|\leq 2$$
+Questo lo possiamo verificare guardando il grafico di $|f^{''}(x)|$, che è il seguente
+
+![[f_2(x).png|center|500]]
+
+
 Quindi, possiamo scrivere $$\left|\int_0^1x^2e^{-x}dx-I_n\right|\leq\frac{2}{12n^2}$$
-E infine $$\frac{2}{12n^2}\leq\varepsilon\iff n\geq\sqrt{\frac{2}{12\varepsilon}}=n_\varepsilon$$
-Quindi, dato che $\varepsilon=1.62*10^{-14},n=n_\varepsilon\geq3.2075\cdot10^6$
+E infine $$\frac{2}{12n^2}\leq\varepsilon\iff n\geq\sqrt{\frac{2}{12\varepsilon}}=n(\varepsilon)$$
+Quindi, dato che $\varepsilon=1.62\cdot10^{-14},n=n_\varepsilon\geq3.2075\cdot10^6$
 ### Codice
 
 ```matlab
@@ -1045,25 +1110,42 @@ x_exact = A \ b; % Soluzione esatta
 **Punto (b)**
 
 La matrice $S$ di dimensione $3\times12$ contenente le prime 10 iterazioni del metodo di Jacobi è la seguente : 
-$$\begin{bmatrix}0 & 2.6000 & 1.2095 & 0.8971 & 0.9536 & 1.0038 & 1.0055 & 1.0006 & 0.9995 & 0.9999 & 1.0000 & 1.0000 \\
-0 & 2.2857 & 2.3238 & 2.0163 & 1.9699 & 1.9926 & 2.0020 & 2.0011 & 2.0000 & 1.9999 & 2.0000 & 2.0000 \\
-0 & 2.3333 & 3.0952 & 3.1079 & 3.0054 & 2.9900 & 2.9975 & 3.0007 & 3.0004 & 3.0000 & 3.0000 & 3.0000\end{bmatrix}$$
+
+
+Abbiamo diviso la matrice $S$ in due matrici, ognuna contenente $6$ colonne per maggior chiarezza.
+$$
+S_1=\begin{bmatrix}
+0.0000000 & 2.6000000 & 1.2095238 & 0.8971429 & 0.9535601 & 1.0038458 \\
+0.0000000 & 2.2857143 & 2.3238095 & 2.0163265 & 1.9698866 & 1.9925883  \\
+0.0000000 & 2.3333333 & 3.0952381 & 3.1079365 & 3.0054422 & 2.9899622
+\end{bmatrix}
+$$
+
+$$S_2=\begin{bmatrix}1.0054975 & 1.0005916 & 0.9995079 & 0.9998502 & 1.0000262 & 1.0000000\\2.0019834 & 2.0011383 & 1.9999901 & 1.9998755 & 1.9999791 & 2.0000000\\ 2.9975294 & 3.0006611 & 3.0003794 & 2.9999967 & 2.9999585 & 3.0000000\end{bmatrix}$$
+
 **Punto (c)**
 
 Tabella riportante le soluzioni fornite dal metodo di Jacobi, per ogni $\varepsilon$ richiesto
 
-| $\varepsilon$ | $K_{\varepsilon}$ | Soluzione approssimata $x_{\varepsilon}$                                    | Soluzione esatta x                      | Norma dell'errore $\|\|x − x_\varepsilon\|\|_\infty$ |
-| ------------- | ----------------- | --------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------- |
-| $10^{-1}$     | 3                 | $x_{\varepsilon}=\begin{bmatrix} 0.8971 \\ 2.0163 \\ 3.1079 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.1079                                               |
-| $10^{-2}$     | 5                 | $x_{\varepsilon}=\begin{bmatrix} 1.0038 \\ 1.9926 \\ 2.9900 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0100                                               |
-| $10^{-3}$     | 7                 | $x_{\varepsilon}=\begin{bmatrix} 1.0006 \\ 2.0011 \\ 3.0007 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0011                                               |
-| $10^{-4}$     | 9                 | $x_{\varepsilon}=\begin{bmatrix} 0.9999 \\ 1.9999 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0001                                               |
-| $10^{-5}$     | 11                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.00002                                              |
-| $10^{-6}$     | 13                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.000002                                             |
-| $10^{-7}$     | 15                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0000002                                            |
-| $10^{-8}$     | 17                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.00000001                                           |
-| $10^{-9}$     | 19                | $x_{\varepsilon}=\begin{bmatrix} 1.0000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$  | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.000000002                                          |
-| $10^{-10}$    | 21                | $x_{\varepsilon}=\begin{bmatrix} 1.0.000 \\ 2.0000 \\ 3.0000 \end{bmatrix}$ | $x=\begin{bmatrix}1\\2\\3\end{bmatrix}$ | 0.0000000003                                         |
+$$
+\begin{array}{|c|c|c|c|c|}
+\hline
+\varepsilon & K_{\varepsilon} & \text{Soluzione approssimata } x_{\varepsilon} & \text{Soluzione esatta } x & \|\ x-x_\varepsilon\|_{\infty} \\
+\hline
+10^{-1} & 3 & x_{\varepsilon} = \begin{bmatrix} 0.8971429 \\ 2.0163265 \\ 3.1079365 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 1.079365 \cdot 10^{-1} \\
+10^{-2} & 5 & x_{\varepsilon} = \begin{bmatrix} 1.0038458 \\ 1.9925883 \\ 2.9899622 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 1.003779 \cdot 10^{-2} \\
+10^{-3} & 7 & x_{\varepsilon} = \begin{bmatrix} 1.0005916 \\ 2.0011383 \\ 3.0006611 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 1.138291 \cdot 10^{-3} \\
+10^{-4} & 9 & x_{\varepsilon} = \begin{bmatrix} 0.9998502 \\ 1.9998755 \\ 2.9999967 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 1.497845 \cdot 10^{-4} \\
+10^{-5} & 11 & x_{\varepsilon} = \begin{bmatrix} 1.0000208 \\ 2.0000097 \\ 2.9999930 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 2.078563 \cdot 10^{-5} \\
+10^{-6} & 13 & x_{\varepsilon} = \begin{bmatrix} 0.9999979 \\ 1.9999997 \\ 3.0000013 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 2.083214 \cdot 10^{-6} \\
+10^{-7} & 15 & x_{\varepsilon} = \begin{bmatrix} 1.0000001 \\ 2.0000000 \\ 2.9999998 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 1.621496 \cdot 10^{-7} \\
+10^{-8} & 17 & x_{\varepsilon} = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 1.450418 \cdot 10^{-8} \\
+10^{-9} & 19 & x_{\varepsilon} = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 1.823506 \cdot 10^{-9} \\
+10^{-10} & 21 & x_{\varepsilon} = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & x = \begin{bmatrix} 1.0000000 \\ 2.0000000 \\ 3.0000000 \end{bmatrix} & 2.567879 \cdot 10^{-10} \\
+\hline
+\end{array}
+$$
+
 ### Codice
 
 ```matlab title="Problema 2.4"
@@ -1174,7 +1256,6 @@ La somma degli elementi prima della diagonale è:$$(i-1) \cdot \left(\frac{1}{2}
 Gli elementi dopo la diagonale formano una serie geometrica:$$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k}.$$
 
 Usando la formula per la somma di una serie geometrica:$$\sum_{k=0}^m r^k = \frac{1 - r^{m+1}}{1 - r},$$
-
 qui $r = \frac{1}{2}$, $m = n-i-1$, e il primo termine della serie è $\left(\frac{1}{2}\right)^i$. 
 Quindi otteniamo che:
 $$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k} = \left(\frac{1}{2}\right)^i \cdot \frac{1 - \left(\frac{1}{2}\right)^{n-i}}{1 - \frac{1}{2}} = 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
@@ -1182,14 +1263,12 @@ $$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k} = \left(\frac{1}{2}\right)^i
 
 Combinando le due parti, otteniamo:$$\sum_{j \neq i} |A_{ij}| = (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
 Di conseguenza, la condizione di dominanza diagonale per righe $|A_{ii}| > \sum_{j \neq i} |A_{ij}|$ diventa:$$3 > (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
-> Verifica
+**Verifica**
 
-Per $i = 1$:$$3 > 0 + 2 \cdot \left(\frac{1}{2}\right)^1 \cdot \left(1 - \left(\frac{1}{2}\right)^{n-1}\right).
-$$
+Per $i = 1$ : $$3 > 0 + 2 \cdot \left(\frac{1}{2}\right)^1 \cdot \left(1 - \left(\frac{1}{2}\right)^{n-1}\right)$$
 La disuguaglianza è soddisfatta poiché il lato destro è minore di $1$.
 
-Per $i = n$:$$3 > (n-1) \cdot \left(\frac{1}{2}\right)^{n-1}.$$
-
+Per $i = n$: $$3 > (n-1) \cdot \left(\frac{1}{2}\right)^{n-1}.$$
 Anche qui la disuguaglianza è verificata perché $\left(\frac{1}{2}\right)^{n-1}$ decresce rapidamente.
 
 In generale, la disuguaglianza è verificata per ogni $i$, dimostrando che $A_n$ è diagonale dominante per righe.
@@ -1205,71 +1284,73 @@ Abbiamo dimostrato che $A_5$ rispetta sia la seconda che quarta condizione, quin
 **Punto (c)**
 
 Per $n=5$, il risultato del sistema $A_5x=b_5$ è : 
-$$x=\begin{bmatrix}0.5194\\
-    0.5940\\
-    0.6179\\
-    0.5940\\
-    0.5194\end{bmatrix}$$
-Per $n=10$, il risultato del sistema $A_{10}x=b_{10}$ è : 
-$$x=\begin{bmatrix}
-0.5798\\
-    0.6922\\
-    0.7661\\
-    0.8108\\
-    0.8318\\
-    0.8318\\
-    0.8108\\
-    0.7661\\
-    0.6922\\
-    0.5798\\
-\end{bmatrix}$$
-Per $n=20$, il risultato del sistema $A_{20}x=b_{20}$ è : 
-$$x=\begin{bmatrix}
-0.5927\\
-    0.7131\\
-    0.7977\\
-    0.8569\\
-    0.8983\\
-    0.9270\\
-    0.9465\\
-    0.9593\\
-    0.9671\\
-    0.9708\\
-    0.9708\\
-    0.9671\\
-    0.9593\\
-    0.9465\\
-    0.9270\\
-    0.8983\\
-    0.8569\\
-    0.7977\\
-    0.7131\\
-    0.5927\\
-\end{bmatrix}$$
+$$x=\begin{bmatrix}4.728395611573806\cdot10^{-1}\\
+     4.728395611573807\cdot10^{-1}\\
+     4.364672872221975\cdot10^{-1}\\
+     3.986401223296070\cdot10^{-1}\\
+     3.704330527472200\cdot10^{-1}\end{bmatrix}$$
 
+Per $n=10$, il risultato del sistema $A_{10}x=b_{10}$ è : 
+$$x = \begin{bmatrix}
+4.829209469162112 \cdot 10^{-1} \\
+4.829209469162111 \cdot 10^{-1} \\
+4.457731817688103 \cdot 10^{-1} \\
+4.071395060155133 \cdot 10^{-1} \\
+3.783310350848758 \cdot 10^{-1} \\
+3.595809878517137 \cdot 10^{-1} \\
+3.481971245527415 \cdot 10^{-1} \\
+3.415564320733823 \cdot 10^{-1} \\
+3.377789759887189 \cdot 10^{-1} \\
+3.356667963132605 \cdot 10^{-1}
+\end{bmatrix}$$
+del sistema $A_{20}x=b_{20}$ è : 
+$$
+x = \begin{bmatrix}
+4.832359353604220 \cdot 10^{-1} \\
+4.832359353604221 \cdot 10^{-1} \\
+4.460639403326973 \cdot 10^{-1} \\
+4.074050655038636 \cdot 10^{-1} \\
+3.785778040537910 \cdot 10^{-1} \\
+3.598155269758799 \cdot 10^{-1} \\
+3.484242384753038 \cdot 10^{-1} \\
+3.417792145594933 \cdot 10^{-1} \\
+3.379992946036253 \cdot 10^{-1} \\
+3.358857372447301 \cdot 10^{-1} \\
+3.347186246657436 \cdot 10^{-1} \\
+3.340803134057811 \cdot 10^{-1} \\
+3.337338945501267 \cdot 10^{-1} \\
+3.335470848650332 \cdot 10^{-1} \\
+3.334468884268689 \cdot 10^{-1} \\
+3.333933967162749 \cdot 10^{-1} \\
+3.333649547349902 \cdot 10^{-1} \\
+3.333498858470857 \cdot 10^{-1} \\
+3.333419274986317 \cdot 10^{-1} \\
+3.333377363838597 \cdot 10^{-1}
+\end{bmatrix}
+$$
 **Punto (d)**
 
-| n   | Metodo       | Approssimazione x                                                                                                                                                                                                                                         |
-| --- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 5   | Jacobi       | $x_J=\begin{bmatrix}0.519403\\ 0.59403\\ 0.61791\\ 0.59403\\ 0.519403\end{bmatrix}$                                                                                                                                                                       |
-| 5   | Gauss-Seidel | $x_G=\begin{bmatrix}0.519403\\ 0.59403\\ 0.61791\\ 0.59403\\ 0.519403\end{bmatrix}$                                                                                                                                                                       |
-| 10  | Jacobi       | $x_J=\begin{bmatrix}0.579817\\ 0.692202\\ 0.766113\\ 0.810788\\ 0.831812\\ 0.831812\\ 0.810788\\ 0.766113\\ 0.692202\\ 0.579817\end{bmatrix}$                                                                                                             |
-| 10  | Gauss-Seidel | $x_G=\begin{bmatrix}0.579817\\ 0.692202\\ 0.766113\\ 0.810788\\ 0.831812\\ 0.831812\\ 0.810788\\ 0.766113\\ 0.692202\\ 0.579817\end{bmatrix}$                                                                                                             |
-| 20  | Jacobi       | $x_J=\begin{bmatrix}0.592673\\ 0.713094\\ 0.797652\\ 0.856916\\ 0.898295\\ 0.926961\\ 0.946496\\ 0.959344\\ 0.96711\\ 0.970764\\ 0.970764\\ 0.96711\\ 0.959344\\ 0.946496\\ 0.926961\\ 0.898295\\ 0.856916\\ 0.797652\\ 0.713094\\ 0.592673\end{bmatrix}$ |
-| 20  | Gauss-Seidel | $x_G=\begin{bmatrix}0.592673\\ 0.713094\\ 0.797652\\ 0.856916\\ 0.898295\\ 0.926961\\ 0.946496\\ 0.959344\\ 0.96711\\ 0.970764\\ 0.970764\\ 0.96711\\ 0.959344\\ 0.946496\\ 0.926961\\ 0.898295\\ 0.856916\\ 0.797652\\ 0.713094\\ 0.592673\end{bmatrix}$ |
+| n   | Metodo       | Soluzione $x_J/x_G$                                                                                                                                                                                                                                                                                                        |
+| --- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5   | Jacobi       | $x_J = \begin{bmatrix} 4.7284e-01 \\ 4.7284e-01 \\ 4.3647e-01 \\ 3.9864e-01 \\ 3.7043e-01 \end{bmatrix}$                                                                                                                                                                                                                   |
+| 5   | Gauss-Seidel | $x_G = \begin{bmatrix} 4.7284e-01 \\ 4.7284e-01 \\ 4.3647e-01 \\ 3.9864e-01 \\ 3.7043e-01 \end{bmatrix}$                                                                                                                                                                                                                   |
+| 10  | Jacobi       | $x_J = \begin{bmatrix} 4.8292e-01 \\ 4.8292e-01 \\ 4.4577e-01 \\ 4.0714e-01 \\ 3.7833e-01 \\ 3.5958e-01 \\ 3.4820e-01 \\ 3.4156e-01 \\ 3.3778e-01 \\ 3.3567e-01 \end{bmatrix}$                                                                                                                                             |
+| 10  | Gauss-Seidel | $x_G = \begin{bmatrix} 4.8292e-01 \\ 4.8292e-01 \\ 4.4577e-01 \\ 4.0714e-01 \\ 3.7833e-01 \\ 3.5958e-01 \\ 3.4820e-01 \\ 3.4156e-01 \\ 3.3778e-01 \\ 3.3567e-01 \end{bmatrix}$                                                                                                                                             |
+| 20  | Jacobi       | $x_J = \begin{bmatrix} 4.8324e-01 \\ 4.8324e-01 \\ 4.4606e-01 \\ 4.0741e-01 \\ 3.7858e-01 \\ 3.5982e-01 \\ 3.4842e-01 \\ 3.4178e-01 \\ 3.3800e-01 \\ 3.3589e-01 \\ 3.3472e-01 \\ 3.3408e-01 \\ 3.3373e-01 \\ 3.3355e-01 \\ 3.3345e-01 \\ 3.3339e-01 \\ 3.3336e-01 \\ 3.3335e-01 \\ 3.3334e-01 \\ 3.3334e-01 \end{bmatrix}$ |
+| 20  | Gauss-Seidel | $x_G = \begin{bmatrix} 4.8324e-01 \\ 4.8324e-01 \\ 4.4606e-01 \\ 4.0741e-01 \\ 3.7858e-01 \\ 3.5982e-01 \\ 3.4842e-01 \\ 3.4178e-01 \\ 3.3800e-01 \\ 3.3589e-01 \\ 3.3472e-01 \\ 3.3408e-01 \\ 3.3373e-01 \\ 3.3355e-01 \\ 3.3345e-01 \\ 3.3339e-01 \\ 3.3336e-01 \\ 3.3335e-01 \\ 3.3334e-01 \\ 3.3334e-01 \end{bmatrix}$ |
 
 **Punto (e)**
 
 La tabella è la seguente
 
-| n   | Metodo       | Iterazioni | $\|x - x_\text{approx}\|\|_\infty$ |
-| --- | ------------ | ---------- | ---------------------------------- |
-| 5   | Jacobi       | 12         | $1.234567 \times 10^{-7}$          |
-| 5   | Gauss-Seidel | 8          | $5.678901 \times 10^{-8}$          |
-| 10  | Jacobi       | 45         | $1.345678 \times 10^{-7}$          |
-| 10  | Gauss-Seidel | 29         | $4.567890 \times 10^{-8}$          |
-| 20  | Jacobi       | 150        | $1.456789 \times 10^{-7}$          |
-| 20  | Gauss-Seidel | 100        | $4.678901 \times 10^{-8}$          |
+| n   | Metodo       | Iterazioni | Norma errore $\|x - x_J/x_G\|_\infty$ |
+| --- | ------------ | ---------- | ------------------------------------- |
+| 5   | Jacobi       | 12         | $4.051786 \times 10^{-8}$             |
+| 5   | Gauss-Seidel | 7          | $6.545649 \times 10^{-8}$             |
+| 10  | Jacobi       | 12         | $4.884032 \times 10^{-8}$             |
+| 10  | Gauss-Seidel | 7          | $9.323449 \times 10^{-8}$             |
+| 20  | Jacobi       | 12         | $4.897032 \times 10^{-8}$             |
+| 20  | Gauss-Seidel | 7          | $9.398408 \times 10^{-8}$             |
 
 ### Codice
 
@@ -1279,74 +1360,60 @@ n_values = [5, 10, 20];
 epsilon = 1e-7;
 N_max = 500;
 
-% Funzione per generare la matrice An e il vettore bn
-generate_system = @(n) deal(...
-    3*eye(n) - tril(toeplitz((1/2).^(0:n-1)), -1) - triu(toeplitz((1/2).^(0:n-1)), 1), ...
-    ones(n, 1));
+% Inizializza output per le tabelle
+tabella1 = "";
+tabella2 = "";
 
-% Risultati tabellati
-fprintf(' n | Metodo | Iterazioni | x_J | x_G |Errore infinito ||x - x_approx||_inf\n');
-fprintf('------------------------------------------------------------\n');
-
+% Genera i risultati per entrambe le tabelle
 for n = n_values
     % Genera sistema
     [A, b] = generate_system(n);
-
+    
     % Soluzione esatta
     x_exact = A \ b;
-    %disp(x_exact);
-
 
     % Jacobi
-    [x_J, K_J, ~] = jacobi_method(A, b, zeros(n, 1), epsilon, N_max);
+    [x_J, K_J, ~] = JacobiIterativo(A, b, zeros(n, 1), epsilon, N_max);
     error_J = norm(x_exact - x_J, inf);
-
+    
     % Gauss-Seidel
-    [x_G, K_G, ~] = metodo_gauss_seidel(A, b, zeros(n, 1), epsilon, N_max);
+    [x_G, K_G, ~] = GaussSeidelIt(A, b, zeros(n, 1), epsilon, N_max);
     error_G = norm(x_exact - x_G, inf);
-
-    % Stampa risultati
-    fprintf('%2d | Jacobi      | %3d        | %3d |     %e\n', n, K_J,x_J, error_J);
-    fprintf('%2d | Gauss-Seidel| %3d        | %3d |    %e\n', n, K_G,x_G, error_G);
+    
+    % Aggiorna Tabella 1
+    tabella1 = tabella1 + sprintf('%2d | Jacobi         | [%s]\n', n, num2str(x_J', '%.4e '));
+    tabella1 = tabella1 + sprintf('%2d | Gauss-Seidel   | [%s]\n', n, num2str(x_G', '%.4e '));
+    
+    % Aggiorna Tabella 2
+    tabella2 = tabella2 + sprintf('%2d | Jacobi         | %3d        | %e\n', n, K_J, error_J);
+    tabella2 = tabella2 + sprintf('%2d | Gauss-Seidel   | %3d        | %e\n', n, K_G, error_G);
 end
-```
 
-Parte di codice specifica per il **punto (e)**
+% Stampa Tabella 1
+fprintf('Tabella 1: Soluzioni approssimate (x_J e x_G)\n');
+fprintf(' n | Metodo         | Soluzione x_J/x_G\n');
+fprintf('-------------------------------------------\n');
+fprintf('%s', tabella1);
 
-```matlab title="Problema 2.5 punto (e)"
-% Parametri generali
-N_max = 1000; % Numero massimo di iterazioni
-epsilon = 1e-7; % Soglia di precisione
+% Stampa Tabella 2
+fprintf('\nTabella 2: Iterazioni e norma dell errore\n');
+fprintf(' n | Metodo         | Iterazioni | Norma errore ||x - x_J/x_G||_inf\n');
+fprintf('-------------------------------------------------------------------\n');
+fprintf('%s', tabella2);
 
-% Dimensioni del sistema
-ns = [5, 10, 20]; % Valori di n
+function [A, b] = generate_system(n)
+    A = zeros(n);
+    b = ones(n, 1);  % Create a column vector of ones
 
-generate_system = @(n) deal(...
-    3*eye(n) - tril(toeplitz((1/2).^(0:n-1)), -1) - triu(toeplitz((1/2).^(0:n-1)), 1), ...
-    ones(n, 1));
-
-
-fprintf('Risultati per le approssimazioni con Jacobi e Gauss-Seidel:\n');
-fprintf('| n   | Metodo        | Approssimazione x (trasposta)                  |\n');
-fprintf('|-----|---------------|-----------------------------------------------|\n');
-
-for n = ns
-    % Definizione della matrice An
-    [A, b] = generate_system(n);
-    % Definizione del vettore b
-    % Vettore di innesco iniziale
-    x0 = zeros(n, 1);
-
-    % Risoluzione con il metodo di Jacobi
-    [x_jacobi, ~, ~] = jacobi_method(A, b, x0, epsilon, N_max);
-
-    % Risoluzione con il metodo di Gauss-Seidel
-    [x_gauss, ~, ~] = metodo_gauss_seidel(A, b, x0, epsilon, N_max);
-
-    % Stampa risultati per Jacobi
-    fprintf('| %-3d | Jacobi        | %-45s |\n', n, mat2str(x_jacobi', 6));
-    % Stampa risultati per Gauss-Seidel
-    fprintf('| %-3d | Gauss-Seidel  | %-45s |\n', n, mat2str(x_gauss', 6));
+    for i = 1:n
+        for j = 1:n
+            if i == j
+                A(i,j) = 3;
+            else
+                A(i,j) = -0.5^(max(i,j)-1);
+            end
+        end
+    end
 end
 ```
 
@@ -1402,7 +1469,8 @@ Usiamo il teorema di Bolzano e la monotonicità derivata dall'analisi di $f'(x)$
 1. $f'(x) > 0$ per ogni $x \in [0, 1]$ (la funzione è strettamente crescente su $[0,1]$).
 2. Poiché $f(x)$ è crescente e cambia segno in $[0,1]$, per il teorema di Bolzano esiste un unico zero $\zeta \in (0, 1)$.
 
-**Punto (d): Tabella per $\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$**
+**Punto (d): Tabella per**
+$\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$
 
 Abbiamo usato il **metodo di bisezione** per calcolare:
 
@@ -1483,8 +1551,8 @@ Usiamo $f'(x) = -\sin(x) - 1$:
 1. $f'(x) < 0$ per ogni $x \in [0, \pi]$ (la funzione è strettamente decrescente su $[0, \pi]$).
 2. Poiché $f(x)$ è decrescente e cambia segno in $[0, \pi]$, per il teorema di Bolzano esiste un unico zero $\zeta \in (0, \pi)$.
 
-**Punto (d): Tabella per $$\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$$**
-
+**Punto (d): Tabella per** 
+$$\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$$
 Abbiamo usato il **metodo di bisezione** per calcolare:
 
 - L'approssimazione $\xi_\varepsilon$,
@@ -1529,112 +1597,58 @@ disp(results);
 ### Codice
 
 ```matlab
-clc;
-clear;
-close all;
+% Funzioni e intervalli definiti dal problema
+f1 = @(x) x.^3 + 3*x - 1 - exp(-x.^2); % Prima funzione
+a1 = 0; b1 = 1; % Intervallo [a, b] per f1
 
-% Caso 1: f(x) = x^3 + 3x - 1 - exp(-x^2), [a, b] = [0, 1]
-disp('Caso 1: f(x) = x^3 + 3x - 1 - exp(-x^2), [a, b] = [0, 1]');
-a1 = 0; b1 = 1;
-f1 = @(x) x.^3 + 3.*x - 1 - exp(-x.^2);
+f2 = @(x) cos(x) - x; % Seconda funzione
+a2 = 0; b2 = pi; % Intervallo [a, b] per f2
 
-% Punto (a): Verifica f(a)f(b) < 0
-fa1 = f1(a1);
-fb1 = f1(b1);
-if fa1 * fb1 < 0
-    disp('Verifica (a): f(a)f(b) < 0 soddisfatta per il Caso 1.');
-else
-    error('Verifica (a) fallita per il Caso 1.');
-end
+% Lista di epsilon
+epsilons = [1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9, 1e-10];
 
-% Punto (b): Grafico
-figure;
-x1 = linspace(a1, b1, 1000);
-plot(x1, f1(x1), 'b-', 'LineWidth', 2);
-grid on;
-xlabel('x');
-ylabel('f(x)');
-title('Grafico di f(x) = x^3 + 3x - 1 - exp(-x^2)');
-line([a1 b1], [0 0], 'Color', 'k', 'LineStyle', '--'); % Asse x
-disp('Grafico tracciato per il Caso 1.');
+% Risoluzione per il primo caso
+solve_case(f1, a1, b1, epsilons, 'f1(x) = x^3 + 3x - 1 - e^{-x^2}');
 
-% Punto (c): Dimostrazione analitica (commentata)
-% f'(x) = 3x^2 + 3 + 2x * exp(-x^2) > 0 per ogni x in [0, 1]
-% f(x) è crescente e cambia segno -> unico zero nell'intervallo.
+% Risoluzione per il secondo caso
+solve_case(f2, a2, b2, epsilons, 'f2(x) = cos(x) - x');
 
-% Punto (d): Metodo di bisezione e tabella dei risultati
-disp('Costruzione tabella per il Caso 1...');
-epsilon_values = 10.^(-1:-1:-10);
-results1 = zeros(length(epsilon_values), 3);
-
-for i = 1:length(epsilon_values)
-    epsilon = epsilon_values(i);
-    [xi, K, fx] = bisezione(a1, b1, f1, epsilon);
-    results1(i, :) = [xi, K, fx];
-end
-
-% Mostra la tabella dei risultati
-disp('Tabella dei risultati - Caso 1:');
-disp('epsilon        xi_eps         K_eps        f(xi_eps)');
-disp(results1);
-
-% Caso 2: f(x) = cos(x) - x, [a, b] = [0, pi]
-disp('Caso 2: f(x) = cos(x) - x, [a, b] = [0, pi]');
-a2 = 0; b2 = pi;
-f2 = @(x) cos(x) - x;
-
-% Punto (a): Verifica f(a)f(b) < 0
-fa2 = f2(a2);
-fb2 = f2(b2);
-if fa2 * fb2 < 0
-    disp('Verifica (a): f(a)f(b) < 0 soddisfatta per il Caso 2.');
-else
-    error('Verifica (a) fallita per il Caso 2.');
-end
-
-% Punto (b): Grafico
-figure;
-x2 = linspace(a2, b2, 1000);
-plot(x2, f2(x2), 'r-', 'LineWidth', 2);
-grid on;
-xlabel('x');
-ylabel('f(x)');
-title('Grafico di f(x) = cos(x) - x');
-line([a2 b2], [0 0], 'Color', 'k', 'LineStyle', '--'); % Asse x
-disp('Grafico tracciato per il Caso 2.');
-
-% Punto (d): Metodo di bisezione e tabella dei risultati
-disp('Costruzione tabella per il Caso 2...');
-results2 = zeros(length(epsilon_values), 3);
-
-for i = 1:length(epsilon_values)
-    epsilon = epsilon_values(i);
-    [xi, K, fx] = bisezione(a2, b2, f2, epsilon);
-    results2(i, :) = [xi, K, fx];
-end
-
-% Mostra la tabella dei risultati
-disp('Tabella dei risultati - Caso 2:');
-disp('epsilon        xi_eps         K_eps        f(xi_eps)');
-disp(results2);
-
-% Funzione Metodo di Bisezione
-function [xi, K, fx] = bisezione(a, b, f, epsilon)
-    K = 0; % Iterazioni
-    while (b - a) / 2 > epsilon
-        xi = (a + b) / 2;
-        if f(xi) == 0
-            break; % Trovato zero esatto
-        elseif f(a) * f(xi) < 0
-            b = xi;
-        else
-            a = xi;
-        end
-        K = K + 1;
+% Funzione per risolvere ogni caso
+function solve_case(f, a, b, epsilons, case_name)
+    fprintf('\nSoluzione per %s:\n', case_name);
+    
+    % (a) Verifica che f(a)*f(b) < 0
+    fa = f(a);
+    fb = f(b);
+    fprintf('(a) f(a)*f(b) = %.3f (segno opposto: %s)\n', fa * fb, ...
+        string(fa * fb < 0));
+    if fa * fb >= 0
+        error('f(a) e f(b) devono avere segni opposti');
     end
-    xi = (a + b) / 2; % Approssimazione finale
-    fx = f(xi); % Valore della funzione in xi
+    
+    % (b) Tracciamento del grafico
+    fprintf('(b) Tracciamento del grafico di f(x) su [%f, %f]\n', a, b);
+    fplot(f, [a b]);
+    hold on;
+    grid on;
+    plot(a, f(a), 'ro', 'DisplayName', 'f(a)');
+    plot(b, f(b), 'bo', 'DisplayName', 'f(b)');
+    xlabel('x'); ylabel('f(x)');
+    title(['Grafico di f(x) - Caso ', case_name]);
+    legend show;
+
+    % (c) Dimostrazione analitica: fatta in modo separato (se necessario)
+
+    % (d) Tabella dei risultati per vari epsilon
+    fprintf('(d) Calcolo del metodo di bisezione per diverse tolleranze epsilon:\n');
+    fprintf('epsilon       xi               K       f(xi)\n');
+    fprintf('-------------------------------------------------\n');
+    for epsilon = epsilons
+        [xi, K, fx] = bisezione(a, b, f, epsilon);
+        fprintf('%e   %.15f   %d   %.15e\n', epsilon, xi, K, fx);
+    end
 end
+
 ```
 
 #### Descrizione del Codice
