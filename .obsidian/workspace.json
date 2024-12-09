@@ -182,7 +182,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -200,22 +200,22 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "5bd8dce3225cdfb8",
+  "active": "741ecefbabe874b0",
   "lastOpenFiles": [
+    "Problema4/prob4_v2.m",
+    "Problema4/untitled.m",
+    "Es5/gauss_seidelIterativo.m",
+    "Es5/untitled.m",
+    "Problema5/probema5.m",
+    "Problema5/gaussSidel.m",
     "Es4/jacobiIterativo.m",
     "Problema2/trapezi2.m",
     "Problema2/untitled.m",
     "Problema5/problema5.m",
     "Problema5/untitled.m",
-    "Problema5",
-    "New Folder",
-    "Es1/interpolaRuffiniHornerMatrixEs1.m",
-    "Es1/untitled.m",
     "Problema6/caso2.png",
     "0_Relazione/Report Crediti D Salvucci-Noce.md",
     "Problema6/caso1.png",
-    "Es4/jacobi2.m",
-    "Es4/untitled.m",
     "0_Relazione/img/Pasted image 20241111102714.png",
     "0_Relazione/img/grafico_es1.jpg",
     "Delucidazione.md",
