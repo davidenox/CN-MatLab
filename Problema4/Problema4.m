@@ -36,7 +36,7 @@ N_max = 1000; % Numero massimo di iterazioni
 results = []; % Per conservare i risultati
 
 for epsilon = epsilons
-    [x_approx, K, r_norm] = jacobiMethod(A, b, x0, epsilon, N_max);
+    [x_approx, K, r_norm] = jacobiIterativo(A, b, x0, epsilon, N_max);
     error_norm = norm(x_exact - x_approx, inf); % Norma dell'errore infinito
     results = [results; struct('epsilon', epsilon, 'K', K, 'x_approx', x_approx', ...
                                'error_norm', error_norm)];

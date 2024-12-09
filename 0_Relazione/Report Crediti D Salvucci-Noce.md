@@ -250,6 +250,7 @@ _**Esercizio d’implementazione del metodo di Jacobi**_
 
 ### Codice Esercizo 4
 
+Questo codice implementa il metodo di Jacobi componente per componente:
 
 ```matlab title:"Esercizio 1.4"
 function [x, K, r_norm] = jacobi_method(A, b, x0, epsilon, N_max)
@@ -306,6 +307,66 @@ function [x, K, r_norm] = jacobi_method(A, b, x0, epsilon, N_max)
     % x^(N_max), il relativo indice N_max e la norma del residuo ||r^(N_max)||_2
 end
 ```
+
+Questo codice implementa il metodo di Jacobi con il metodo iterativo:
+
+```matlab
+function [x, K, r_norm] = jacobiIterativo(A, b, x0, epsilon, N_max)
+    % Metodo di Jacobi - Versione Iterativa
+    % Input:
+    % A: matrice del sistema lineare Ax = b
+    % b: vettore dei termini noti
+    % x0: vettore di innesco (stima iniziale di x)
+    % epsilon: soglia di precisione
+    % N_max: numero massimo di iterazioni consentite
+    
+    % Output:
+    % x: vettore approssimato x^(K) dopo K iterazioni o x^(N_max)
+    % K: numero di iterazioni effettivamente eseguite
+    % r_norm: norma ||r^(K)||_2 del residuo alla fine del processo
+    
+    % Separazione di D, L e U dalla matrice A
+    D = diag(diag(A));           % Matrice diagonale
+    L = tril(A, -1);             % Parte triangolare inferiore
+    U = triu(A, 1);              % Parte triangolare superiore
+    
+    % Pre-calcolo della matrice iterativa M = D^(-1) * (L + U)
+    D_inv = inv(D);              % Inversa della diagonale
+    M = -D_inv * (L + U);        % Matrice di iterazione
+    
+    % Pre-calcolo del termine costante c = D^(-1) * b
+    c = D_inv * b;
+    
+    % Inizializza il vettore soluzione con la stima iniziale
+    x = x0;
+    
+    % Itera il metodo di Jacobi
+    for K = 1:N_max
+        % Aggiornamento vettoriale: x^(k+1) = M * x^(k) + c
+        x_new = M * x + c;
+        
+        % Calcola il residuo r^(K) = b - A * x^(K)
+        r = b - A * x_new;
+        
+        % Calcola la norma del residuo ||r^(K)||_2
+        r_norm = norm(r, 2);
+        
+        % Condizione di arresto: ||r^(K)||_2 <= epsilon * ||b||_2
+        if r_norm <= epsilon * norm(b, 2)
+            x = x_new;
+            return;  % Arresta l'algoritmo e restituisce il risultato
+        end
+        
+        % Aggiorna la soluzione corrente x^(K)
+        x = x_new;
+    end
+    
+    % Se si raggiunge N_max iterazioni senza soddisfare il criterio, si restituisce
+    % x^(N_max), il relativo indice N_max e la norma del residuo ||r^(N_max)||_2
+end
+
+```
+
 ### Spiegazione del codice
 
 1. **Input:**
@@ -321,6 +382,7 @@ end
 3. **Procedura:**
     - Il metodo di Jacobi viene applicato iterativamente fino a quando il residuo $||r^{(K)}||_2$​ diventa minore o uguale a $\epsilon\cdot ||b||_{2}$​, oppure si raggiunge il numero massimo di iterazioni $N_{\text{max}}$.
     - Se nessuna delle iterazioni soddisfa la condizione di arresto, il programma restituisce $x^{(N_{\text{max}})}$.
+
 ## Esercizio 5
 
 L'esercizio chiede di creare una function MATLAB per implementare il **metodo di Gauss-Sidel**.
@@ -773,7 +835,7 @@ Consideriamo la funzione $f(x)=x^2e^{−x}$ e indichiamo con $I_n$ la formula de
 **(b)** Calcolare $I_5$ , $I_{10}$ , $I_{20}$ , $I_{40}$ .
 **(c)** Calcolare $p(0)$, dove $p(x)$ è il polinomio d’interpolazione dei dati $(h^2_0 , I_5 ), (h^2_1 , I_{10} ), (h^2_2 , I_{20} ), (h^2_3 , I_{40} )$ e $h_0 , h_1 , h_2 , h_3$ sono i passi di discretizzazione delle formule dei trapezi  $I_5$ , $I_{10}$ , $I_{20}$ , $I_{40}$ .
 **(d)** Riportare in una tabella:
-- i valori  $I_5$ , $I_{10}$ , $I_{20}$ , $I_{40}, p(0)$ ;
+- i valori  $I_5$ , $I_{10}$ , $I_{20}$ , $I_{40}, p(0)$;
 - gli errori $|I_5 − I|$, $|I_{10} − I|$, $|I_{20} − I|$, $|I_{40} − I|$, $|p(0) − I|$.
 
 **(e)** Posto $\varepsilon = |p(0) − I|$, determinare un $n$ in modo tale che la formula dei trapezi $I_n$ fornisca un’approssimazione di $I$ con errore $|I_n − I| ≤ \varepsilon$. Calcolare successivamente $I_n$ e verificare che effettivamente $|I_n − I|\le\varepsilon$.

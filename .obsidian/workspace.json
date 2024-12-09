@@ -182,7 +182,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -200,8 +200,9 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "741ecefbabe874b0",
+  "active": "5bd8dce3225cdfb8",
   "lastOpenFiles": [
+    "Es4/jacobiIterativo.m",
     "Problema2/trapezi2.m",
     "Problema2/untitled.m",
     "Problema5/problema5.m",
@@ -215,7 +216,6 @@
     "Problema6/caso1.png",
     "Es4/jacobi2.m",
     "Es4/untitled.m",
-    "0_Relazione/Report Crediti D Salvucci-Noce.pdf",
     "0_Relazione/img/Pasted image 20241111102714.png",
     "0_Relazione/img/grafico_es1.jpg",
     "Delucidazione.md",
