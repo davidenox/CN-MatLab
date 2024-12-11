@@ -17,6 +17,7 @@ _**Esercizio d’implementazione dell’algoritmo di valutazione del polinomio d
 
 Questo codice genera un vettore di coefficienti per le differenze divise:
 
+
 ```matlab title:"Esercizio 1.1"
 function p_t = interpola_ruffini_horner(x, y, t)
     % Input:
@@ -69,7 +70,6 @@ end
 ```
 
 Questo codice genera la **matrice** delle differenze divise:
-
 ```matlab
 function p_t = interpola_ruffini_horner(x, y, t)
     % Input:
@@ -136,9 +136,6 @@ end
 2) **Calcolo delle differenze divise (`differenze_divise`)**:
     - Costruisce la tabella delle differenze divise e restituisce i coefficienti del polinomio interpolante.
     - L'algoritmo funziona partendo dai valori `y` e iterando per costruire le differenze successive.
-	    - Nel secondo codice:
-	- Si crea una matrice$n \times n$ di zeri e si copia il vettore $y$ nella prima colonna (differenze divise di ordine $0$).
-	- Per ogni ordine successivo ($j = 2, \dots, n$) si calcolano le differenze divise di ordine $j-1$ usando: $$f[x_i, \dots, x_{i+j-1}] = \frac{f[x_{i+1}, \dots, x_{i+j-1}] - f[x_i, \dots, x_{i+j-2}]}{x_{i+j-1} - x_i}.$$
 3) **Valutazione con lo schema di Horner (`horner_eval`)**:
     - Prende i coefficienti del polinomio e valuta il polinomio in ciascun punto di `t` usando lo schema di Horner.
     - Questo schema permette di valutare il polinomio in modo molto efficiente, riducendo il numero di operazioni necessarie.
@@ -383,7 +380,7 @@ end
     - `K`: Il numero di iterazioni effettivamente eseguite.
     - `r_norm`: La norma $||r^{(K)}||_2$​ del residuo $r^{(K)}=b-A\cdot x^{(K)}$.
 3. **Procedura:**
-    - Il metodo di Jacobi viene applicato iterativamente fino a quando il residuo $||r^{(K)}||_2$​ diventa minore o uguale a $\epsilon\cdot ||b||_{2}$​, oppure si raggiunge il numero massimo di iterazioni $N_{\text{max}}$.
+    - Il metodo di Jacobi viene applicato iterativamente fino a quando il residuo $||r^{(K)}||_2$​ diventa minore o uguale a $\varepsilon\cdot ||b||_{2}$​, oppure si raggiunge il numero massimo di iterazioni $N_{\text{max}}$.
     - Se nessuna delle iterazioni soddisfa la condizione di arresto, il programma restituisce $x^{(N_{\text{max}})}$.
 
 ## Esercizio 5
@@ -469,7 +466,7 @@ function [x, K, r_norm] = gauss_seidelIterativo(A, b, x0, epsilon, N_max)
     U = triu(A, 1);            % Parte triangolare superiore (esclusa diagonale)
     
     % Pre-calcolo della matrice iterativa G = E^(-1) * U
-    G = -E \ U;                % G = -inv(E) * U (calcolo efficace tramite backslash operator)
+    G = -E \ U;                % G = -inv(E) * U 
     
     % Pre-calcolo del termine costante c = E^(-1) * b
     c = E \ b;                 % c = inv(E) * b
@@ -516,7 +513,7 @@ end
     - `r_norm`: La norma $||r^{(K)}||_2$​ del residuo $r^{(K)}=b-A\cdot x^{(K)}$.
 3. **Procedura:**
     - Il metodo di Gauss-Seidel iterativo aggiorna ogni componente del vettore $x^{(K)}$ tenendo conto dei valori già aggiornati di $x_i$​, a differenza del metodo di Jacobi, dove si usano solo i valori dell'iterazione precedente.
-	- L'arresto del processo avviene quando la norma del residuo $||r^{(K)}||_2$​ è inferiore o uguale a $\epsilon\cdot ||b||_{2}$​ oppure si raggiunge il numero massimo di iterazioni $N_{\text{max}}$​.
+	- L'arresto del processo avviene quando la norma del residuo $||r^{(K)}||_2$​ è inferiore o uguale a $\varepsilon\cdot ||b||_{2}$​ oppure si raggiunge il numero massimo di iterazioni $N_{\text{max}}$​.
 ## Esercizio 6
 
 L'esercizio 6 chiede di creare una function MATLAB che implementi il **metodo della  bisezione**, ovvero il metodo che permette di trovare il punto $\xi$ di una funzione $f(x)$ definita su intervallo $[a,b]$ tale che $f(\xi)=0$
@@ -672,8 +669,8 @@ hold off;
 Si consideri la funzione $$f(x)=e^x.$$Per ogni intero $n\ge1$ indichiamo con $I_n$ la formula dei trapezi di ordine $n$ per approssimare $$I=\int_0^1 f(x)dx = 1.7182818284590...$$
 **(a)** Per ogni fissato $\varepsilon>0$ determinare un $n=n_{\varepsilon}$ tale che $|I-I_n|\le\varepsilon$.
 **(b)** Costruire una tabella che riporti vicino ad ogni $\varepsilon\in\{10^{-1},10^{-2},\dots,10^{-10}\}$:
-- il numero $n_{\varepsilon}$;
-- il valore $I_n$ per $n=n_{\varepsilon}$;
+- il numero $n(\varepsilon)$;
+- il valore $I_n$ per $n=n(\varepsilon)$;
 - il valore esatto $I$ ( per confrontarlo con $I_n$ );
 - l'errore $|I-I_n|$ ( che deve essere $\le\varepsilon$ ).
 
@@ -692,6 +689,8 @@ Quindi, possiamo scrivere $$\left|\int_0^1e^xdx-I_n\right|\leq\frac{e}{12n^2}$$
 E infine $$\frac{e}{12n^2}\leq\varepsilon\iff n\geq\sqrt{\frac{e}{12\varepsilon}}$$
 Dunque prenderemo $$n=n(\varepsilon)=\left\lceil\sqrt{\frac{e}{12\varepsilon}}\right\rceil$$
 **Punto (b)**
+
+Tabella per ogni $\varepsilon\in\{10^{-1},10^{-2},\dots,10^{-10}\}$ 
 
 $$
 \begin{array}{|c|c|c|c|}
@@ -733,7 +732,8 @@ Si nota che il valore $p(0)$ si avvicina di molto al valore esatto di $I$, infat
 
 ### Codice
 
-Questo è il codice che non utilizza il metodo dell'estrapolazione, ma utilizza al suo posto Ruffini-Horner e formula dei trapezi separatamente. Usando `tic;toc` di MatLab, vediamo che il codice impiega tempo $18.120515 \sec$.
+Questo è il codice che **NON** utilizza il metodo dell'estrapolazione, ma utilizza al suo posto Ruffini-Horner e formula dei trapezi separatamente; inoltre, per il **punto (b)** viene calcolato per ogni $\varepsilon$ il **miglior** $n$.
+Usando `tic;toc` di MatLab, vediamo che il codice impiega tempo $18.120515 \sec$.
 
 ```matlab title:"Problema 2.2"
 % Definizione della funzione
@@ -821,8 +821,9 @@ format("default");
 
 ### Codice v2
 
-Questo codice risolve il punto **(b)**. Usando `tic;toc` di MatLab notiamo una differenza significativa nel tempo di esecuzione del codice, che in questo caso è di soli $0.012795\sec$.
-```matlab
+Questo codice risolve il punto **(b)** andando a sostituire il valore di $\varepsilon$ in modo corretto, ovvero non calcolando ogni volta il **miglior** $n$
+Usando `tic;toc` di MatLab notiamo una differenza significativa nel tempo di esecuzione del codice, che in questo caso è di soli $0.012795\sec$.
+```matlab title="Problema 2 versione 2"
 % Definizione degli epsilon
 epsilon_values = 10.^(-1:-1:-10); % {10^-1, 10^-2, ..., 10^-10}
 
@@ -862,8 +863,9 @@ disp([epsilon_values(:), n_values(:), I_n_values(:), errors(:)]);
 
 ```
 
-Questo codice risolve il punto **(d)**
-```matlab
+Questo codice risolve il punto **(d)** utilizzando il metodo dell'estrapolazione.
+
+```matlab title="Punto (d)"
 % Vettore di n
 n_vect = [2, 4, 8, 16];
 
@@ -926,7 +928,7 @@ I_exact = int(f, 0, 1);
 
 **Output:**
 
-$$I=1.606027941427884e-01$$
+$$I=1.606027941427884\cdot10^{-1}$$
 
 **Punto (b)**
 
@@ -994,19 +996,20 @@ fprintf('\nInterpolazione:\n');
 fprintf('p(0) = %.10f, Errore = %.10f\n', p_0, error_p0);
 ```
 
-Il valore di $p(0)$ è quindi $$p(0)  = 1.606027941428046e-01$$
+Il valore di $p(0)$ è quindi $$p(0)  = 1.606027941428046\cdot10^{-1}$$
 
 **Punto (d)**
 
 Tabella dei risultati:
 
-| $n$    | $I_n$                   | $I_n$-$I$ esatto      |
-| ------ | ----------------------- | --------------------- |
-| 5      | $0.1605773551$          | $2.54390\cdot10^{-5}$ |
-| 10     | $0.1605968374$          | $5.9567\cdot10^{-6}$  |
-| 20     | $0.1606013617$          | $1.4324\cdot10^{-6}$  |
-| 40     | $0.1606025593$          | $2.348\cdot10^{-7}$   |
-| $p(0)$ | $1.606027941428046e-01$ | $1.62\cdot10^{-14}$   |
+| $n$    | $I_n$                             | $I_n - I_{\text{exact}}$           |
+| ------ | --------------------------------- | ---------------------------------- |
+| 5      | $1.618165768206828 \cdot 10^{-1}$ | $1.213782677894459 \cdot 10^{-3}$  |
+| 10     | $1.609085786320963 \cdot 10^{-1}$ | $3.057844893079031 \cdot 10^{-4}$  |
+| 20     | $1.606793868113391 \cdot 10^{-1}$ | $7.659266855072899 \cdot 10^{-5}$  |
+| 40     | $1.606219514748572 \cdot 10^{-1}$ | $1.915733206886427 \cdot 10^{-5}$  |
+| $p(0)$ | $1.606027941428046 \cdot 10^{-1}$ | $1.618150058391166 \cdot 10^{-14}$ |
+
 
 **Punto (e)**
 
@@ -1024,7 +1027,7 @@ Questo lo possiamo verificare guardando il grafico di $|f^{''}(x)|$, che è il s
 
 Quindi, possiamo scrivere $$\left|\int_0^1x^2e^{-x}dx-I_n\right|\leq\frac{2}{12n^2}$$
 E infine $$\frac{2}{12n^2}\leq\varepsilon\iff n\geq\sqrt{\frac{2}{12\varepsilon}}=n(\varepsilon)$$
-Quindi, dato che $\varepsilon=1.62\cdot10^{-14},n=n_\varepsilon\geq3.2075\cdot10^6$
+Quindi, dato che $\varepsilon=1.62\cdot10^{-14},n=n(\varepsilon)\geq3.2075\cdot10^6$
 ### Codice
 
 ```matlab
@@ -1332,12 +1335,12 @@ $$
 
 | n   | Metodo       | Soluzione $x_J/x_G$                                                                                                                                                                                                                                                                                                        |
 | --- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 5   | Jacobi       | $x_J = \begin{bmatrix} 4.7284e-01 \\ 4.7284e-01 \\ 4.3647e-01 \\ 3.9864e-01 \\ 3.7043e-01 \end{bmatrix}$                                                                                                                                                                                                                   |
-| 5   | Gauss-Seidel | $x_G = \begin{bmatrix} 4.7284e-01 \\ 4.7284e-01 \\ 4.3647e-01 \\ 3.9864e-01 \\ 3.7043e-01 \end{bmatrix}$                                                                                                                                                                                                                   |
-| 10  | Jacobi       | $x_J = \begin{bmatrix} 4.8292e-01 \\ 4.8292e-01 \\ 4.4577e-01 \\ 4.0714e-01 \\ 3.7833e-01 \\ 3.5958e-01 \\ 3.4820e-01 \\ 3.4156e-01 \\ 3.3778e-01 \\ 3.3567e-01 \end{bmatrix}$                                                                                                                                             |
-| 10  | Gauss-Seidel | $x_G = \begin{bmatrix} 4.8292e-01 \\ 4.8292e-01 \\ 4.4577e-01 \\ 4.0714e-01 \\ 3.7833e-01 \\ 3.5958e-01 \\ 3.4820e-01 \\ 3.4156e-01 \\ 3.3778e-01 \\ 3.3567e-01 \end{bmatrix}$                                                                                                                                             |
-| 20  | Jacobi       | $x_J = \begin{bmatrix} 4.8324e-01 \\ 4.8324e-01 \\ 4.4606e-01 \\ 4.0741e-01 \\ 3.7858e-01 \\ 3.5982e-01 \\ 3.4842e-01 \\ 3.4178e-01 \\ 3.3800e-01 \\ 3.3589e-01 \\ 3.3472e-01 \\ 3.3408e-01 \\ 3.3373e-01 \\ 3.3355e-01 \\ 3.3345e-01 \\ 3.3339e-01 \\ 3.3336e-01 \\ 3.3335e-01 \\ 3.3334e-01 \\ 3.3334e-01 \end{bmatrix}$ |
-| 20  | Gauss-Seidel | $x_G = \begin{bmatrix} 4.8324e-01 \\ 4.8324e-01 \\ 4.4606e-01 \\ 4.0741e-01 \\ 3.7858e-01 \\ 3.5982e-01 \\ 3.4842e-01 \\ 3.4178e-01 \\ 3.3800e-01 \\ 3.3589e-01 \\ 3.3472e-01 \\ 3.3408e-01 \\ 3.3373e-01 \\ 3.3355e-01 \\ 3.3345e-01 \\ 3.3339e-01 \\ 3.3336e-01 \\ 3.3335e-01 \\ 3.3334e-01 \\ 3.3334e-01 \end{bmatrix}$ |
+| 5   | Jacobi       | $x_J = \begin{bmatrix} 4.7284\cdot10^{-1} \\ 4.7284\cdot10^{-1} \\ 4.3647\cdot10^{-1} \\ 3.9864\cdot10^{-1} \\ 3.7043\cdot10^{-1} \end{bmatrix}$                                                                                                                                                                                                                   |
+| 5   | Gauss-Seidel | $x_G = \begin{bmatrix} 4.7284\cdot10^{-1} \\ 4.7284\cdot10^{-1} \\ 4.3647\cdot10^{-1} \\ 3.9864\cdot10^{-1} \\ 3.7043\cdot10^{-1} \end{bmatrix}$                                                                                                                                                                                                                   |
+| 10  | Jacobi       | $x_J = \begin{bmatrix} 4.8292\cdot10^{-1} \\ 4.8292\cdot10^{-1} \\ 4.4577\cdot10^{-1} \\ 4.0714\cdot10^{-1} \\ 3.7833\cdot10^{-1} \\ 3.5958\cdot10^{-1} \\ 3.4820\cdot10^{-1} \\ 3.4156\cdot10^{-1} \\ 3.3778\cdot10^{-1} \\ 3.3567\cdot10^{-1} \end{bmatrix}$                                                                                                                                             |
+| 10  | Gauss-Seidel | $x_G = \begin{bmatrix} 4.8292\cdot10^{-1} \\ 4.8292\cdot10^{-1} \\ 4.4577\cdot10^{-1} \\ 4.0714\cdot10^{-1} \\ 3.7833\cdot10^{-1} \\ 3.5958\cdot10^{-1} \\ 3.4820\cdot10^{-1} \\ 3.4156\cdot10^{-1} \\ 3.3778\cdot10^{-1} \\ 3.3567\cdot10^{-1} \end{bmatrix}$                                                                                                                                             |
+| 20  | Jacobi       | $x_J = \begin{bmatrix} 4.8324\cdot10^{-1} \\ 4.8324\cdot10^{-1} \\ 4.4606\cdot10^{-1} \\ 4.0741\cdot10^{-1} \\ 3.7858\cdot10^{-1} \\ 3.5982\cdot10^{-1} \\ 3.4842\cdot10^{-1} \\ 3.4178\cdot10^{-1} \\ 3.3800\cdot10^{-1} \\ 3.3589\cdot10^{-1} \\ 3.3472\cdot10^{-1} \\ 3.3408\cdot10^{-1} \\ 3.3373\cdot10^{-1} \\ 3.3355\cdot10^{-1} \\ 3.3345\cdot10^{-1} \\ 3.3339\cdot10^{-1} \\ 3.3336\cdot10^{-1} \\ 3.3335\cdot10^{-1} \\ 3.3334\cdot10^{-1} \\ 3.3334\cdot10^{-1} \end{bmatrix}$ |
+| 20  | Gauss-Seidel | $x_G = \begin{bmatrix} 4.8324\cdot10^{-1} \\ 4.8324\cdot10^{-1} \\ 4.4606\cdot10^{-1} \\ 4.0741\cdot10^{-1} \\ 3.7858\cdot10^{-1} \\ 3.5982\cdot10^{-1} \\ 3.4842\cdot10^{-1} \\ 3.4178\cdot10^{-1} \\ 3.3800\cdot10^{-1} \\ 3.3589\cdot10^{-1} \\ 3.3472\cdot10^{-1} \\ 3.3408\cdot10^{-1} \\ 3.3373\cdot10^{-1} \\ 3.3355\cdot10^{-1} \\ 3.3345\cdot10^{-1} \\ 3.3339\cdot10^{-1} \\ 3.3336\cdot10^{-1} \\ 3.3335\cdot10^{-1} \\ 3.3334\cdot10^{-1} \\ 3.3334\cdot10^{-1} \end{bmatrix}$ |
 
 **Punto (e)**
 
@@ -1403,7 +1406,7 @@ fprintf('%s', tabella2);
 
 function [A, b] = generate_system(n)
     A = zeros(n);
-    b = ones(n, 1);  % Create a column vector of ones
+    b = ones(n, 1); 
 
     for i = 1:n
         for j = 1:n
@@ -1469,8 +1472,7 @@ Usiamo il teorema di Bolzano e la monotonicità derivata dall'analisi di $f'(x)$
 1. $f'(x) > 0$ per ogni $x \in [0, 1]$ (la funzione è strettamente crescente su $[0,1]$).
 2. Poiché $f(x)$ è crescente e cambia segno in $[0,1]$, per il teorema di Bolzano esiste un unico zero $\zeta \in (0, 1)$.
 
-**Punto (d): Tabella per**
-$\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$
+**Punto (d): Tabella per** $\varepsilon \in \{10^{-1}, 10^{-2}, \dots, 10^{-10}\}$
 
 Abbiamo usato il **metodo di bisezione** per calcolare:
 
