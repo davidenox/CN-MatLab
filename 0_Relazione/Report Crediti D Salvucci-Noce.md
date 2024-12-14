@@ -1256,15 +1256,19 @@ La somma degli elementi prima della diagonale è:$$(i-1) \cdot \left(\frac{1}{2}
 
 **Analisi seconda parte**:
 
-Gli elementi dopo la diagonale formano una serie geometrica:$$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k}.$$
+Gli elementi dopo la diagonale formano una somma geometrica:$$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k}.$$
 
-Usando la formula per la somma di una serie geometrica:$$\sum_{k=0}^m r^k = \frac{1 - r^{m+1}}{1 - r},$$
+Usando la formula per la somma geometrica:$$\sum_{k=0}^m r^k = \frac{1 - r^{m+1}}{1 - r},$$
 qui $r = \frac{1}{2}$, $m = n-i-1$, e il primo termine della serie è $\left(\frac{1}{2}\right)^i$. 
 Quindi otteniamo che:
 $$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k} = \left(\frac{1}{2}\right)^i \cdot \frac{1 - \left(\frac{1}{2}\right)^{n-i}}{1 - \frac{1}{2}} = 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
 
 
 Combinando le due parti, otteniamo:$$\sum_{j \neq i} |A_{ij}| = (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
+****
+CORREGGERE
+****
+
 Di conseguenza, la condizione di dominanza diagonale per righe $|A_{ii}| > \sum_{j \neq i} |A_{ij}|$ diventa:$$3 > (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
 **Verifica**
 

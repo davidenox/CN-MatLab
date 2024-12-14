@@ -31,7 +31,9 @@ function diff_matrix = differenze_divise(x, y)
             diff_matrix(i, j) = (diff_matrix(i, j-1) - diff_matrix(i-1, j-1)) / (x(i) - x(i-j+1));
         end
     end
+    diff_matrix
 end
+
 
 function p_t = horner_eval(coeff, x, t)
     % Valuta il polinomio usando lo schema di Horner

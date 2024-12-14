@@ -14,8 +14,8 @@ function [x, K, r_norm] = jacobiIterativo(A, b, x0, epsilon, N_max)
     
     % Separazione di D, L e U dalla matrice A
     D = diag(diag(A));           % Matrice diagonale
-    %L = tril(A, -1);             % Parte triangolare inferiore CANCELLARE
-    %U = triu(A, 1);              % Parte triangolare superiore CANCELLARE
+    L = tril(A, -1);             % Parte triangolare inferiore
+    U = triu(A, 1);              % Parte triangolare superiore
     
     % Pre-calcolo della matrice iterativa M = D^(-1) * (L + U)
     %D_inv = inv(D);              % Inversa della diagonale
@@ -29,12 +29,13 @@ function [x, K, r_norm] = jacobiIterativo(A, b, x0, epsilon, N_max)
     
     % Itera il metodo di Jacobi
     for K = 1:N_max
+        % Aggiornamento vettoriale: x^(k+1) = M * x^(k) + c
+        %x_new = M * x + c;
 
-        % Calcola il residuo r^(K-1) = b - A * x^(K-1)
-        r = b - A * x;
+        r = b - A * x_n;
 
-        % Aggiornamento vettoriale: x^(K) = x^(K-1) + D^(-1) * r^(K-1)       
         x_new = 
+        % Calcola il residuo r^(K-1) = b - A * x^(K)
         
         % Calcola la norma del residuo ||r^(K)||_2
         r_norm = norm(r, 2);

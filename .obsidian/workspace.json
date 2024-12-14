@@ -157,7 +157,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -177,6 +177,8 @@
   },
   "active": "5bd8dce3225cdfb8",
   "lastOpenFiles": [
+    "Es4/jacobiIterativo.asv",
+    "Report Crediti D Salvucci-Noce.pdf",
     "0_Relazione/img/f_2(x).png",
     "Problema4/prob4_v2.m",
     "Problema4/untitled.m",
@@ -187,7 +189,6 @@
     "Es4/jacobiIterativo.m",
     "Problema2/trapezi2.m",
     "Problema2/untitled.m",
-    "Problema5/problema5.m",
     "Problema6/caso2.png",
     "0_Relazione/Report Crediti D Salvucci-Noce.md",
     "Problema6/caso1.png",

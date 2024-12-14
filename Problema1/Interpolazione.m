@@ -8,7 +8,7 @@ y_nodes = sqrt(x_nodes);
 zeta = (0:20) / 20;
 
 % Calcola il polinomio interpolante nei punti zeta usando interpolaRuffiniHornerEs1
-p_zeta = interpolaRuffiniHornerEs1(x_nodes, y_nodes, zeta);
+p_zeta = interpolaRuffiniHornerMatrixEs1(x_nodes, y_nodes, zeta);
 
 % Calcola la funzione sqrt nei punti zeta
 sqrt_zeta = sqrt(zeta);
@@ -22,7 +22,7 @@ disp(diff_vector.');
 
 % Traccia il grafico di sqrt(x) e p(x) sull'intervallo [0, 1]
 x_plot = linspace(0, 1, 100);  % Punti per il grafico
-p_x_plot = interpolaRuffiniHornerEs1(x_nodes, y_nodes, x_plot);
+p_x_plot = interpolaRuffiniHornerMatrixEs1(x_nodes, y_nodes, x_plot);
 sqrt_x_plot = sqrt(x_plot);
 
 figure;
