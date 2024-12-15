@@ -247,7 +247,6 @@ end
 L'esercizio chiede di creare una function MATLAB per implementare il **metodo di Jacobi**.
 
 _**Esercizio d’implementazione del metodo di Jacobi**_
-
 ### Codice Esercizo 4
 
 Questo codice implementa il metodo di Jacobi componente per componente:
@@ -308,7 +307,64 @@ function [x, K, r_norm] = jacobi_method(A, b, x0, epsilon, N_max)
 end
 ```
 
-Questo codice implementa il metodo di Jacobi con il metodo iterativo:
+Implementazione del metodo di Jacobi usando il metodo iterativo e l'osservazione $(4.6)$ delle dispense
+
+```matlab
+function [x, iter, norm_r_final] = JacobiIterativo2(A, b, x0, tol, Nmax)
+% Metodo iterativo di Jacobi utilizzando il metodo (4.11) e Osservazione 4.6
+%
+% Input:
+%   A        - Matrice quadrata dei coefficienti (n x n)
+%   b        - Vettore dei termini noti (n x 1)
+%   x0       - Vettore di innesco iniziale (n x 1)
+%   tol      - Soglia di precisione
+%   Nmax     - Numero massimo di iterazioni consentite
+%
+% Output:
+%   x             - Soluzione approssimata
+%   iter          - Numero di iterazioni effettuate
+%   norm_r_final  - Norma finale del residuo ||r||_2
+
+
+% Estrae la matrice diagonale D
+D = diag(diag(A));
+
+% Calcolo del residuo iniziale r^(0)
+x = x0;                       % Vettore soluzione iniziale
+r = b - A * x;                % Residuo iniziale
+norm_r = norm(r, 2);          % Norma L2 del residuo
+iter = 0;                     % Contatore iterazioni
+
+% Controllo se x0 è già soluzione entro la tolleranza
+if norm_r <= tol
+    fprintf('Il vettore iniziale x0 è già soluzione entro la tolleranza.\n');
+    norm_r_final = norm_r;
+    return;
+end
+
+% Iterazioni del metodo di Jacobi
+while norm_r > tol && iter < Nmax
+    % Risolve il sistema D z^(k) = r^(k) per ottenere z^(k)
+    z = r ./ diag(D);   % Equivalente a z = D \ r    
+
+    % Aggiorna la soluzione x^(k+1) = x^(k) + z^(k)
+    x = x + z;
+    
+    % Calcola il nuovo residuo r^(k+1) = b - A x^(k+1)
+    r = b - A * x;
+    norm_r = norm(r, 2);
+    
+    % Incrementa il contatore delle iterazioni
+    iter = iter + 1;
+end
+
+norm_r_final = norm_r;
+
+end
+```
+
+
+Questo codice implementa il metodo di Jacobi con il metodo iterativo, calcolandosi però l'inversa della matrice $D$:
 
 ```matlab
 function [x, K, r_norm] = jacobiIterativo(A, b, x0, epsilon, N_max)
@@ -366,6 +422,7 @@ function [x, K, r_norm] = jacobiIterativo(A, b, x0, epsilon, N_max)
 end
 
 ```
+
 
 ### Spiegazione del codice
 
@@ -444,7 +501,60 @@ function [x, K, r_norm] = metodo_gauss_seidel(A, b, x0, epsilon, N_max)
 end
 ```
 
-Questo è il metodo di Gauss-Seidel iterativo
+Implementazione del metodo di Gauss Seidel iterativo, sfruttando l'osservazione $(4.6)$
+
+```matlab
+function [x, iter, norm_r_final] = GaussSeidelIterativo2(A, b, x0, tol, maxIter)
+% Metodo di Gauss-Seidel usando l'Osservazione 4.6
+% Input:
+%   A       : Matrice dei coefficienti (NxN)
+%   b       : Vettore dei termini noti (Nx1)
+%   x0      : Vettore iniziale (Nx1)
+%   tol     : Tolleranza per arrestare il metodo
+%   maxIter : Numero massimo di iterazioni
+% Output:
+%   x       : Soluzione approssimata
+%   res     : Vettore dei residui r^(k) ad ogni iterazione
+%   iter    : Numero di iterazioni effettuate
+
+% Inizializzazione
+n = length(b);              % Dimensione del sistema
+x = x0;                     % Vettore soluzione iniziale
+iter = 0;                   % Contatore iterazioni
+
+% Precondizionatore M = E (matrice triangolare inferiore di A)
+E = tril(A);                % Estrae la parte triangolare inferiore di A
+
+% Controllo iniziale: verifica se x0 è già soluzione
+r = b - A*x;                % Calcolo del residuo iniziale r^(0)
+norm_r = norm(r,2);
+if norm_r < tol
+    fprintf('x0 è già la soluzione entro la tolleranza.\n');
+    norm_r_final = norm_r;
+    return;
+end
+
+% Iterazioni del metodo
+while iter < maxIter && norm_r > tol
+    % Risolvi M * z^(k) = r^(k) per z^(k)
+    z = E \ r;              % Sistema triangolare inferiore (Osservazione 4.6)
+    
+    % Aggiorna x^(k+1)
+    x = x + z;              % x^(k+1) = x^(k) + M^{-1} * r^(k)
+    
+    % Calcola il nuovo residuo r^(k+1)
+    r = b - A*x;            % r^(k+1)
+    norm_r = norm(r, 2);
+    iter = iter+1;
+end
+
+% Troncamento del vettore residui al numero effettivo di iterazioni
+norm_r_final = norm_r;
+
+end
+```
+
+Questo è il metodo di Gauss-Seidel iterativo che calcola l'inversa della matrice $E$
 
 ```matlab
 function [x, K, r_norm] = gauss_seidelIterativo(A, b, x0, epsilon, N_max)
@@ -499,6 +609,7 @@ function [x, K, r_norm] = gauss_seidelIterativo(A, b, x0, epsilon, N_max)
     % x^(N_max), il relativo indice N_max e la norma del residuo ||r^(N_max)||_2
 end
 ```
+
 ### Spiegazione Codice
 
 1. **Input:**
@@ -1148,7 +1259,20 @@ $$
 \hline
 \end{array}
 $$
-
+da controllare questo 
+>[!info]
+>Tabella dei risultati per le varie precisioni:
+Epsilon | Iterazioni K | x_epsilon                       | Norma errore ||x - x_approx||_inf
+1.0e-01 |   5| [1.003845804988662, 1.992588273404600, 2.989962207105064]| 1.003779e-02
+1.0e-02 |   7| [1.000591555987474, 2.001138291144122, 3.000661123708743]| 1.138291e-03
+1.0e-03 |  10| [1.000026226187844, 1.999979075463609, 2.999958498186015]| 4.150181e-05
+1.0e-04 |  12| [1.000000854852419, 2.000003965782620, 3.000003225142944]| 3.965783e-06
+1.0e-05 |  13| [0.999997916786298, 1.999999661387068, 3.000001321927540]| 2.083214e-06
+1.0e-06 |  15| [1.000000142438141, 1.999999950260364, 2.999999837850417]| 1.621496e-07
+1.0e-07 |  18| [0.999999991587254, 1.999999997632181, 3.000000004351792]| 8.412746e-09
+1.0e-08 |  20| [1.000000000680410, 1.999999999931731, 2.999999999392165]| 6.804104e-10
+1.0e-09 |  22| [0.999999999972296, 2.000000000039935, 3.000000000061345]| 6.134515e-11
+1.0e-10 |  24| [0.999999999997220, 1.999999999993452, 2.999999999995760]| 6.548539e-12
 ### Codice
 
 ```matlab title="Problema 2.4"
