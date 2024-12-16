@@ -1,61 +1,40 @@
-function p_t = interpolaRuffiniHornerMatrix2Es1(x, y, t)
-    % Input:
-    % x: vettore dei nodi x0, x1, ..., xn
-    % y: vettore dei valori corrispondenti y0, y1, ..., yn
-    % t: punto o vettore dei punti in cui si vuole valutare il polinomio interpolante
+function risultato = interpolaRuffiniHornerMatrix2Es1(x, y, t)
+    % x: nodi (ascisse)
+    % y: valori (ordinate)
+    % t: punto in cui valutare il polinomio interpolante
     
-    % Output:
-    % p_t: valutazione del polinomio interpolante nei punti t
+    n = length(x); % Numero di nodi
+    diff_matrix = zeros(n, n); % Inizializza la matrice delle differenze divise
+    diff_matrix(:, 1) = y(:); % La prima colonna è data dai valori delle ordinate
     
-    % Calcola la matrice delle differenze divise
-    diff_matrix = differenze_divise(x, y);
-    
-    % Estrai i coefficienti dalla prima riga della matrice
-    coeff = diff_matrix(1, :);
-    
-    % Valuta il polinomio interpolante nei punti t usando lo schema di Horner
-    p_t = horner_eval(coeff, x, t);
-end
-
-function diff_matrix = differenze_divise(x, y)
-    n = length(x);  % Numero di nodi
-    diff_matrix = zeros(n, n);  % Inizializza la matrice delle differenze divise
-    
-    % Inserisci i valori di y nella diagonale inferiore
-    for i = 1:n
-        diff_matrix(i, 1) = y(i);
-    end
-    
-    % Calcola le differenze divise
+    % Calcolo della tabella delle differenze divise (triangolare superiore)
     for j = 2:n
-        for i = j:n
-            % Formula corretta per le differenze divise
-            diff_matrix(i, j) = (diff_matrix(i, j - 1) - diff_matrix(i - 1, j - 1)) / (x(i) - x(i - j + 1));
+        for i = 1:(n-j+1)
+            diff_matrix(i, j) = (diff_matrix(i+1, j-1) - diff_matrix(i, j-1)) / (x(i+j-1) - x(i));
         end
     end
-    disp('Matrice delle differenze divise:');
-    disp(diff_matrix);
-end
-
-
-function p_t = horner_eval(coeff, x, t)
-    % Valuta il polinomio usando lo schema di Horner
-    n = length(coeff);
-    m = length(t);
-    p_t = zeros(1, m);
     
-    for k = 1:m
-        % Inizializza il polinomio con il termine di grado più alto
-        p = coeff(n);
-        
-        % Applica lo schema di Horner
-        for i = n-1:-1:1
-            p = p * (t(k) - x(i)) + coeff(i);
+    % Visualizzazione della matrice delle differenze divise nella forma triangolare
+    fprintf('Matrice delle differenze divise:\n');
+    for i = 1:n
+        for j = 1:n
+            if j >= i
+                fprintf('%10.4f ', diff_matrix(i, j));
+            else
+                fprintf('%10s ', ''); % Spazi vuoti per formattare la triangolare
+            end
         end
-        
-        % Salva il risultato della valutazione nel punto t(k)
-        p_t(k) = p;
+        fprintf('\n');
     end
+    
+    % Valutazione del polinomio interpolante usando Horner
+    coeff = diff_matrix(1, :); % I coefficienti sono nella prima riga della matrice
+    risultato = coeff(n);
+    for k = (n-1):-1:1
+        risultato = coeff(k) + (t - x(k)) * risultato;
+    end
+    
+    % Mostra il risultato interpolato
+    fprintf('Risultato interpolato:\n');
+    disp(risultato);
 end
-
-
