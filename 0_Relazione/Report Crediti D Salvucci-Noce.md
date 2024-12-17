@@ -127,6 +127,7 @@ function p_t = horner_eval(coeff, x, t)
 end
 
 ```
+
 ### Spiegazione
 
 1) **Funzione principale (`interpola_ruffini_horner`)**:
@@ -247,7 +248,7 @@ end
 L'esercizio chiede di creare una function MATLAB per implementare il **metodo di Jacobi**.
 
 _**Esercizio d’implementazione del metodo di Jacobi**_
-### Codice Esercizo 4
+### Codice Esercizio 4
 
 Questo codice implementa il metodo di Jacobi componente per componente:
 
@@ -1388,20 +1389,38 @@ Quindi otteniamo che:
 $$\sum_{k=0}^{n-i-1} \left(\frac{1}{2}\right)^{i+k} = \left(\frac{1}{2}\right)^i \cdot \frac{1 - \left(\frac{1}{2}\right)^{n-i}}{1 - \frac{1}{2}} = 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
 
 
-Combinando le due parti, otteniamo:$$\sum_{j \neq i} |A_{ij}| = (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
-****
-CORREGGERE
-****
+Combinando le due parti, otteniamo:$$\sum_{j \neq i} |A_{ij}| = (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right)\le(i-1)\left(\frac{1}{2}\right)^{i-1}+2\left(\frac{1}{2}\right)^i.$$
+È possibile semplificare ed ottenere $$(i-1)\left(\frac{1}{2}\right)^{i-1}+2\left(\frac{1}{2}\right)^i=\left(\frac{1}{2}\right)^{i-1}(i-1+1)=i\left(\frac{1}{2}\right)^{i-1}\lt 3\ \forall i\in\mathbb N$$
 
-Di conseguenza, la condizione di dominanza diagonale per righe $|A_{ii}| > \sum_{j \neq i} |A_{ij}|$ diventa:$$3 > (i-1) \cdot \left(\frac{1}{2}\right)^{i-1} + 2 \cdot \left(\frac{1}{2}\right)^i \cdot \left(1 - \left(\frac{1}{2}\right)^{n-i}\right).$$
 **Verifica**
 
-Per $i = 1$ : $$3 > 0 + 2 \cdot \left(\frac{1}{2}\right)^1 \cdot \left(1 - \left(\frac{1}{2}\right)^{n-1}\right)$$
-La disuguaglianza è soddisfatta poiché il lato destro è minore di $1$.
+Dimostriamo che:$$(i-1) \cdot \left( \frac{1}{2} \right)^{i-1} + 2 \cdot \left( \frac{1}{2} \right)^i \lt 3 \quad \forall i \in \mathbb{N}.$$
+Equivalentemente, mostreremo che: $$\left( \frac{1}{2} \right)^{i-1} (i - 1 + 1) = i \cdot \left( \frac{1}{2} \right)^{i-1} \lt 3.$$
 
-Per $i = n$: $$3 > (n-1) \cdot \left(\frac{1}{2}\right)^{n-1}.$$
-Anche qui la disuguaglianza è verificata perché $\left(\frac{1}{2}\right)^{n-1}$ decresce rapidamente.
+> Dimostrazione per induzione
 
+**Base dell'induzione** $(i = 1)$:
+
+Sostituiamo $i = 1$ nella disuguaglianza:$$1 \cdot \left( \frac{1}{2} \right)^{1-1} = 1 \cdot 1 = 1 \lt 3.
+$$
+La base è verificata.
+
+**Passo induttivo**:
+
+Supponiamo che la disuguaglianza sia vera per un certo $i=k$, ossia:$$k \cdot \left( \frac{1}{2} \right)^{k-1} \lt 3.$$
+Dobbiamo dimostrare che la disuguaglianza vale anche per $i = k+1$, cioè:$$(k+1) \cdot \left( \frac{1}{2} \right)^k \lt 3.$$
+
+Partiamo dall'ipotesi induttiva. Poiché $k \cdot \left( \frac{1}{2} \right)^{k-1} \lt 3$, moltiplichiamo entrambi i lati per $\frac{1}{2}$:$$k \cdot \left( \frac{1}{2} \right)^k \lt \frac{3}{2}.$$
+
+Ora osserviamo il termine per $i = k+1$:$$(k+1) \cdot \left( \frac{1}{2} \right)^k = k \cdot \left( \frac{1}{2} \right)^k + \left( \frac{1}{2} \right)^k.$$
+
+Dall'ipotesi induttiva sappiamo che $k \cdot \left( \frac{1}{2} \right)^k \leq \frac{3}{2}$, quindi aggiungendo $\left( \frac{1}{2} \right)^k$ otteniamo:$$(k+1) \cdot \left( \frac{1}{2} \right)^k \leq \frac{3}{2} + \left( \frac{1}{2} \right)^k.$$
+
+Poiché $\left( \frac{1}{2} \right)^k \leq \frac{3}{2}$ per ogni $k \geq 1$, possiamo concludere che:$$(k+1) \cdot \left( \frac{1}{2} \right)^k \leq 3.
+$$
+> **Conclusione**
+
+Per il **passo base** e il **passo induttivo**, abbiamo dimostrato per induzione che:$$i \cdot \left( \frac{1}{2} \right)^{i-1} \leq 3 \quad \forall i \in \mathbb{N}.$$
 In generale, la disuguaglianza è verificata per ogni $i$, dimostrando che $A_n$ è diagonale dominante per righe.
 
 Usando i **teoremi di convergenza**, sappiamo che i metodi di Jacobi e Gauss-Seidel convergono se la matrice $A\in\mathbb C^{n\times n}$ soddisfa almeno una delle seguenti condizioni : 

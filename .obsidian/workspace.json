@@ -11,12 +11,14 @@
             "id": "5bd8dce3225cdfb8",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Es_Matlab.pdf"
+                "file": "0_Relazione/Report Crediti D Salvucci-Noce.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "Es_Matlab"
+              "icon": "lucide-file",
+              "title": "Report Crediti D Salvucci-Noce"
             }
           }
         ]
@@ -172,8 +174,9 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "5bd8dce3225cdfb8",
+  "active": "741ecefbabe874b0",
   "lastOpenFiles": [
+    "Es_Matlab.pdf",
     "Es1/interpolaRuffiniHornerMatrixEs1.asv",
     "Es1/interpolaPolinomioNewton.m",
     "Es1/untitled.m",
@@ -186,7 +189,6 @@
     "0_Relazione/img/f_2(x).png",
     "Problema4/prob4_v2.m",
     "Problema4/untitled.m",
-    "Es5/gauss_seidelIterativo.m",
     "Problema6/caso2.png",
     "Problema6/caso1.png",
     "0_Relazione/img/Pasted image 20241111102714.png",
