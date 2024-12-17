@@ -11,14 +11,12 @@
             "id": "5bd8dce3225cdfb8",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "0_Relazione/Report Crediti D Salvucci-Noce.md",
-                "mode": "source",
-                "source": false
+                "file": "Es_Matlab.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Report Crediti D Salvucci-Noce"
+              "icon": "lucide-file-text",
+              "title": "Es_Matlab"
             }
           }
         ]
@@ -77,8 +75,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "22c2dda557db91d4",
@@ -175,10 +172,13 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "741ecefbabe874b0",
+  "active": "5bd8dce3225cdfb8",
   "lastOpenFiles": [
-    "Es1/prova.m",
+    "Es1/interpolaRuffiniHornerMatrixEs1.asv",
+    "Es1/interpolaPolinomioNewton.m",
     "Es1/untitled.m",
+    "0_Relazione/Report Crediti D Salvucci-Noce.md",
+    "Es1/prova.m",
     "Es1/interpolaRuffiniHornerMatrix2Es1.m",
     "Es1/interpolaRuffiniHornerMatrix2Es1.m.m",
     "Es4/jacobiIterativo.asv",
@@ -187,10 +187,7 @@
     "Problema4/prob4_v2.m",
     "Problema4/untitled.m",
     "Es5/gauss_seidelIterativo.m",
-    "Es5/untitled.m",
-    "Problema5/probema5.m",
     "Problema6/caso2.png",
-    "0_Relazione/Report Crediti D Salvucci-Noce.md",
     "Problema6/caso1.png",
     "0_Relazione/img/Pasted image 20241111102714.png",
     "0_Relazione/img/grafico_es1.jpg",
