@@ -1397,31 +1397,92 @@ Combinando le due parti, otteniamo:$$\sum_{j \neq i} |A_{ij}| = (i-1) \cdot \lef
 Dimostriamo che:$$(i-1) \cdot \left( \frac{1}{2} \right)^{i-1} + 2 \cdot \left( \frac{1}{2} \right)^i \lt 3 \quad \forall i \in \mathbb{N}.$$
 Equivalentemente, mostreremo che: $$\left( \frac{1}{2} \right)^{i-1} (i - 1 + 1) = i \cdot \left( \frac{1}{2} \right)^{i-1} \lt 3.$$
 
-> Dimostrazione per induzione
+> Dimostrazione tramite studio della derivata
 
-**Base dell'induzione** $(i = 1)$:
+Consideriamo la funzione $f(x)$ definita su $x \in \mathbb{R}^+$ (generalizziamo a valori reali per applicare le derivate):$$f(x) = x \cdot \left( \frac{1}{2} \right)^{x-1}.$$
+Possiamo riscrivere la funzione come:$$f(x) = x \cdot 2^{-(x-1)} = x \cdot 2^{1-x}.$$
 
-Sostituiamo $i = 1$ nella disuguaglianza:$$1 \cdot \left( \frac{1}{2} \right)^{1-1} = 1 \cdot 1 = 1 \lt 3.
+Il nostro obiettivo è determinare se $f(x) \leq 3$ per ogni $x \geq 1$.
+
+**Derivata prima della funzione**
+
+Per studiare il comportamento della funzione $f(x)$, calcoliamo la derivata prima $f'(x)$. Utilizziamo la regola del prodotto:
+$$f(x) = x \cdot 2^{1-x}.$$
+La derivata è:$$f'(x) = \frac{d}{dx} \left[ x \right] \cdot 2^{1-x} + x \cdot \frac{d}{dx} \left[ 2^{1-x} \right].
 $$
-La base è verificata.
+La derivata di $2^{1-x}$ rispetto a $x$ si ottiene tramite la regola delle esponenziali:
+$$\frac{d}{dx} \left[ 2^{1-x} \right] = 2^{1-x} \cdot \ln(2) \cdot (-1).$$
 
-**Passo induttivo**:
+Pertanto:$$f'(x) = 1 \cdot 2^{1-x} + x \cdot \left( 2^{1-x} \cdot (-\ln(2)) \right).$$
 
-Supponiamo che la disuguaglianza sia vera per un certo $i=k$, ossia:$$k \cdot \left( \frac{1}{2} \right)^{k-1} \lt 3.$$
-Dobbiamo dimostrare che la disuguaglianza vale anche per $i = k+1$, cioè:$$(k+1) \cdot \left( \frac{1}{2} \right)^k \lt 3.$$
+Raccogliamo 21−x2^{1-x} come fattore comune:
 
-Partiamo dall'ipotesi induttiva. Poiché $k \cdot \left( \frac{1}{2} \right)^{k-1} \lt 3$, moltiplichiamo entrambi i lati per $\frac{1}{2}$:$$k \cdot \left( \frac{1}{2} \right)^k \lt \frac{3}{2}.$$
+f′(x)=21−x[1−xln⁡(2)].f'(x) = 2^{1-x} \left[ 1 - x \ln(2) \right].
 
-Ora osserviamo il termine per $i = k+1$:$$(k+1) \cdot \left( \frac{1}{2} \right)^k = k \cdot \left( \frac{1}{2} \right)^k + \left( \frac{1}{2} \right)^k.$$
+---
 
-Dall'ipotesi induttiva sappiamo che $k \cdot \left( \frac{1}{2} \right)^k \leq \frac{3}{2}$, quindi aggiungendo $\left( \frac{1}{2} \right)^k$ otteniamo:$$(k+1) \cdot \left( \frac{1}{2} \right)^k \leq \frac{3}{2} + \left( \frac{1}{2} \right)^k.$$
+### 3. **Studio del segno della derivata**
 
-Poiché $\left( \frac{1}{2} \right)^k \leq \frac{3}{2}$ per ogni $k \geq 1$, possiamo concludere che:$$(k+1) \cdot \left( \frac{1}{2} \right)^k \leq 3.
-$$
-> **Conclusione**
+Per studiare i punti critici della funzione f(x)f(x), poniamo f′(x)=0f'(x) = 0:
 
-Per il **passo base** e il **passo induttivo**, abbiamo dimostrato per induzione che:$$i \cdot \left( \frac{1}{2} \right)^{i-1} \leq 3 \quad \forall i \in \mathbb{N}.$$
-In generale, la disuguaglianza è verificata per ogni $i$, dimostrando che $A_n$ è diagonale dominante per righe.
+21−x[1−xln⁡(2)]=0.2^{1-x} \left[ 1 - x \ln(2) \right] = 0.
+
+Poiché 21−x>02^{1-x} > 0 per ogni x∈Rx \in \mathbb{R}, la condizione f′(x)=0f'(x) = 0 si riduce a:
+
+1−xln⁡(2)=0  ⟹  x=1ln⁡(2).1 - x \ln(2) = 0 \quad \implies \quad x = \frac{1}{\ln(2)}.
+
+---
+
+### 4. **Determinazione del massimo**
+
+La costante ln⁡(2)≈0.693\ln(2) \approx 0.693, quindi:
+
+x=1ln⁡(2)≈1.4427.x = \frac{1}{\ln(2)} \approx 1.4427.
+
+A questo punto x=1.4427x = 1.4427 è un candidato massimo. Per verificare che si tratti di un massimo globale, studiamo il segno della derivata f′(x)f'(x) nei dintorni di x=1.4427x = 1.4427:
+
+- Per x<1.4427x < 1.4427, abbiamo 1−xln⁡(2)>0  ⟹  f′(x)>01 - x \ln(2) > 0 \implies f'(x) > 0: la funzione è crescente.
+- Per x>1.4427x > 1.4427, abbiamo 1−xln⁡(2)<0  ⟹  f′(x)<01 - x \ln(2) < 0 \implies f'(x) < 0: la funzione è decrescente.
+
+Quindi x=1.4427x = 1.4427 è un **massimo locale** (e globale, poiché la funzione tende a zero per x→∞x \to \infty).
+
+---
+
+### 5. **Valore massimo della funzione**
+
+Calcoliamo f(x)f(x) nel punto x=1ln⁡(2)x = \frac{1}{\ln(2)}:
+
+f(1ln⁡(2))=1ln⁡(2)⋅21−1ln⁡(2).f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot 2^{1 - \frac{1}{\ln(2)}}.
+
+Semplificando l'esponente 1−1ln⁡(2)1 - \frac{1}{\ln(2)}, otteniamo:
+
+21−1ln⁡(2)=21−log⁡2(e)=2log⁡2(2)−log⁡2(e)=2log⁡2(2e)=2e.2^{1 - \frac{1}{\ln(2)}} = 2^{1 - \log_2(e)} = 2^{\log_2(2) - \log_2(e)} = 2^{\log_2\left( \frac{2}{e} \right)} = \frac{2}{e}.
+
+Quindi:
+
+f(1ln⁡(2))=1ln⁡(2)⋅2e.f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot \frac{2}{e}.
+
+Sostituendo i valori numerici ln⁡(2)≈0.693\ln(2) \approx 0.693 e e≈2.718e \approx 2.718, otteniamo:
+
+f(1ln⁡(2))≈10.693⋅22.718.f\left( \frac{1}{\ln(2)} \right) \approx \frac{1}{0.693} \cdot \frac{2}{2.718}.
+
+Calcoliamo i valori:
+
+10.693≈1.442,22.718≈0.736.\frac{1}{0.693} \approx 1.442, \quad \frac{2}{2.718} \approx 0.736.
+
+Moltiplicando:
+
+f(1ln⁡(2))≈1.442⋅0.736≈1.06.f\left( \frac{1}{\ln(2)} \right) \approx 1.442 \cdot 0.736 \approx 1.06.
+
+---
+
+### 6. **Conclusione**
+
+La funzione f(x)=x⋅(12)x−1f(x) = x \cdot \left( \frac{1}{2} \right)^{x-1} raggiunge il suo massimo valore f(x)≈1.06f(x) \approx 1.06 per x≈1.4427x \approx 1.4427.
+
+Poiché 1.06<31.06 < 3, possiamo concludere che per ogni x≥1x \geq 1 (e quindi per ogni i∈Ni \in \mathbb{N}):
+
+f(i)=i⋅(12)i−1<3.f(i) = i \cdot \left( \frac{1}{2} \right)^{i-1} < 3.
 
 Usando i **teoremi di convergenza**, sappiamo che i metodi di Jacobi e Gauss-Seidel convergono se la matrice $A\in\mathbb C^{n\times n}$ soddisfa almeno una delle seguenti condizioni : 
 - $A$ è a diagonale dominante e irriducibile
