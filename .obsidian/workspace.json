@@ -156,7 +156,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -174,7 +174,7 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "51324a5bdc2c80e4",
+  "active": "741ecefbabe874b0",
   "lastOpenFiles": [
     "Es_Matlab.pdf",
     "Es1/interpolaRuffiniHornerMatrixEs1.asv",
