@@ -1415,74 +1415,39 @@ $$\frac{d}{dx} \left[ 2^{1-x} \right] = 2^{1-x} \cdot \ln(2) \cdot (-1).$$
 
 Pertanto:$$f'(x) = 1 \cdot 2^{1-x} + x \cdot \left( 2^{1-x} \cdot (-\ln(2)) \right).$$
 
-Raccogliamo 21−x2^{1-x} come fattore comune:
+Raccogliamo $2^{1-x}$ come fattore comune:$$f'(x) = 2^{1-x} \left[ 1 - x \ln(2) \right].$$
 
-f′(x)=21−x[1−xln⁡(2)].f'(x) = 2^{1-x} \left[ 1 - x \ln(2) \right].
+**Studio del segno della derivata**
 
----
+Per studiare i punti critici della funzione $f(x)$, poniamo $f'(x) = 0$:$$2^{1-x} \left[ 1 - x \ln(2) \right] = 0.$$
 
-### 3. **Studio del segno della derivata**
+Poiché $2^{1-x} > 0$ per ogni $x \in \mathbb{R}$, la condizione $f'(x) = 0$ si riduce a:$$1 - x \ln(2) = 0 \quad \implies \quad x = \frac{1}{\ln(2)}.$$
+**Determinazione del massimo**
 
-Per studiare i punti critici della funzione f(x)f(x), poniamo f′(x)=0f'(x) = 0:
+La costante $\ln(2) \approx 0.693$, quindi:$$x = \frac{1}{\ln(2)} \approx 1.4427.$$
 
-21−x[1−xln⁡(2)]=0.2^{1-x} \left[ 1 - x \ln(2) \right] = 0.
+A questo punto $x = 1.4427$ è un candidato massimo. Per verificare che si tratti di un massimo globale, studiamo il segno della derivata $f'(x)$ nei dintorni di $x = 1.4427$:
 
-Poiché 21−x>02^{1-x} > 0 per ogni x∈Rx \in \mathbb{R}, la condizione f′(x)=0f'(x) = 0 si riduce a:
+- Per $x<1.4427$, abbiamo $1 - x \ln(2) > 0 \implies f'(x) > 0$: la funzione è crescente.
+- Per $x>1.4427$, abbiamo $1 - x \ln(2) < 0 \implies f'(x) < 0$: la funzione è decrescente.
 
-1−xln⁡(2)=0  ⟹  x=1ln⁡(2).1 - x \ln(2) = 0 \quad \implies \quad x = \frac{1}{\ln(2)}.
+Quindi $x = 1.4427$ è un **massimo locale** (e globale, poiché la funzione tende a zero per $x \to \infty$).
 
----
+**Valore massimo della funzione**
 
-### 4. **Determinazione del massimo**
+Calcoliamo $f(x)$ nel punto $x = \frac{1}{\ln(2)}$:$$f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot 2^{1 - \frac{1}{\ln(2)}}.$$
+Semplificando l'esponente $1 - \frac{1}{\ln(2)}$, otteniamo:$$2^{1 - \frac{1}{\ln(2)}} = 2^{1 - \log_2(e)} = 2^{\log_2(2) - \log_2(e)} = 2^{\log_2\left( \frac{2}{e} \right)} = \frac{2}{e}.$$
+Quindi:$$f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot \frac{2}{e}.$$
 
-La costante ln⁡(2)≈0.693\ln(2) \approx 0.693, quindi:
+Sostituendo i valori numerici $\ln(2) \approx 0.693$ e $e \approx 2.718$, otteniamo:$$f\left( \frac{1}{\ln(2)} \right) \approx \frac{1}{0.693} \cdot \frac{2}{2.718}.$$
+Calcoliamo i valori:$$\frac{1}{0.693} \approx 1.442, \quad \frac{2}{2.718} \approx 0.736.$$
 
-x=1ln⁡(2)≈1.4427.x = \frac{1}{\ln(2)} \approx 1.4427.
+Moltiplicando:$$f\left( \frac{1}{\ln(2)} \right) \approx 1.442 \cdot 0.736 \approx 1.06.$$
+**Conclusione**
 
-A questo punto x=1.4427x = 1.4427 è un candidato massimo. Per verificare che si tratti di un massimo globale, studiamo il segno della derivata f′(x)f'(x) nei dintorni di x=1.4427x = 1.4427:
+La funzione $f(x) = x \cdot \left( \frac{1}{2} \right)^{x-1}$ raggiunge il suo massimo valore $f(x) \approx 1.06$ per $x \approx 1.4427$.
 
-- Per x<1.4427x < 1.4427, abbiamo 1−xln⁡(2)>0  ⟹  f′(x)>01 - x \ln(2) > 0 \implies f'(x) > 0: la funzione è crescente.
-- Per x>1.4427x > 1.4427, abbiamo 1−xln⁡(2)<0  ⟹  f′(x)<01 - x \ln(2) < 0 \implies f'(x) < 0: la funzione è decrescente.
-
-Quindi x=1.4427x = 1.4427 è un **massimo locale** (e globale, poiché la funzione tende a zero per x→∞x \to \infty).
-
----
-
-### 5. **Valore massimo della funzione**
-
-Calcoliamo f(x)f(x) nel punto x=1ln⁡(2)x = \frac{1}{\ln(2)}:
-
-f(1ln⁡(2))=1ln⁡(2)⋅21−1ln⁡(2).f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot 2^{1 - \frac{1}{\ln(2)}}.
-
-Semplificando l'esponente 1−1ln⁡(2)1 - \frac{1}{\ln(2)}, otteniamo:
-
-21−1ln⁡(2)=21−log⁡2(e)=2log⁡2(2)−log⁡2(e)=2log⁡2(2e)=2e.2^{1 - \frac{1}{\ln(2)}} = 2^{1 - \log_2(e)} = 2^{\log_2(2) - \log_2(e)} = 2^{\log_2\left( \frac{2}{e} \right)} = \frac{2}{e}.
-
-Quindi:
-
-f(1ln⁡(2))=1ln⁡(2)⋅2e.f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot \frac{2}{e}.
-
-Sostituendo i valori numerici ln⁡(2)≈0.693\ln(2) \approx 0.693 e e≈2.718e \approx 2.718, otteniamo:
-
-f(1ln⁡(2))≈10.693⋅22.718.f\left( \frac{1}{\ln(2)} \right) \approx \frac{1}{0.693} \cdot \frac{2}{2.718}.
-
-Calcoliamo i valori:
-
-10.693≈1.442,22.718≈0.736.\frac{1}{0.693} \approx 1.442, \quad \frac{2}{2.718} \approx 0.736.
-
-Moltiplicando:
-
-f(1ln⁡(2))≈1.442⋅0.736≈1.06.f\left( \frac{1}{\ln(2)} \right) \approx 1.442 \cdot 0.736 \approx 1.06.
-
----
-
-### 6. **Conclusione**
-
-La funzione f(x)=x⋅(12)x−1f(x) = x \cdot \left( \frac{1}{2} \right)^{x-1} raggiunge il suo massimo valore f(x)≈1.06f(x) \approx 1.06 per x≈1.4427x \approx 1.4427.
-
-Poiché 1.06<31.06 < 3, possiamo concludere che per ogni x≥1x \geq 1 (e quindi per ogni i∈Ni \in \mathbb{N}):
-
-f(i)=i⋅(12)i−1<3.f(i) = i \cdot \left( \frac{1}{2} \right)^{i-1} < 3.
+Poiché $1.06 < 3$, possiamo concludere che per ogni $x \geq 1$ (e quindi per ogni $i \in \mathbb{N}$):$$f(i) = i \cdot \left( \frac{1}{2} \right)^{i-1} < 3.$$
 
 Usando i **teoremi di convergenza**, sappiamo che i metodi di Jacobi e Gauss-Seidel convergono se la matrice $A\in\mathbb C^{n\times n}$ soddisfa almeno una delle seguenti condizioni : 
 - $A$ è a diagonale dominante e irriducibile
