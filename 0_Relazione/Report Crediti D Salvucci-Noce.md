@@ -101,16 +101,9 @@ function diff_matrix = differenze_divise(x, y)
 
     % Costruisce la tabella delle differenze divise
 
-    for j = 2:n
-        for i = j:n % Questo calcola i valori diagonali
-                diff_matrix(i, j) = (diff_matrix(i, j-1) - diff_matrix(i-1, j-1)) / (x(i) - x(i-j+1));
-        end
-    end
     for j=2:n
         for i=j:n
-            if (i ~= j) % Questo non calcola i valori diagonali
-                diff_matrix(i,j) = (diff_matrix(i,j-1)-diff_matrix(j-1, j-1))/ (x(i)-x(j-1));
-            end
+            diff_matrix(i,j) = (diff_matrix(i,j-1)-diff_matrix(j-1, j-1))/ (x(i)-x(j-1));
         end
     end
     diff_matrix
@@ -321,7 +314,7 @@ end
 Implementazione del metodo di Jacobi usando il metodo iterativo e l'osservazione $(4.6)$ delle dispense
 
 ```matlab
-function [x, iter, norm_r_final] = JacobiIterativo2(A, b, x0, tol, Nmax)
+function [x, iter, norm_r] = JacobiIterativo2(A, b, x0, tol, Nmax)
 % Metodo iterativo di Jacobi utilizzando il metodo (4.11) e Osservazione 4.6
 %
 % Input:
@@ -334,7 +327,7 @@ function [x, iter, norm_r_final] = JacobiIterativo2(A, b, x0, tol, Nmax)
 % Output:
 %   x             - Soluzione approssimata
 %   iter          - Numero di iterazioni effettuate
-%   norm_r_final  - Norma finale del residuo ||r||_2
+
 
 
 % Estrae la matrice diagonale D
@@ -345,13 +338,6 @@ x = x0;                       % Vettore soluzione iniziale
 r = b - A * x;                % Residuo iniziale
 norm_r = norm(r, 2);          % Norma L2 del residuo
 iter = 0;                     % Contatore iterazioni
-
-% Controllo se x0 è già soluzione entro la tolleranza
-if norm_r <= tol
-    fprintf('Il vettore iniziale x0 è già soluzione entro la tolleranza.\n');
-    norm_r_final = norm_r;
-    return;
-end
 
 % Iterazioni del metodo di Jacobi
 while norm_r > tol && iter < Nmax
@@ -368,8 +354,6 @@ while norm_r > tol && iter < Nmax
     % Incrementa il contatore delle iterazioni
     iter = iter + 1;
 end
-
-norm_r_final = norm_r;
 
 end
 ```
@@ -515,52 +499,42 @@ end
 Implementazione del metodo di Gauss Seidel iterativo, sfruttando l'osservazione $(4.6)$
 
 ```matlab
-function [x, iter, norm_r_final] = GaussSeidelIterativo2(A, b, x0, tol, maxIter)
+function [x, iter, norm_r] = gauss_seidelIterativo2(A, b, x0, tol, maxIter)
 % Metodo di Gauss-Seidel usando l'Osservazione 4.6
 % Input:
-%   A       : Matrice dei coefficienti (NxN)
-%   b       : Vettore dei termini noti (Nx1)
-%   x0      : Vettore iniziale (Nx1)
-%   tol     : Tolleranza per arrestare il metodo
-%   maxIter : Numero massimo di iterazioni
+% A : Matrice dei coefficienti (NxN)
+% b : Vettore dei termini noti (Nx1)
+% x0 : Vettore iniziale (Nx1)
+% tol : Tolleranza per arrestare il metodo
+% maxIter : Numero massimo di iterazioni
 % Output:
-%   x       : Soluzione approssimata
-%   res     : Vettore dei residui r^(k) ad ogni iterazione
-%   iter    : Numero di iterazioni effettuate
+% x : Soluzione approssimata
+% res : Vettore dei residui r^(k) ad ogni iterazione
+% iter : Numero di iterazioni effettuate
 
 % Inizializzazione
-n = length(b);              % Dimensione del sistema
-x = x0;                     % Vettore soluzione iniziale
-iter = 0;                   % Contatore iterazioni
+n = length(b); % Dimensione del sistema
+x = x0; % Vettore soluzione iniziale
+iter = 0; % Contatore iterazioni
 
 % Precondizionatore M = E (matrice triangolare inferiore di A)
-E = tril(A);                % Estrae la parte triangolare inferiore di A
+E = tril(A); % Estrae la parte triangolare inferiore di A
 
 % Controllo iniziale: verifica se x0 è già soluzione
-r = b - A*x;                % Calcolo del residuo iniziale r^(0)
+r = b - A*x; % Calcolo del residuo iniziale r^(0)
 norm_r = norm(r,2);
-if norm_r < tol
-    fprintf('x0 è già la soluzione entro la tolleranza.\n');
-    norm_r_final = norm_r;
-    return;
-end
 
 % Iterazioni del metodo
 while iter < maxIter && norm_r > tol
-    % Risolvi M * z^(k) = r^(k) per z^(k)
-    z = E \ r;              % Sistema triangolare inferiore (Osservazione 4.6)
-    
-    % Aggiorna x^(k+1)
-    x = x + z;              % x^(k+1) = x^(k) + M^{-1} * r^(k)
-    
-    % Calcola il nuovo residuo r^(k+1)
-    r = b - A*x;            % r^(k+1)
-    norm_r = norm(r, 2);
-    iter = iter+1;
+% Risolvi M * z^(k) = r^(k) per z^(k)
+	z = E \ r; % Sistema triangolare inferiore (Osservazione 4.6)
+% Aggiorna x^(k+1)
+	x = x + z; % x^(k+1) = x^(k) + M^{-1} * r^(k)
+% Calcola il nuovo residuo r^(k+1)
+	r = b - A*x; % r^(k+1)
+	norm_r = norm(r, 2);
+	iter = iter+1;
 end
-
-norm_r_final = norm_r;
-
 end
 ```
 
