@@ -559,7 +559,6 @@ while iter < maxIter && norm_r > tol
     iter = iter+1;
 end
 
-% Troncamento del vettore residui al numero effettivo di iterazioni
 norm_r_final = norm_r;
 
 end
@@ -1421,22 +1420,14 @@ $$f'(x) = 2^{1-x} \left[ 1 - x \ln(2) \right].$$
 
 **Studio del segno della derivata**
 
-Per studiare i punti critici della funzione $f(x)$, poniamo $f'(x) = 0$:
-$$2^{1-x} \left[ 1 - x \ln(2) \right] = 0.$$
+Per studiare la monotonia (crescita/decrescita) della funzione $f(x)$, poniamo $f'(x) \ge 0$:
+$$2^{1-x} \left[ 1 - x \ln(2) \right] \ge 0.$$
 
-Poiché $2^{1-x} > 0$ per ogni $x \in \mathbb{R}$, la condizione $f'(x) = 0$ si riduce a:
-$$1 - x \ln(2) = 0 \quad \implies \quad x = \frac{1}{\ln(2)}.$$
-**Determinazione del massimo**
+Poiché $2^{1-x} > 0$ per ogni $x \in \mathbb{R}$, la condizione $f'(x) \ge 0$ si riduce a:
+$$1 - x \ln(2) \ge 0 \quad \implies \quad x \le \frac{1}{\ln(2)}.$$
 
-La costante $\ln(2) \approx 0.693$, quindi:
+Quindi, la funzione è crescente per $1\le x\le \frac{1}{\ln (2)}$ e decrescente per $x\ge \frac{1}{\ln(2)}$. Dunque, $x=\frac{1}{\ln(2)}$ è il punto di massimo globale della funzione sull'intervallo $[1,\infty)$, e vale 
 $$x = \frac{1}{\ln(2)} \approx 1.4427.$$
-
-A questo punto $x = 1.4427$ è un candidato massimo. Per verificare che si tratti di un massimo globale, studiamo il segno della derivata $f'(x)$ nei dintorni di $x = 1.4427$:
-
-- Per $x<1.4427$, abbiamo $1 - x \ln(2) > 0 \implies f'(x) > 0$: la funzione è crescente.
-- Per $x>1.4427$, abbiamo $1 - x \ln(2) < 0 \implies f'(x) < 0$: la funzione è decrescente.
-
-Quindi $x = 1.4427$ è un **massimo locale** (e globale, poiché la funzione tende a zero per $x \to \infty$).
 
 **Valore massimo della funzione**
 

@@ -1,4 +1,4 @@
-function [x, iter, norm_r_final] = JacobiIterativo2(A, b, x0, tol, Nmax)
+function [x, iter, norm_r] = jacobiIterativo2(A, b, x0, tol, Nmax)
 % Metodo iterativo di Jacobi utilizzando il metodo (4.11) e Osservazione 4.6
 %
 % Input:
@@ -15,37 +15,28 @@ function [x, iter, norm_r_final] = JacobiIterativo2(A, b, x0, tol, Nmax)
 
 
 % Estrae la matrice diagonale D
-D = diag(diag(A));
+    D = diag(diag(A));
 
 % Calcolo del residuo iniziale r^(0)
-x = x0;                       % Vettore soluzione iniziale
-r = b - A * x;                % Residuo iniziale
-norm_r = norm(r, 2);          % Norma L2 del residuo
-iter = 0;                     % Contatore iterazioni
-
-% Controllo se x0 è già soluzione entro la tolleranza
-if norm_r <= tol
-    fprintf('Il vettore iniziale x0 è già soluzione entro la tolleranza.\n');
-    norm_r_final = norm_r;
-    return;
-end
+    x = x0;                       % Vettore soluzione iniziale
+    r = b - A * x;                % Residuo iniziale
+    norm_r = norm(r, 2);          % Norma L2 del residuo
+    iter = 0;                     % Contatore iterazioni
 
 % Iterazioni del metodo di Jacobi
-while norm_r > tol && iter < Nmax
+    while norm_r > tol && iter < Nmax
     % Risolve il sistema D z^(k) = r^(k) per ottenere z^(k)
-    z = r ./ diag(D);   % Equivalente a z = D \ r    
+        z = r ./ diag(D);   % Equivalente a z = D \ r    
 
     % Aggiorna la soluzione x^(k+1) = x^(k) + z^(k)
-    x = x + z;
+        x = x + z;
     
     % Calcola il nuovo residuo r^(k+1) = b - A x^(k+1)
-    r = b - A * x;
-    norm_r = norm(r, 2);
+        r = b - A * x;
+        norm_r = norm(r, 2);
     
     % Incrementa il contatore delle iterazioni
-    iter = iter + 1;
-end
-
-norm_r_final = norm_r;
+        iter = iter + 1;
+    end
 
 end

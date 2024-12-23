@@ -27,16 +27,16 @@ function diff_matrix = differenze_divise(x, y)
     
     % Costruisce la tabella delle differenze divise
 
-    for j = 2:n
-        for i = j:n % Questo calcola i valori diagonali
-                diff_matrix(i, j) = (diff_matrix(i, j-1) - diff_matrix(i-1, j-1)) / (x(i) - x(i-j+1)); 
-        end
-    end
+    %for j = 2:n
+     %   for i = j:n % Questo calcola i valori diagonali
+      %          diff_matrix(i, j) = (diff_matrix(i, j-1) - diff_matrix(i-1, j-1)) / (x(i) - x(i-j+1)); 
+       % end
+    %end
     for j=2:n
         for i=j:n
-            if (i ~= j) % Questo non calcola i valori diagonali
+    %        if (i ~= j) % Questo non calcola i valori diagonali
                 diff_matrix(i,j) = (diff_matrix(i,j-1)-diff_matrix(j-1, j-1))/ (x(i)-x(j-1));
-            end
+     %       end
         end 
     end
     diff_matrix
