@@ -70,22 +70,23 @@ end
 ```
 
 Questo codice genera la **matrice** delle differenze divise:
+
 ```matlab
-function p_t = interpola_ruffini_horner(x, y, t)
+function p_t = interpolaRuffiniHornerMatrixEs1(x, y, t)
     % Input:
     % x: vettore dei punti x0, x1, ..., xn (devono essere distinti)
     % y: vettore dei valori corrispondenti y0, y1, ..., yn
     % t: vettore dei punti t1, t2, ..., tm dove si vuole valutare il polinomio interpolante
-    
+
     % Output:
     % p_t: vettore contenente le valutazioni del polinomio interpolante nei punti t
-    
+
     % Calcola la matrice delle differenze divise
     diff_matrix = differenze_divise(x, y);
-    
+
     % Estrai i coefficienti dalla diagonale principale della matrice
     coeff = diag(diff_matrix);
-    
+
     % Valuta il polinomio nei punti t usando lo schema di Horner
     p_t = horner_eval(coeff, x, t);
 end
@@ -94,38 +95,47 @@ function diff_matrix = differenze_divise(x, y)
     % Calcola la matrice delle differenze divise
     n = length(x);
     diff_matrix = zeros(n, n);  % Inizializza la matrice delle differenze divise
-    
+
     % Copia il vettore y nella prima colonna
     diff_matrix(:, 1) = y(:);
-    
+
     % Costruisce la tabella delle differenze divise
+
     for j = 2:n
-        for i = j:n
-            diff_matrix(i, j) = (diff_matrix(i, j-1) - diff_matrix(i-1, j-1)) / (x(i) - x(i-j+1));
+        for i = j:n % Questo calcola i valori diagonali
+                diff_matrix(i, j) = (diff_matrix(i, j-1) - diff_matrix(i-1, j-1)) / (x(i) - x(i-j+1));
         end
     end
+    for j=2:n
+        for i=j:n
+            if (i ~= j) % Questo non calcola i valori diagonali
+                diff_matrix(i,j) = (diff_matrix(i,j-1)-diff_matrix(j-1, j-1))/ (x(i)-x(j-1));
+            end
+        end
+    end
+    diff_matrix
 end
+
 
 function p_t = horner_eval(coeff, x, t)
     % Valuta il polinomio usando lo schema di Horner
     n = length(coeff);
     m = length(t);
     p_t = zeros(1, m);
-    
+
     for k = 1:m
         % Inizializza il polinomio con il termine di grado più alto
         p = coeff(n);
-        
+
         % Applica lo schema di Horner
         for i = n-1:-1:1
             p = p * (t(k) - x(i)) + coeff(i);
         end
-        
+
         % Salva il risultato della valutazione nel punto t(k)
         p_t(k) = p;
     end
 end
-
 ```
 
 ### Spiegazione
@@ -1260,20 +1270,7 @@ $$
 \hline
 \end{array}
 $$
-da controllare questo 
->[!info]
->Tabella dei risultati per le varie precisioni:
-Epsilon | Iterazioni K | x_epsilon                       | Norma errore ||x - x_approx||_inf
-1.0e-01 |   5| [1.003845804988662, 1.992588273404600, 2.989962207105064]| 1.003779e-02
-1.0e-02 |   7| [1.000591555987474, 2.001138291144122, 3.000661123708743]| 1.138291e-03
-1.0e-03 |  10| [1.000026226187844, 1.999979075463609, 2.999958498186015]| 4.150181e-05
-1.0e-04 |  12| [1.000000854852419, 2.000003965782620, 3.000003225142944]| 3.965783e-06
-1.0e-05 |  13| [0.999997916786298, 1.999999661387068, 3.000001321927540]| 2.083214e-06
-1.0e-06 |  15| [1.000000142438141, 1.999999950260364, 2.999999837850417]| 1.621496e-07
-1.0e-07 |  18| [0.999999991587254, 1.999999997632181, 3.000000004351792]| 8.412746e-09
-1.0e-08 |  20| [1.000000000680410, 1.999999999931731, 2.999999999392165]| 6.804104e-10
-1.0e-09 |  22| [0.999999999972296, 2.000000000039935, 3.000000000061345]| 6.134515e-11
-1.0e-10 |  24| [0.999999999997220, 1.999999999993452, 2.999999999995760]| 6.548539e-12
+
 ### Codice
 
 ```matlab title="Problema 2.4"
@@ -1394,13 +1391,15 @@ Combinando le due parti, otteniamo:$$\sum_{j \neq i} |A_{ij}| = (i-1) \cdot \lef
 
 **Verifica**
 
-Dimostriamo che:$$(i-1) \cdot \left( \frac{1}{2} \right)^{i-1} + 2 \cdot \left( \frac{1}{2} \right)^i \lt 3 \quad \forall i \in \mathbb{N}.$$
-Equivalentemente, mostreremo che: $$\left( \frac{1}{2} \right)^{i-1} (i - 1 + 1) = i \cdot \left( \frac{1}{2} \right)^{i-1} \lt 3.$$
+Dobbiamo dimostrare che:
+$$i\left(\frac{1}{2}\right)^{i-1}\lt 3 \quad \forall i \in \mathbb{N}.$$
 
-> Dimostrazione tramite studio della derivata
+**Dimostrazione tramite studio della derivata**
 
-Consideriamo la funzione $f(x)$ definita su $x \in \mathbb{R}^+$ (generalizziamo a valori reali per applicare le derivate):$$f(x) = x \cdot \left( \frac{1}{2} \right)^{x-1}.$$
-Possiamo riscrivere la funzione come:$$f(x) = x \cdot 2^{-(x-1)} = x \cdot 2^{1-x}.$$
+Consideriamo la funzione $f(x)$ definita su $x \in \mathbb{R}^+$ (generalizziamo a valori reali per applicare le derivate):
+$$f(x) = x \cdot \left( \frac{1}{2} \right)^{x-1}.$$
+Possiamo riscrivere la funzione come:
+$$f(x) = x \cdot 2^{-(x-1)} = x \cdot 2^{1-x}.$$
 
 Il nostro obiettivo è determinare se $f(x) \leq 3$ per ogni $x \geq 1$.
 
@@ -1408,23 +1407,29 @@ Il nostro obiettivo è determinare se $f(x) \leq 3$ per ogni $x \geq 1$.
 
 Per studiare il comportamento della funzione $f(x)$, calcoliamo la derivata prima $f'(x)$. Utilizziamo la regola del prodotto:
 $$f(x) = x \cdot 2^{1-x}.$$
-La derivata è:$$f'(x) = \frac{d}{dx} \left[ x \right] \cdot 2^{1-x} + x \cdot \frac{d}{dx} \left[ 2^{1-x} \right].
+La derivata è:
+$$f'(x) = \frac{d}{dx} \left[ x \right] \cdot 2^{1-x} + x \cdot \frac{d}{dx} \left[ 2^{1-x} \right].
 $$
 La derivata di $2^{1-x}$ rispetto a $x$ si ottiene tramite la regola delle esponenziali:
 $$\frac{d}{dx} \left[ 2^{1-x} \right] = 2^{1-x} \cdot \ln(2) \cdot (-1).$$
 
-Pertanto:$$f'(x) = 1 \cdot 2^{1-x} + x \cdot \left( 2^{1-x} \cdot (-\ln(2)) \right).$$
+Pertanto:
+$$f'(x) = 1 \cdot 2^{1-x} + x \cdot \left( 2^{1-x} \cdot (-\ln(2)) \right).$$
 
-Raccogliamo $2^{1-x}$ come fattore comune:$$f'(x) = 2^{1-x} \left[ 1 - x \ln(2) \right].$$
+Raccogliamo $2^{1-x}$ come fattore comune:
+$$f'(x) = 2^{1-x} \left[ 1 - x \ln(2) \right].$$
 
 **Studio del segno della derivata**
 
-Per studiare i punti critici della funzione $f(x)$, poniamo $f'(x) = 0$:$$2^{1-x} \left[ 1 - x \ln(2) \right] = 0.$$
+Per studiare i punti critici della funzione $f(x)$, poniamo $f'(x) = 0$:
+$$2^{1-x} \left[ 1 - x \ln(2) \right] = 0.$$
 
-Poiché $2^{1-x} > 0$ per ogni $x \in \mathbb{R}$, la condizione $f'(x) = 0$ si riduce a:$$1 - x \ln(2) = 0 \quad \implies \quad x = \frac{1}{\ln(2)}.$$
+Poiché $2^{1-x} > 0$ per ogni $x \in \mathbb{R}$, la condizione $f'(x) = 0$ si riduce a:
+$$1 - x \ln(2) = 0 \quad \implies \quad x = \frac{1}{\ln(2)}.$$
 **Determinazione del massimo**
 
-La costante $\ln(2) \approx 0.693$, quindi:$$x = \frac{1}{\ln(2)} \approx 1.4427.$$
+La costante $\ln(2) \approx 0.693$, quindi:
+$$x = \frac{1}{\ln(2)} \approx 1.4427.$$
 
 A questo punto $x = 1.4427$ è un candidato massimo. Per verificare che si tratti di un massimo globale, studiamo il segno della derivata $f'(x)$ nei dintorni di $x = 1.4427$:
 
@@ -1435,19 +1440,26 @@ Quindi $x = 1.4427$ è un **massimo locale** (e globale, poiché la funzione ten
 
 **Valore massimo della funzione**
 
-Calcoliamo $f(x)$ nel punto $x = \frac{1}{\ln(2)}$:$$f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot 2^{1 - \frac{1}{\ln(2)}}.$$
-Semplificando l'esponente $1 - \frac{1}{\ln(2)}$, otteniamo:$$2^{1 - \frac{1}{\ln(2)}} = 2^{1 - \log_2(e)} = 2^{\log_2(2) - \log_2(e)} = 2^{\log_2\left( \frac{2}{e} \right)} = \frac{2}{e}.$$
-Quindi:$$f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot \frac{2}{e}.$$
+Calcoliamo $f(x)$ nel punto $x = \frac{1}{\ln(2)}$:
+$$f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot 2^{1 - \frac{1}{\ln(2)}}.$$
+Semplificando l'esponente $1 - \frac{1}{\ln(2)}$, otteniamo:
+$$2^{1 - \frac{1}{\ln(2)}} = 2^{1 - \log_2(e)} = 2^{\log_2(2) - \log_2(e)} = 2^{\log_2\left( \frac{2}{e} \right)} = \frac{2}{e}.$$
+Quindi:
+$$f\left( \frac{1}{\ln(2)} \right) = \frac{1}{\ln(2)} \cdot \frac{2}{e}.$$
 
-Sostituendo i valori numerici $\ln(2) \approx 0.693$ e $e \approx 2.718$, otteniamo:$$f\left( \frac{1}{\ln(2)} \right) \approx \frac{1}{0.693} \cdot \frac{2}{2.718}.$$
-Calcoliamo i valori:$$\frac{1}{0.693} \approx 1.442, \quad \frac{2}{2.718} \approx 0.736.$$
+Sostituendo i valori numerici $\ln(2) \approx 0.693$ ed $e \approx 2.718$, otteniamo:
+$$f\left( \frac{1}{\ln(2)} \right) \approx \frac{1}{0.693} \cdot \frac{2}{2.718}.$$
+Calcoliamo i valori:
+$$\frac{1}{0.693} \approx 1.442, \quad \frac{2}{2.718} \approx 0.736.$$
 
-Moltiplicando:$$f\left( \frac{1}{\ln(2)} \right) \approx 1.442 \cdot 0.736 \approx 1.06.$$
+Moltiplicando:
+$$f\left( \frac{1}{\ln(2)} \right) \approx 1.442 \cdot 0.736 \approx 1.06.$$
 **Conclusione**
 
 La funzione $f(x) = x \cdot \left( \frac{1}{2} \right)^{x-1}$ raggiunge il suo massimo valore $f(x) \approx 1.06$ per $x \approx 1.4427$.
 
-Poiché $1.06 < 3$, possiamo concludere che per ogni $x \geq 1$ (e quindi per ogni $i \in \mathbb{N}$):$$f(i) = i \cdot \left( \frac{1}{2} \right)^{i-1} < 3.$$
+Poiché $1.06 < 3$, possiamo concludere che per ogni $x \geq 1$ (e quindi per ogni $i \in \mathbb{N}$):
+$$f(i) = i \cdot \left( \frac{1}{2} \right)^{i-1} < 3.$$
 
 Usando i **teoremi di convergenza**, sappiamo che i metodi di Jacobi e Gauss-Seidel convergono se la matrice $A\in\mathbb C^{n\times n}$ soddisfa almeno una delle seguenti condizioni : 
 - $A$ è a diagonale dominante e irriducibile
